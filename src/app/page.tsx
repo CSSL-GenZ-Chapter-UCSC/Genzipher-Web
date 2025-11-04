@@ -5,38 +5,48 @@ import Hero from "@/components/hero";
 import PartnerWithUs from "@/components/partnerWithUs";
 import Footer from "@/components/footer";
 import ContactUs from "@/components/contactUs";
-
+import SplashScreen from "@/components/splashScreen";
+// <section id="home" className="min-h-screen">
+//   <SplashScreen />
+// </section>
 export default function Home() {
   return (
-    <main className="w-screen h-[100svh] overflow-y-auto overflow-x-hidden snap-y snap-mandatory bg-[#0f0d08]">
+    <main className="w-screen h-[100svh] overflow-y-auto overflow-x-hidden snap-y snap-mandatory bg-[#0f0d08] box-border">
+      <section
+        id="home"
+        className="snap-start h-screen overflow-hidden bg-black"
+      >
+        <SplashScreen />
+      </section>
+
       <section className="w-screen h-[100svh] snap-start">
         <Hero />
       </section>
 
       <section className="w-screen h-[100svh] snap-start bg-[#140E02]">
         <div className="hidden md:block h-[100svh] overflow-x-hidden overflow-y-auto snap-y snap-mandatory">
-          <FadingSlide>
+          <FadingSlide num={1}>
             <RoundInfoView
               img="/assets/guy1.png"
               text="ROUND 1"
               footer="INFO ON ROUND 1"
             />
           </FadingSlide>
-          <FadingSlide>
+          <FadingSlide num={2}>
             <RoundInfoView
               img="/assets/lady1.png"
               text="ROUND 2"
               footer="INFO ON ROUND 2"
             />
           </FadingSlide>
-          <FadingSlide>
+          <FadingSlide num={3}>
             <RoundInfoView
               img="/assets/lady2.png"
               text="ROUND 3"
               footer="INFO ON ROUND 3"
             />
           </FadingSlide>
-          <FadingSlide>
+          <FadingSlide num={4}>
             <RoundInfoView
               img="/assets/guy2.png"
               text="ROUND 4"
@@ -86,7 +96,7 @@ export default function Home() {
         <ContactUs />
       </section>
 
-      <section className="block md:hidden w-screen h-[100svh]  snap-start bg-[#D8CDB9]">
+      <section className="flex md:hidden w-screen h-[100svh]  snap-start bg-[#D8CDB9] ">
         <Footer />
       </section>
     </main>

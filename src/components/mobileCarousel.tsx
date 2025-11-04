@@ -64,15 +64,14 @@ export default function MobileCarousel({ children }: { children: React.ReactNode
         })}
       </div>
 
-      {/* Dots */}
       <div className="absolute bottom-6 left-0 right-0 flex items-center justify-center gap-2 z-50">
         {pages.map((_, i) => (
           <button
             key={i}
             onClick={() => goTo(i)}
             aria-label={`Go to slide ${i + 1}`}
-            className={`h-2.5 w-2.5 rounded-full transition-colors
-              ${idx === i ? "bg-white/90" : "bg-white/40"}`}
+            className={` rounded-full transition-colors
+              ${idx === i ? "bg-[#D8CDB9] h-4.5 w-4.5" : "bg-[#D8CDB966] h-2.5 w-2.5"}`}
           />
         ))}
       </div>
