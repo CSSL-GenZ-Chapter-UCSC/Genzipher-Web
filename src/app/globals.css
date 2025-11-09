@@ -30,6 +30,18 @@ body {
   padding: 0;
 }
 
+@font-face {
+  font-family: 'NeueMachina';
+  src: url('/fonts/NeueMachina-Ultrabold.otf') format('opentype');
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+.neue-machina {
+  font-family: 'NeueMachina', serif;
+}
+
 
 /* globals.css */
 .no-scrollbar::-webkit-scrollbar {

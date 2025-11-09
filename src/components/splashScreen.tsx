@@ -14,6 +14,7 @@ export default function SplashScreen() {
     "/assets/images/splash/Landing 4.png",
     "/assets/images/splash/Landing 5.png",
     "/assets/images/splash/Landing 6.png",
+    "/assets/images/splash/Landing 6.png",
   ];
 
   // Scroll listener — now reads from the local scroll container
@@ -38,13 +39,21 @@ export default function SplashScreen() {
   const getImageStyle = (index: number) => {
     const progress = scrollProgress * (images.length - 1);
     const imageProgress = progress - index;
-    let scale = 1 + Math.max(0, 1 - Math.abs(imageProgress)) * 0.3;
+    // Make the final scene zoom in more toward the center (throne is in the middle)
+    const lastIndex = images.length - 1;
+    // stronger zoom for the final scene for a dramatic effect
+    const focalMultiplier = index === lastIndex ? 1.0 : 0.35;
+    // smooth scale curve
+    let scale = 1 + Math.max(0, 1 - Math.abs(imageProgress)) * focalMultiplier;
     const opacity = Math.max(0, 1 - Math.abs(imageProgress));
     return {
       transform: `scale(${scale})`,
       opacity,
       zIndex: index === getCurrentImageIndex() ? 10 : 1,
-    };
+      // For the final image, zoom toward the center to focus on the throne
+      transformOrigin: index === lastIndex ? "center center" : "center center",
+      transition: 'transform 850ms cubic-bezier(.2,.9,.2,1), opacity 650ms ease',
+    } as React.CSSProperties;
   };
 
   return (
@@ -59,7 +68,7 @@ export default function SplashScreen() {
           {images.map((src, index) => (
             <div
               key={index}
-              className="absolute inset-0 transition-all duration-300 ease-out"
+              className="absolute inset-0 transition-all duration-700 ease-out"
               style={getImageStyle(index)}
             >
               <NextImage
@@ -72,6 +81,36 @@ export default function SplashScreen() {
               />
             </div>
           ))}
+
+          {/* Centered logo that fades in as user reaches the last scene */}
+          <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-20">
+            {/* compute opacity based on scroll progress nearing the last scene */}
+            {/* Fade in over the last ~0.5 step of the scroll */}
+            {(() => {
+              const progress = scrollProgress * (images.length - 1);
+              const lastIndex = images.length - 1;
+              const fadeStart = lastIndex - 0.5; // begin fading when progress crosses this
+              const logoOpacity = Math.max(0, Math.min(1, (progress - fadeStart) / 0.5));
+              // subtle scale for logo: from 0.96 -> 1.06 as it fades in
+              const minScale = 0.96;
+              const maxScale = 1.06;
+              const logoScale = minScale + (maxScale - minScale) * logoOpacity;
+              return (
+                <NextImage
+                  src="/assets/genzipher-text-logo-1.png"
+                  alt="Genzipher"
+                  width={692}
+                  height={252}
+                  style={{
+                    opacity: logoOpacity,
+                    transform: `scale(${logoScale})`,
+                    transition: 'opacity 900ms ease, transform 900ms cubic-bezier(.2,.9,.2,1)'
+                  }}
+                  priority
+                />
+              );
+            })()}
+          </div>
         </div>
       </div>
     </div>
