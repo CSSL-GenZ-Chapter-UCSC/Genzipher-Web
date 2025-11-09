@@ -42,7 +42,7 @@ export default function CountDown() {
           className="outer h-max w-full md:w-[90%] xl:w-1/2 mx-auto rounded-[1rem] md:rounded-[3rem] p-[2px] 
                    bg-gradient-to-r from-[#C3840F] via-[#A76F0B] to-[#532E02]"
         >
-          <div className="inner-content h-full w-full bg-[#211600] rounded-2xl md:rounded-[3rem] flex justify-center gap-2 px-2 py-2 md:px-10 md:py-1">
+          <div className="inner-content h-full w-full bg-[#211600] rounded-2xl md:rounded-[3rem] flex justify-center gap-2 px-2 py-2 md:px-10">
             <TimerCard value={days} label="Days" />
             <TimerCard value={hours} label="Hours" />
             <TimerCard value={minutes} label="Minutes" />

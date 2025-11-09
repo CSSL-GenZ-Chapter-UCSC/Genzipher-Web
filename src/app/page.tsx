@@ -9,6 +9,7 @@ import ContactUs from "@/components/contactUs";
 import SplashScreen from "@/components/splashScreen";
 import About from "@/components/about";
 import Register from "@/components/createForm";
+import Image from "next/image";
 // <section id="home" className="min-h-screen">
 //   <SplashScreen />
 // </section>
@@ -17,16 +18,28 @@ export default function Home() {
     <main className="w-screen h-[100svh] overflow-y-auto overflow-x-hidden snap-y snap-mandatory bg-[#0f0d08] box-border">
       <section
         id="home"
-        className="snap-start h-screen overflow-hidden bg-black"
+        className="snap-start h-screen overflow-hidden bg-black hidden md:block"
       >
         <SplashScreen />
       </section>
 
-      <section className="w-screen h-[100svh] snap-start">
-        <Hero />
+      <section
+        className="w-screen h-[100svh] snap-start md:hidden
+  bg-[url('/assets/images/splash/landing-6.png')] bg-cover bg-center
+  bg-black/60 bg-blend-multiply flex items-center justify-center"
+      >
+        <Image
+          src="/assets/genzipher-text-logo-1.png"
+          alt="GenZipher Logo"
+          width={964}
+          height={356}
+          className="mx-auto mb-[15%] md:mb-4 md:w-[60vw] h-auto"
+        />
       </section>
 
-     
+      <section className="w-screen h-[100svh] snap-start bg-[url('/assets/countdown-m-bg.webp')] bg-cover bg-center md:bg-none ">
+        <Hero />
+      </section>
 
       <section className="w-screen h-[100svh] snap-start bg-[#140E02]">
         <div className="hidden md:block h-[100svh] overflow-x-hidden overflow-y-auto snap-y snap-mandatory">
@@ -90,9 +103,8 @@ export default function Home() {
         <PartnerWithUs />
       </section>
 
-
       {/* Awards section inserted between partner/footer and round info */}
-      <section className="w-screen snap-start">
+      <section className="w-screen h-svh snap-start">
         <Awards />
       </section>
 
@@ -107,15 +119,9 @@ export default function Home() {
         <ContactUs />
       </section>
 
-      <section className="">
-        <Register />
-      </section>
-
       <section className="flex md:hidden w-screen h-[100svh]  snap-start bg-[#D8CDB9] ">
         <Footer />
       </section>
-
-      
     </main>
   );
 }
