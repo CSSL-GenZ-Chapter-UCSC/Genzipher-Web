@@ -19,7 +19,7 @@ export default function RoundInfoView({
   img: string;
 }) {
   return (
-    <section className="flex relative w-screen min-h-screen overflow-hidden bg-[#140E02]">
+    <section className="flex relative w-screen h-screen overflow-hidden bg-[#140E02]">
       <h2 className={`${inter.className} hidden md:block absolute left-[2%] top-10 z-30 text-white font-extrabold tracking-tight leading-[0.85] text-[12vw]`}>
         {text}
       </h2>
