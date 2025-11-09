@@ -1,22 +1,20 @@
 "use client";
+
 import Image from "next/image";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import Link from "next/link";
 
-type Award = {
+// Types
+interface Award {
   key: string;
   src: string;
   title: string;
-  w: number;
-  h: number;
-  borderGradient: string;
-};
+  w: number; // intrinsic ratio width
+  h: number; // intrinsic ratio height
+  borderGradient: string; // CSS gradient for the faux border
+}
 
 export default function Awards() {
-  const [isLoading, setIsLoading] = useState(true);
-  const router = useRouter();
-
   const items: Award[] = [
     {
       key: "vision",
@@ -51,24 +49,17 @@ export default function Awards() {
     const clickedKey = items[originalIndex].key;
     const pos = current.indexOf(clickedKey);
 
-    let newOrder: string[] = current;
-    if (pos === 0) {
-      newOrder = [current[2], current[0], current[1]];
-    } else if (pos === 1) {
-      newOrder = current;
-    } else if (pos === 2) {
-      newOrder = [current[1], current[2], current[0]];
-    }
-
-    setOrder(newOrder);
+    if (pos === 0) setOrder([current[2], current[0], current[1]]);
+    else if (pos === 2) setOrder([current[1], current[2], current[0]]);
   }
 
   return (
-    // <section className="w-screen flex justify-center items-center bg-[#0F0D08] py-10 md:py-20 overflow-visible h-screen box-border">
-    <section className="w-screen h-screen flex justify-center items-center bg-[#0F0D08] py-10 md:py-20 overflow-hidden min-h-[90vh] ">
-      <div className="w-full h-full text-center px-4 md:px-6 box-border flex flex-col justify-center items-center">
-        <div className="mb-8 h-[10%] flex justify-center items-center">
-          <h2 className="text-[1.5rem] md:text-3xl text-[#E6D9B6]">
+    <section className="h-full w-full overflow-hidden bg-[#0F0D08]">
+      <div className="h-full mx-auto w-full max-w-6xl px-4 md:px-6 grid grid-rows-[auto_0.5fr_auto] items-center">
+
+        <header className="py-4 md:py-6 text-center h-[20vh] flex items-center justify-center">
+
+          <h2 className="text-2xl md:text-3xl leading-tight text-[#E6D9B6]">
             {order[1] === "honor" ? (
               "EARN YOUR PRIZE"
             ) : (
@@ -79,89 +70,59 @@ export default function Awards() {
               </>
             )}
           </h2>
-        </div>
+        </header>
 
+        {/* Cards row */}
         <div
-          className="flex flex-col md:flex-row justify-center items-center gap-6 md:gap-10 mb-8 relative w-full max-w-[900px]"
-          style={{
-            minHeight: "clamp(380px, 55vh, 520px)", // keeps consistent height on all swaps
-          }}
+          // CSS vars provide fluid sizing without magic numbers; responsive overrides per breakpoint
+          className="min-h-0 flex items-center md:justify-center gap-3 md:gap-10 overflow-x-hidden md:overflow-visible px-2 md:px-0
+                     [--card-w-center:clamp(9rem,38vw,15rem)] md:[--card-w-center:clamp(14rem,28vw,21rem)]
+                     [--card-w-side:clamp(7.5rem,26vw,12rem)] md:[--card-w-side:clamp(10rem,20vw,14rem)]"
         >
           {order.map((key, displayIdx) => {
             const it = items.find((x) => x.key === key)!;
             const isCenter = displayIdx === 1;
-            const baseWidth = isCenter ? 336 : 220;
-            const baseHeight = isCenter ? 511 : 334;
-            const mobileScale = 0.8;
-            const aspect = baseWidth / baseHeight;
             const originalIndex = items.findIndex((x) => x.key === it.key);
 
             return (
               <button
                 key={it.key}
                 onClick={() => onClickItem(originalIndex)}
-                className={`group relative flex items-center justify-center p-1.5 bg-transparent 
-                    transition-all duration-700 ease-[cubic-bezier(0.45,1.45,0.8,1)]
-                    focus:outline-none hover:scale-[1.02]`}
-                style={{
-                  flex: "0 1 auto",
-                  width: isCenter ? "min(40vw, 340px)" : "min(25vw, 220px)",
-                  aspectRatio: aspect.toString(), // locks proportions
-                  transform: `scale(${isCenter ? 1 : 0.85}) translateY(${
-                    isCenter ? "0" : "25px"
-                  })`,
-                  borderRadius: "50px",
-                  background: `${it.borderGradient} padding-box, #000 border-box`,
-                  backgroundClip: "padding-box, border-box",
-                  boxShadow: isCenter
-                    ? "0 8px 32px rgba(0,0,0,0.5)"
-                    : "0 4px 16px rgba(0,0,0,0.25)",
-                }}
+                aria-label={`Show ${it.title}`}
+                className={[
+                  isCenter ? "basis-[var(--card-w-center)]" : "basis-[var(--card-w-side)]",
+                  "min-w-0 relative p-[2px] rounded-[44px] transition-transform duration-500 ease-[cubic-bezier(0.45,1.45,0.8,1)] will-change-transform",
+                  // Only offset side cards on md+ so mobile doesn't grow vertically
+                  isCenter ? "scale-100" : "md:translate-y-4 md:scale-95",
+                  "hover:scale-100 focus:outline-none",
+                ].join(" ")}
+                style={{ background: it.borderGradient, aspectRatio: `${it.w}/${it.h}` }}
               >
-                <div
-                  className="relative w-full h-full flex items-center justify-center rounded-[44px] overflow-hidden bg-[#0F0D08]"
-                  style={{
-                    padding: isCenter ? "28px" : "20px",
-                  }}
-                >
-                  <Image
-                    src={it.src}
-                    alt={it.title}
-                    fill
-                    className="object-contain select-none transition-opacity duration-300"
-                    onLoadingComplete={() => setIsLoading(false)}
-                    sizes="(max-width: 768px) 40vw, 336px"
-                    priority={isCenter}
-                  />
+                <div className="rounded-[42px] bg-[#0F0D08] overflow-hidden w-full h-full">
+                  <div className="relative w-full h-full">
+                    <Image
+                      src={it.src}
+                      alt={it.title}
+                      fill
+                      className="object-contain select-none transition-opacity duration-300"
+                      priority={isCenter}
+                      sizes="(min-width: 1024px) 28vw, (min-width: 768px) 40vw, 60vw"
+                    />
+                  </div>
                 </div>
               </button>
             );
           })}
         </div>
 
-        <div className="flex justify-center">
-          <Link href='/register'>
-          
-          <button
-            onClick={() => router.push("/prizes-2")}
-            className="w-[173px] h-14 bg-[#C39613] neue-machina text-black font-bold rounded-md transition-all duration-300 ease-in-out hover:scale-105"
-            style={{
-              boxShadow:
-                "0 0 20px rgba(195,150,19,0.4), 0 0 40px rgba(195,150,19,0.25), 0 0 60px rgba(195,150,19,0.15)",
-            }}
-            onMouseEnter={(e) => {
-              (e.currentTarget as HTMLButtonElement).style.boxShadow =
-                "0 0 25px rgba(195,150,19,0.7), 0 0 50px rgba(195,150,19,0.5), 0 0 80px rgba(195,150,19,0.3)";
-            }}
-            onMouseLeave={(e) => {
-              (e.currentTarget as HTMLButtonElement).style.boxShadow =
-                "0 0 20px rgba(195,150,19,0.4), 0 0 40px rgba(195,150,19,0.25), 0 0 60px rgba(195,150,19,0.15)";
-            }}
-          >
-            REGISTER
-          </button>
+        {/* CTA */}
+        <footer className="py-4 flex justify-center">
+          <Link href="/register" className="inline-block group">
+            <span className="inline-flex items-center justify-center w-[10.8rem] h-14 bg-[#C39613] font-bold rounded-md text-black transition-shadow duration-300 shadow-[0_0_20px_rgba(195,150,19,0.4),0_0_40px_rgba(195,150,19,0.25),0_0_60px_rgba(195,150,19,0.15)] hover:shadow-[0_0_25px_rgba(195,150,19,0.7),0_0_50px_rgba(195,150,19,0.5),0_0_80px_rgba(195,150,19,0.3)]">
+              REGISTER
+            </span>
           </Link>
-        </div>
+        </footer>
       </div>
     </section>
   );
