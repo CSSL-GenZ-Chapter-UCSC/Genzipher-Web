@@ -34,12 +34,12 @@ export default function MobileCarousel({ children }: { children: React.ReactNode
   };
 
   return (
-    <div className="relative w-screen h-screen overflow-hidden">
+    <div className="relative w-full h-full overflow-hidden">
       <div
         ref={containerRef}
         className="
           flex w-screen h-screen overflow-x-auto overflow-y-hidden
-          snap-x snap-mandatory scroll-smooth touch-pan-x
+          snap-x snap-mandatory
           no-scrollbar
         "
         style={{ scrollSnapStop: "always" }}
