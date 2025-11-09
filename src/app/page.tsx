@@ -3,9 +3,12 @@ import FadingSlide from "@/components/fadingSlide";
 import MobileCarousel from "@/components/mobileCarousel";
 import Hero from "@/components/hero";
 import PartnerWithUs from "@/components/partnerWithUs";
+import Awards from "@/components/awards";
 import Footer from "@/components/footer";
 import ContactUs from "@/components/contactUs";
 import SplashScreen from "@/components/splashScreen";
+import About from "@/components/about";
+import Register from "@/components/createForm";
 // <section id="home" className="min-h-screen">
 //   <SplashScreen />
 // </section>
@@ -22,6 +25,8 @@ export default function Home() {
       <section className="w-screen h-[100svh] snap-start">
         <Hero />
       </section>
+
+     
 
       <section className="w-screen h-[100svh] snap-start bg-[#140E02]">
         <div className="hidden md:block h-[100svh] overflow-x-hidden overflow-y-auto snap-y snap-mandatory">
@@ -85,6 +90,12 @@ export default function Home() {
         <PartnerWithUs />
       </section>
 
+
+      {/* Awards section inserted between partner/footer and round info */}
+      <section className="w-screen snap-start">
+        <Awards />
+      </section>
+
       <section className="md:block hidden w-screen h-[100svh]  snap-start">
         <div className="flex flex-col justify-between h-full bg-[#D8CDB9]">
           <ContactUs />
@@ -96,9 +107,15 @@ export default function Home() {
         <ContactUs />
       </section>
 
+      <section className="">
+        <Register />
+      </section>
+
       <section className="flex md:hidden w-screen h-[100svh]  snap-start bg-[#D8CDB9] ">
         <Footer />
       </section>
+
+      
     </main>
   );
 }
