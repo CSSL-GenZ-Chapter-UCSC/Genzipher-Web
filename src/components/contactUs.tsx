@@ -7,10 +7,10 @@ export default function ContactUs() {
             Contact Us
         </h2>
       <div className="flex flex-col justify-between  items-center  md:grid md:grid-cols-4 w-full h-[80%] md:h-full ">
-        <ContactCard />
-        <ContactCard />
-        <ContactCard />
-        <ContactCard />
+        <ContactCard name="Mr.Surname" role="Finance Lead" email="email@email.com" phone="0734562819"/>
+        <ContactCard name="Mr.Surname" role="Finance Lead" email="email@email.com" phone="0734562819"/>
+        <ContactCard name="Mr.Surname" role="Finance Lead" email="email@email.com" phone="0734562819"/>
+        <ContactCard name="Mr.Surname" role="Finance Lead" email="email@email.com" phone="0734562819"/>
       </div>
     </div>
   );

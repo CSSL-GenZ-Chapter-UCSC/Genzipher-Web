@@ -1,6 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import TimerCard from "@/components/timerCard";
+import { formatTime } from "@/utils/utils";
 
 export default function CountDown() {
   const [eventDate, setEventDate] = useState(Date.now() + 100000);
@@ -31,47 +33,23 @@ export default function CountDown() {
     }
   }, [countdownStarted, eventDate, timeRemaining]);
 
-  const formatDate = (date) => {
-    const options = { month: "long", day: "numeric", year: "numeric" };
-    return new Date(date).toLocaleDateString("en-US", options);
-  };
+  const { days, hours, minutes, seconds } = formatTime(timeRemaining);
 
-  const formatTime = (time) => {
-    const seconds = Math.floor((time / 1000) % 60);
-    const minutes = Math.floor((time / (1000 * 60)) % 60);
-    const hours = Math.floor((time / (1000 * 60 * 60)) % 24);
-    const days = Math.floor(time / (1000 * 60 * 60 * 24));
-
-    const timerCard = (value, label) => (
-      <div className="text-[1rem] md:text-[2rem] timer-item flex flex-col items-center justify-center text-[#D7CEBB] w-[25%] aspect-square">
-        <div
-          className="aspect-square md:text-[6rem] text-[2rem] box bg-[#D8CDBB] p-1 text-[#211600] md:rounded-[3rem] rounded-[1rem]"
-          style={{ lineHeight: "normal" }}
-        >
-          {value.toString().padStart(2, "0")}
-        </div>
-        {label}
-      </div>
-    );
-
-    return (
+  return (
+    <div className="countdown-timer-container">
       <div className="countdown-display">
         <div
-          className="outer h-max w-full  md:w-1/2 mx-auto rounded-[1rem] md:rounded-[3rem] p-[2px] 
+          className="outer h-max w-full md:w-[90%] xl:w-1/2 mx-auto rounded-[1rem] md:rounded-[3rem] p-[2px] 
                    bg-gradient-to-r from-[#C3840F] via-[#A76F0B] to-[#532E02]"
         >
-          <div className="inner-content h-full w-full bg-[#211600] rounded-[1rem] md:rounded-[3rem] flex justify-center gap-2 px-10 py-2">
-            {timerCard(days, "Days")}
-            {timerCard(hours, "Hours")}
-            {timerCard(minutes, "Minutes")}
-            {timerCard(seconds, "Seconds")}
+          <div className="inner-content h-full w-full bg-[#211600] rounded-2xl md:rounded-[3rem] flex justify-center gap-2 px-2 py-2 md:px-10">
+            <TimerCard value={days} label="Days" />
+            <TimerCard value={hours} label="Hours" />
+            <TimerCard value={minutes} label="Minutes" />
+            <TimerCard value={seconds} label="Seconds" />
           </div>
         </div>
       </div>
-    );
-  };
-
-  return (
-    <div className="countdown-timer-container">{formatTime(timeRemaining)}</div>
+    </div>
   );
 }

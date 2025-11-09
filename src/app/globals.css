@@ -16,12 +16,42 @@
   :root {
     /* --background: #0a0a0a; */
     --background: #211600;
+
     --foreground: #000000;
   }
 }
 
 body {
-  background: var(--background);
+  background: #211600;
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+}
+
+@font-face {
+  font-family: 'NeueMachina';
+  src: url('/fonts/NeueMachina-Ultrabold.otf') format('opentype');
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+.neue-machina {
+  font-family: 'NeueMachina', serif;
+}
+
+.clip-diagonal {
+  clip-path: polygon(0 0, 100% 20%, 100% 100%, 0% 100%);
+}
+
+
+/* globals.css */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
