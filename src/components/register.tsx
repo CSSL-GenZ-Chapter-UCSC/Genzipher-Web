@@ -1,15 +1,128 @@
 "use client";
-import React, { useState } from "react";
+// CHANGED: Imported useEffect
+import React, { useState, useEffect } from "react";
+
+// ADDED: University list as per your request
+const universityList = [
+  "University of Colombo School of Computing (UCSC)",
+  "University of Colombo",
+  "University of Peradeniya",
+  "University of Sri Jayewardenepura",
+  "University of Kelaniya",
+  "University of Moratuwa",
+  "University of Jaffna",
+  "University of Ruhuna",
+  "OUSL (Open University of Sri Lanka)",
+  "Eastern University",
+  "South Eastern University",
+  "Rajarata University",
+  "Sabaragamuva University",
+  "Wayamba University",
+  "Uva Wellassa University",
+  "University of the Visual & Performing Arts",
+  "Gampaha Wickramarachchi University of Indigenous Medicine",
+  "University of Vavuniya",
+  "KDU (General Sir John Kotelawala Defence University)",
+  "Buddhasravaka Bhiksu University",
+  "Buddhist and Pali University",
+  "Ocean University",
+  "UNIVOTEC (University of Vocational Technology)",
+  "SLIIT (Sri Lanka Institute of Information Technology)",
+  "CINEC Campus",
+  "NSBM Green University",
+  "Aquinas College",
+  "Horizon Campus",
+  "Saegis Campus",
+  "KAATSU",
+  "SANASA Campus",
+  "SLT Campus (Mobitel Campus)",
+  "Nāgānanda International Institute for Buddhist Studies",
+  "SIBA Campus (Sri Lanka International Buddhist Academy)",
+  "NIBM (National Institute of Business Management)",
+  "SAITM",
+  "Other", // ADDED: "Other" option
+];
+
+// ADDED: Reusable component for University Dropdown + "Other" input
+const UniversityInput = ({
+  value,
+  onChange,
+}: {
+  value: string;
+  onChange: (value: string) => void;
+}) => {
+  // Check if the current value is one from the list or a custom one
+  const isOther = value && !universityList.includes(value);
+  const [showOtherInput, setShowOtherInput] = useState(isOther);
+
+  const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedValue = e.target.value;
+    if (selectedValue === "Other") {
+      setShowOtherInput(true);
+      onChange(""); // Clear value so user can type
+    } else {
+      setShowOtherInput(false);
+      onChange(selectedValue);
+    }
+  };
+
+  return (
+    <div>
+      <select
+        value={showOtherInput ? "Other" : value}
+        onChange={handleSelectChange}
+        className="w-full bg-[#1f1c19] rounded-md px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#e0a82e]"
+      >
+        <option value="">Select</option>
+        {universityList.map((uni) => (
+          <option key={uni} value={uni}>
+            {uni}
+          </option>
+        ))}
+      </select>
+      {showOtherInput && (
+        <input
+          type="text"
+          placeholder="Please specify your university"
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          className="w-full bg-[#1f1c19] rounded-md px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#e0a82e] mt-2"
+        />
+      )}
+    </div>
+  );
+};
 
 export default function Register() {
-  const [teamSize, setTeamSize] = useState<number>(2);
+  // CHANGED: Default team size to 3 (new minimum)
+  const [teamSize, setTeamSize] = useState<number>(3);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
+  // ADDED: State for "same university" checkbox
+  const [allSameUniversity, setAllSameUniversity] = useState(false);
+
+  // ADDED: Timeout for error message
+  useEffect(() => {
+    let timer: NodeJS.Timeout;
+    if (error) {
+      // Set timer to clear error after 5 seconds
+      timer = setTimeout(() => {
+        setError("");
+      }, 5000);
+    }
+    // Cleanup function: If error changes (e.g., manual close) or component unmounts
+    return () => {
+      if (timer) {
+        clearTimeout(timer);
+      }
+    };
+  }, [error]); // This effect runs whenever the 'error' state changes
 
   const [formData, setFormData] = useState({
     teamName: "",
-    teamSize: "",
+    // CHANGED: Default team size to "3"
+    teamSize: "3",
     leader: {
       fullName: "",
       email: "",
@@ -18,7 +131,8 @@ export default function Register() {
       studentId: "",
       yearOfStudy: "",
     },
-    members: Array(4).fill({
+    // CHANGED: Max 3 members (for a total of 4)
+    members: Array(3).fill({
       fullName: "",
       email: "",
       phone: "",
@@ -34,17 +148,60 @@ export default function Register() {
     setFormData({ ...formData, teamSize: e.target.value });
   };
 
+  // CHANGED: Updated handleLeaderChange to manage auto-filling member universities
   const handleLeaderChange = (field: string, value: string) => {
+    const newLeader = { ...formData.leader, [field]: value };
+    let newMembers = [...formData.members];
+
+    // If the field being changed is "university" AND the box is checked
+    if (field === "university" && allSameUniversity) {
+      newMembers = newMembers.map((member) => ({
+        ...member,
+        university: value, // Set member uni to new leader uni
+      }));
+    }
+
     setFormData({
       ...formData,
-      leader: { ...formData.leader, [field]: value },
+      leader: newLeader,
+      members: newMembers,
     });
   };
 
+  // CHANGED: Updated handleMemberChange to uncheck box if university differs
   const handleMemberChange = (index: number, field: string, value: string) => {
     const newMembers = [...formData.members];
     newMembers[index] = { ...newMembers[index], [field]: value };
+
+    // If user changes university, and it's different from leader's, uncheck the box.
+    if (field === "university" && allSameUniversity) {
+      if (value !== formData.leader.university) {
+        setAllSameUniversity(false);
+      }
+    }
+
     setFormData({ ...formData, members: newMembers });
+  };
+
+  // ADDED: Handler for the "same university" checkbox
+  const handleSameUniversityChange = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const isChecked = e.target.checked;
+    setAllSameUniversity(isChecked);
+
+    if (isChecked) {
+      const leaderUniversity = formData.leader.university;
+      // Only autofill if leader uni is already set
+      if (leaderUniversity) {
+        const newMembers = formData.members.map((member) => ({
+          ...member,
+          university: leaderUniversity,
+        }));
+        setFormData({ ...formData, members: newMembers });
+      }
+    }
+    // If unchecked, we don't clear member universities. User can change manually.
   };
 
   const validateForm = () => {
@@ -80,16 +237,19 @@ export default function Register() {
   };
 
   const handleSubmit = async () => {
+    console.log("ckci");
     setError("");
     setSuccess(false);
 
     const validationError = validateForm();
     if (validationError) {
+      console.log(validationError);
       setError(validationError);
       return;
     }
 
     setLoading(true);
+    console.log("go");
 
     try {
       // Prepare data for Google Sheets
@@ -97,6 +257,8 @@ export default function Register() {
         formData.leader,
         ...formData.members.slice(0, teamSize - 1),
       ];
+
+      console.log(teamMembers);
 
       const sheetData = {
         teamName: formData.teamName,
@@ -115,6 +277,7 @@ export default function Register() {
         }, {}),
       };
 
+      console.log(sheetData);
       const response = await fetch("/api/sheet", {
         method: "POST",
         headers: {
@@ -133,7 +296,7 @@ export default function Register() {
       // Reset form
       setFormData({
         teamName: "",
-        teamSize: "",
+        teamSize: "3", // CHANGED: Reset to new default
         leader: {
           fullName: "",
           email: "",
@@ -142,7 +305,8 @@ export default function Register() {
           studentId: "",
           yearOfStudy: "",
         },
-        members: Array(4).fill({
+        members: Array(3).fill({
+          // CHANGED: Reset to new array size
           fullName: "",
           email: "",
           phone: "",
@@ -151,8 +315,10 @@ export default function Register() {
           yearOfStudy: "",
         }),
       });
-      setTeamSize(3);
+      setTeamSize(3); // CHANGED: Reset to new default
+      setAllSameUniversity(false); // ADDED: Reset checkbox state
     } catch (err: any) {
+      console.log(err);
       setError(err.message || "An error occurred while submitting the form");
     } finally {
       setLoading(false);
@@ -161,9 +327,16 @@ export default function Register() {
 
   return (
     <main className="min-h-screen bg-[#0f0d08] text-white flex flex-col items-center py-10 px-4">
+      {/* CHANGED: Error message now fixed, has a timeout, and a close button */}
       {error && (
-        <div className="w-full max-w-5xl bg-red-600 text-white rounded-xl p-4 mb-6 shadow-lg">
+        <div className="fixed bottom-4 left-1/2 -translate-x-1/2 w-full max-w-5xl bg-red-600 text-white rounded-xl p-4 shadow-lg z-50 flex items-center justify-between">
           <p className="font-semibold">Error: {error}</p>
+          <button
+            onClick={() => setError("")}
+            className="ml-4 text-white font-bold text-2xl leading-none hover:opacity-75"
+          >
+            &times;
+          </button>
         </div>
       )}
 
@@ -178,7 +351,8 @@ export default function Register() {
               1. Team Composition Requirements
             </h3>
             <p>
-              Each team must consist of 3 to 5 members. Teams should include
+              {/* CHANGED: Team size rule updated */}
+              Each team must consist of 3 to 4 members. Teams should include
               individuals with complementary skills in:
             </p>
             <ul className="list-disc list-inside ml-3 mt-1">
@@ -254,19 +428,33 @@ export default function Register() {
               onChange={handleTeamSizeChange}
               className="w-full bg-[#1f1c19] rounded-md px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#e0a82e]"
             >
-              <option value="">Select</option>
+              {/* CHANGED: Options updated to 3 and 4 only */}
               <option value="3">3</option>
               <option value="4">4</option>
-              <option value="5">5</option>
             </select>
           </div>
         </div>
       </section>
 
       <section className="w-full max-w-5xl bg-[#2b2825] rounded-xl p-6 md:p-8 mb-10 shadow-lg">
-        <h2 className="text-lg md:text-xl font-semibold mb-4 text-white">
-          Team Leader Details
-        </h2>
+        {/* ADDED: Checkbox for "Same University" */}
+        <div className="flex flex-wrap justify-between items-center mb-4 gap-2">
+          <h2 className="text-lg md:text-xl font-semibold text-white">
+            Team Leader Details
+          </h2>
+          <div className="flex items-center">
+            <input
+              type="checkbox"
+              id="sameUni"
+              checked={allSameUniversity}
+              onChange={handleSameUniversityChange}
+              className="w-4 h-4 text-[#e0a82e] bg-[#1f1c19] border-gray-600 rounded focus:ring-offset-0 focus:ring-1 focus:ring-[#e0a82e]"
+            />
+            <label htmlFor="sameUni" className="ml-2 text-sm text-gray-300">
+              All members from the same university?
+            </label>
+          </div>
+        </div>
         <div className="grid md:grid-cols-2 gap-4">
           <div>
             <label className="block text-gray-300 text-sm mb-1">
@@ -308,11 +496,10 @@ export default function Register() {
             <label className="block text-gray-300 text-sm mb-1">
               University / Institution Name
             </label>
-            <input
-              type="text"
+            {/* CHANGED: Replaced text input with UniversityInput component */}
+            <UniversityInput
               value={formData.leader.university}
-              onChange={(e) => handleLeaderChange("university", e.target.value)}
-              className="w-full bg-[#1f1c19] rounded-md px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#e0a82e]"
+              onChange={(value) => handleLeaderChange("university", value)}
             />
           </div>
           <div>
@@ -347,6 +534,7 @@ export default function Register() {
         </div>
       </section>
 
+      {/* CHANGED: Loop length is correct, maps to teamSize of 3 or 4 */}
       {Array.from({ length: teamSize - 1 }, (_, i) => i).map((index) => (
         <section
           key={index}
@@ -402,13 +590,12 @@ export default function Register() {
               <label className="block text-gray-300 text-sm mb-1">
                 University / Institution Name
               </label>
-              <input
-                type="text"
+              {/* CHANGED: Replaced text input with UniversityInput component */}
+              <UniversityInput
                 value={formData.members[index].university}
-                onChange={(e) =>
-                  handleMemberChange(index, "university", e.target.value)
+                onChange={(value) =>
+                  handleMemberChange(index, "university", value)
                 }
-                className="w-full bg-[#1f1c19] rounded-md px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#e0a82e]"
               />
             </div>
             <div>
@@ -457,7 +644,7 @@ export default function Register() {
         disabled={loading || success}
         className={` ${
           success ? "hidden" : "block"
-        } bg-[#e0a82e] text-black font-semibold rounded-md px-8 py-2 hover:bg-[#f2c14e] transition-all disabled:opacity-50 disabled:cursor-not-allowed`}
+        } bg-[#e0a82e] text-black font-semibold rounded-md px-8 py-2 hover:bg-[#f2c14e] transition-all disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer`}
       >
         {loading ? "SUBMITTING..." : "REGISTER"}
       </button>
