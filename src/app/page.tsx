@@ -1,3 +1,7 @@
+"use client";
+
+import { useEffect, useState } from "react";
+
 import RoundInfoView from "@/components/roundInfoView";
 import FadingSlide from "@/components/fadingSlide";
 import MobileCarousel from "@/components/mobileCarousel";
@@ -9,7 +13,23 @@ import ContactUs from "@/components/contactUs";
 import SplashScreen from "@/components/splashScreen";
 import Image from "next/image";
 
+import About from "@/components/about";
+import AboutMobile from "@/components/about.mobile"; // ✅ MOBILE VERSION
+
+
 export default function Home() {
+
+  // ✅ Detect mobile screen width
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const update = () => setIsMobile(window.innerWidth < 768);
+    update(); // run once at load
+    window.addEventListener("resize", update);
+    return () => window.removeEventListener("resize", update);
+  }, []);
+
+
   return (
     <main
       className="
@@ -20,6 +40,8 @@ export default function Home() {
         scroll-smooth
       "
     >
+
+      {/* DESKTOP SPLASH SCREEN */}
       <section
         id="home"
         className="snap-start h-screen overflow-hidden bg-black hidden md:block"
@@ -27,6 +49,7 @@ export default function Home() {
         <SplashScreen />
       </section>
 
+      {/* MOBILE SPLASH SCREEN */}
       <section
         className="
           w-full h-full md:snap-start 
@@ -36,24 +59,34 @@ export default function Home() {
       >
         <Image
           src="/assets/genzipher-text-logo-1.png"
-          alt='GenZipher Logo'
+          alt="GenZipher Logo"
           width={964}
           height={356}
-          className='mx-auto mb-[15%] md:mb-4 md:w-[60vw] h-auto'
+          className="mx-auto mb-[15%] md:mb-4 md:w-[60vw] h-auto"
         />
       </section>
 
+      {/* HERO SECTION */}
       <section className="w-full h-full md:snap-start bg-[url('/assets/countdown-m-bg.webp')] bg-cover bg-center md:bg-none">
         <Hero />
       </section>
 
-   
+      {/* ABOUT SECTION (DESKTOP | MOBILE) */}
+      <section className="relative w-screen md:snap-start bg-[#D8CDB9]">
+        {isMobile ? <AboutMobile /> : <About />}
+      </section>
+
+      {/* ROUNDS SECTION */}
       <section className="w-full h-full md:snap-start bg-[#140E02]">
-        <div className="hidden md:block h-full overflow-x-hidden overflow-y-auto snap-y snap-mandatory" style={{scrollbarWidth:'none'}} >
+        {/* DESKTOP SLIDES */}
+        <div
+          className="hidden md:block h-full overflow-x-hidden overflow-y-auto snap-y snap-mandatory"
+          style={{ scrollbarWidth: "none" }}
+        >
           {[1, 2, 3, 4].map((num) => (
             <FadingSlide key={num} num={num}>
               <RoundInfoView
-                img={`/assets/${['guy1', 'lady1', 'lady2', 'guy2'][num - 1]}.png`}
+                img={`/assets/${["guy1", "lady1", "lady2", "guy2"][num - 1]}.png`}
                 text={`ROUND ${num}`}
                 footer={`INFO ON ROUND ${num}`}
               />
@@ -61,6 +94,7 @@ export default function Home() {
           ))}
         </div>
 
+        {/* MOBILE CAROUSEL */}
         <div className="block md:hidden h-full">
           <MobileCarousel>
             <RoundInfoView img="/assets/guy1.png" text="ROUND 1" footer="INFO ON ROUND 1" />
@@ -71,17 +105,17 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Partner */}
+      {/* PARTNER SECTION */}
       <section className="w-full h-full md:snap-start">
         <PartnerWithUs />
       </section>
 
-      {/* Awards */}
+      {/* AWARDS SECTION */}
       <section className="w-full h-full md:snap-start">
         <Awards />
       </section>
 
-      {/* Contact + Footer */}
+      {/* DESKTOP CONTACT + FOOTER */}
       <section className="md:block hidden w-full h-full md:snap-start">
         <div className="flex flex-col justify-between h-full bg-[#D8CDB9]">
           <ContactUs />
@@ -89,13 +123,16 @@ export default function Home() {
         </div>
       </section>
 
+      {/* MOBILE CONTACT */}
       <section className="block md:hidden w-full h-full">
         <ContactUs />
       </section>
 
+      {/* MOBILE FOOTER */}
       <section className="flex md:hidden w-full h-full bg-[#D8CDB9]">
         <Footer />
       </section>
+
     </main>
   );
 }
