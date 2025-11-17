@@ -5,7 +5,7 @@ export default function PartnerWithUs() {
     <div className="flex md:flex-row items-center justify-between w-full h-screen bg-[#d8ccb4] px-3 md:pl-16 py-12 md:pr-[12%] md:gap-10 box-border">
       <div className="flex justify-center w-full md:w-1/2 box-border h-full">
         <Image
-          src="/assets/lionguy.png"
+          src="/assets/lionguy.webp"
           alt="Partner With Us"
           width={700}
           height={900}

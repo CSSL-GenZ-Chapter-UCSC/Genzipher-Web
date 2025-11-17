@@ -15,7 +15,7 @@ export default function About() {
           {/* Logo */}
           <div className="w-full mb-4">
             <Image
-              src="/assets/genzipher-text-logo-1.png"
+              src="/assets/genzipher-text-logo-1.webp"
               alt="Genzipher"
               width={692}
               height={252}
@@ -38,7 +38,7 @@ export default function About() {
           className="absolute top-0 -right-24 md:-right-48 lg:-right-72 bottom-0 z-20 w-1/2 md:w-[52%] overflow-hidden hidden sm:block"
         >
           <Image
-            src="/assets/queen.png"
+            src="/assets/queen.webp"
             alt="Genzipher Character"
             fill
             className="object-cover scale-105 md:scale-110"
@@ -59,7 +59,7 @@ export default function About() {
         <div className="absolute z-10 flex flex-col items-center w-full max-w-[692px] top-6 md:top-12 left-4 md:left-12 px-4 md:px-0 gap-4">
           {/* Logo */}
           <Image
-            src="/assets/CSSL-logo2.png"
+            src="/assets/CSSL-logo2.webp"
             alt="CSSL"
             width={207}
             height={207}
@@ -78,7 +78,7 @@ export default function About() {
           className="absolute top-0 -right-24 md:-right-48 lg:-right-72 bottom-0 z-20 w-1/2 md:w-[65%] overflow-hidden hidden sm:block"
         >
           <Image
-            src="/assets/queen.png"
+            src="/assets/queen.webp"
             alt="CSSL Character"
             fill
             className="object-cover"
@@ -100,7 +100,7 @@ export default function About() {
           className="absolute top-0 left-0 md:left-8 lg:left-30 bottom-0 z-20 w-1/4 overflow-hidden hidden lg:block"
         >
           <Image
-            src="/assets/queen.png"
+            src="/assets/queen.webp"
             alt="Hackathon Character"
             fill
             className="object-cover scale-90"

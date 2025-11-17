@@ -9,7 +9,7 @@ export default function Footer() {
       <div className="flex flex-col gap-6 justify-center align-center items-center">
         <div className="w-[80%] max-w-[300px]">
           <Image
-            src="/assets/genzipher-text-logo-1.png"
+            src="/assets/genzipher-text-logo-1.webp"
             alt="GenZipher Logo"
             width={700}
             height={900} 
@@ -18,7 +18,7 @@ export default function Footer() {
         </div>
         <div className="w-[50%] max-w-[200px]">
           <Image
-            src="/assets/CSSL-logo.png"
+            src="/assets/CSSL-logo.webp"
             alt="CSSL Logo"
             width={700}
             height={900} 

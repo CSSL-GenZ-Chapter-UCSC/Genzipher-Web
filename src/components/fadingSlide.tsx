@@ -24,7 +24,7 @@ export default function FadingSlide({
       `}
     >
       <Image
-        src={`/assets/twerl${num}.png`}
+        src={`/assets/twerl${num}.webp`}
         alt="Overlay"
         width={500}
         height={500}

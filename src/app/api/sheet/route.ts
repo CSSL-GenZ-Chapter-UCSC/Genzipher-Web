@@ -1,13 +1,45 @@
 import { google } from "googleapis";
+import { formSchema } from "@/utils/validate";
 
 export async function POST(req: Request) {
   try {
-    const body = await req.json();
+    const raw = await req.json();
+    const memberCount = Number(raw.teamSize) - 1;
+    const normalized = {
+      teamName: raw.teamName,
+      teamSize: raw.teamSize,
+      leader: {
+        fullName: raw.leaderFullName,
+        email: raw.leaderEmail,
+        phone: raw.leaderPhone,
+        university: raw.leaderUniversity,
+        studentId: raw.leaderStudentId,
+        yearOfStudy: raw.leaderYearOfStudy,
+      },
+      members: Array.from({ length: memberCount }).map((_, i) => {
+        const n = i + 1;
+        return {
+          fullName: raw[`member${n}FullName`] || "",
+          email: raw[`member${n}Email`] || "",
+          phone: raw[`member${n}Phone`] || "",
+          university: raw[`member${n}University`] || "",
+          studentId: raw[`member${n}StudentId`] || "",
+          yearOfStudy: raw[`member${n}YearOfStudy`] || "",
+        };
+      }),
+    };
 
-    // Validate required fields
-    if (!body.teamName || !body.teamSize) {
+    const validated = formSchema.safeParse(normalized);
+
+    if (!validated.success) {
       return Response.json(
-        { success: false, error: "Team name and size are required" },
+        {
+          success: false,
+          errors: validated.error.issues.map((i) => ({
+            message: i.message,
+            path: i.path, 
+          })),
+        },
         { status: 400 }
       );
     }
@@ -23,14 +55,14 @@ export async function POST(req: Request) {
     const sheets = google.sheets({ version: "v4", auth });
 
     const spreadsheetId = process.env.GOOGLE_SHEET_ID!;
-    const range = "Sheet1!A:Z"; // Extended range to accommodate all fields
+    const range = "Sheet1!A:Z";
 
-    // Prepare row data
+    const body = raw; // your existing logic uses raw fields
+
     const rowData = [
-      new Date().toLocaleString(), // Timestamp
+      new Date().toLocaleString(),
       body.teamName,
       body.teamSize,
-      // Leader details
       body.leaderFullName || "",
       body.leaderEmail || "",
       body.leaderPhone || "",
@@ -39,7 +71,6 @@ export async function POST(req: Request) {
       body.leaderYearOfStudy || "",
     ];
 
-    // Add member details (up to 4 additional members)
     for (let i = 1; i <= 4; i++) {
       rowData.push(
         body[`member${i}FullName`] || "",
@@ -55,21 +86,19 @@ export async function POST(req: Request) {
       spreadsheetId,
       range,
       valueInputOption: "USER_ENTERED",
-      requestBody: {
-        values: [rowData],
-      },
+      requestBody: { values: [rowData] },
     });
 
-    return Response.json({ 
-      success: true, 
-      message: "Team registration submitted successfully!" 
+    return Response.json({
+      success: true,
+      message: "Team registration submitted successfully!",
     });
   } catch (err: any) {
-    console.error("Error submitting to Google Sheets:", err);
+    console.error("Google Sheets Error:", err);
     return Response.json(
-      { 
-        success: false, 
-        error: err.message || "Failed to submit registration" 
+      {
+        success: false,
+        error: err.message || "Failed to submit registration",
       },
       { status: 500 }
     );
