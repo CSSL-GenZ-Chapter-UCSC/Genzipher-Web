@@ -53,12 +53,12 @@ export default function Home() {
       <section
         className="
           w-full h-full md:snap-start 
-          bg-[url('/assets/images/splash/landing-6.png')] bg-cover bg-center
+          bg-[url('/assets/images/splash/landing-6-mobile.webp')] bg-cover bg-center
           bg-black/60 bg-blend-multiply flex items-center justify-center md:hidden
         "
       >
         <Image
-          src="/assets/genzipher-text-logo-1.png"
+          src="/assets/genzipher-text-logo-1.webp"
           alt="GenZipher Logo"
           width={964}
           height={356}
@@ -86,7 +86,7 @@ export default function Home() {
           {[1, 2, 3, 4].map((num) => (
             <FadingSlide key={num} num={num}>
               <RoundInfoView
-                img={`/assets/${["guy1", "lady1", "lady2", "guy2"][num - 1]}.png`}
+                img={`/assets/${["guy1", "lady1", "lady2", "guy2"][num - 1]}.webp`}
                 text={`ROUND ${num}`}
                 footer={`INFO ON ROUND ${num}`}
               />
@@ -97,10 +97,10 @@ export default function Home() {
         {/* MOBILE CAROUSEL */}
         <div className="block md:hidden h-full">
           <MobileCarousel>
-            <RoundInfoView img="/assets/guy1.png" text="ROUND 1" footer="INFO ON ROUND 1" />
-            <RoundInfoView img="/assets/lady1.png" text="ROUND 2" footer="INFO ON ROUND 2" />
-            <RoundInfoView img="/assets/lady2.png" text="ROUND 3" footer="INFO ON ROUND 3" />
-            <RoundInfoView img="/assets/guy2.png" text="ROUND 4" footer="INFO ON ROUND 4" />
+            <RoundInfoView img="/assets/guy1.webp" text="ROUND 1" footer="INFO ON ROUND 1" />
+            <RoundInfoView img="/assets/lady1.webp" text="ROUND 2" footer="INFO ON ROUND 2" />
+            <RoundInfoView img="/assets/lady2.webp" text="ROUND 3" footer="INFO ON ROUND 3" />
+            <RoundInfoView img="/assets/guy2.webp" text="ROUND 4" footer="INFO ON ROUND 4" />
           </MobileCarousel>
         </div>
       </section>

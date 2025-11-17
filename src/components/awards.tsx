@@ -18,7 +18,7 @@ export default function Awards() {
   const items: Award[] = [
     {
       key: "vision",
-      src: "/assets/awards/vision_award.png",
+      src: "/assets/awards/vision_award.webp",
       title: "THE FLAME OF VISION",
       w: 220,
       h: 334,
@@ -26,7 +26,7 @@ export default function Awards() {
     },
     {
       key: "honor",
-      src: "/assets/awards/honor_award.png",
+      src: "/assets/awards/honor_award.webp",
       title: "THE GUARDIANS HONOR",
       w: 336,
       h: 511,
@@ -34,7 +34,7 @@ export default function Awards() {
     },
     {
       key: "innovator",
-      src: "/assets/awards/innovator_award.png",
+      src: "/assets/awards/innovator_award.webp",
       title: "THE DIVINE INNOVATOR",
       w: 220,
       h: 334,
