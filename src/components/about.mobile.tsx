@@ -8,7 +8,7 @@ export default function AboutMobile() {
       {/* Top wrapper with background image only for sections 1 & 2 */}
       <div
         className="w-full bg-center bg-cover"
-        style={{ backgroundImage: "url('/assets/mobile-about.png')" }}
+        style={{ backgroundImage: "url('/assets/mobile-about.webp')" }}
       >
       {/* Inline animation styles (if not in globals.css) */}
       <style>{`
@@ -40,7 +40,7 @@ export default function AboutMobile() {
         >
           <div className="flex justify-center mb-3">
             <Image
-              src="/assets/genzipher-text-logo-1.png"
+              src="/assets/genzipher-text-logo-1.webp"
               alt="Genzipher"
               width={240}
               height={90}
@@ -63,7 +63,7 @@ export default function AboutMobile() {
         >
           <div className="flex justify-center mb-3">
             <Image
-              src="/assets/CSSL-logo.png"
+              src="/assets/CSSL-logo.webp"
               alt="CSSL"
               width={160}
               height={80}
@@ -102,7 +102,7 @@ export default function AboutMobile() {
           {/* Right — cropped half of queen.png */}
           <div className="w-2/5 h-110 relative overflow-hidden flex-shrink-0 -mr-4">
             <Image
-              src="/assets/queen.png"
+              src="/assets/queen.webp"
               alt="Warrior"
               fill
               className="object-cover scale-100"

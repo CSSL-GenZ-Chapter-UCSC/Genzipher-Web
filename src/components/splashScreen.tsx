@@ -8,12 +8,12 @@ export default function SplashScreen() {
   const containerRef = useRef<HTMLDivElement>(null);
 
   const images = [
-    "/assets/images/splash/landing-1.png",
-    "/assets/images/splash/landing-2.png",
-    "/assets/images/splash/landing-3.png",
-    "/assets/images/splash/landing-4.png",
-    "/assets/images/splash/landing-5.png",
-    "/assets/images/splash/landing-6.png",
+    "/assets/images/splash/landing-1.webp",
+    "/assets/images/splash/landing-2.webp",
+    "/assets/images/splash/landing-3.webp",
+    "/assets/images/splash/landing-4.webp",
+    "/assets/images/splash/landing-5.webp",
+    "/assets/images/splash/landing-6.webp",
   ];
 
   useEffect(() => {
@@ -90,7 +90,7 @@ export default function SplashScreen() {
               const logoScale = minScale + (maxScale - minScale) * logoOpacity;
               return (
                 <NextImage
-                  src="/assets/genzipher-text-logo-1.png"
+                  src="/assets/genzipher-text-logo-1.webp"
                   alt="Genzipher"
                   width={692}
                   height={252}

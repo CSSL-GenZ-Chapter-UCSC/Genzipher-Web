@@ -7,7 +7,7 @@ export default function Hero() {
     <div className="countdown-outer items-center justify-center text-center flex flex-col h-full gap-4 px-4 md:bg-[#211600]">
       <div className="logo-outer w-full relative">
         <Image
-          src="/assets/genzipher-text-logo-1.png"
+          src="/assets/genzipher-text-logo-1.webp"
           alt="GenZipher Logo"
           width={964}
           height={356}
