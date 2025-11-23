@@ -4,26 +4,58 @@ export default function ContactCard({
   email,
   phone,
   profilePic,
+  picPosition = "left",
 }: {
   name?: string;
   role?: string;
   email?: string;
   phone?: string;
   profilePic: string;
+  picPosition?: "left" | "right"; 
 }) {
   return (
-    <div className="flex md:flex-col gap-4 text-2xl p-[3%] md:p-[20%] w-[80%] md:w-full md:h-full justify-center items-center bg-[#140E021C] md:bg-inherit rounded-2xl">
+    <div
+      className={`
+        flex
+        md:flex-col
+        gap-4
+        text-2xl
+        p-[3%] md:p-[20%]
+        w-[90%] md:w-full md:h-full
+        justify-center items-center
+        bg-[#140E021C] md:bg-inherit
+        rounded-2xl
+
+        /* MOBILE: switch direction based on picPosition */
+        ${picPosition === "right" ? "flex-row-reverse" : "flex-row"}
+      `}
+    >
+      {/* PROFILE PIC */}
       <div
-        className="rounded-full w-[5rem] h-[5rem] md:w-[10rem] md:h-[10rem] bg-center bg-cover bg-no-repeat"
-        style={{
-          backgroundImage: `url(${profilePic})`,
-        }}
+        className="
+          rounded-full
+          w-[7.5rem] md:w-[10rem]
+          aspect-square
+          shrink-0
+          bg-center bg-cover bg-no-repeat
+        "
+        style={{ backgroundImage: `url(${profilePic})` }}
       ></div>
 
-      <div className="flex flex-col text-[1.2rem] md:text-center">
-        <span>{name}</span>
-        <span>{role}</span>
-        <span>{email}</span>
+      {/* TEXT */}
+      <div
+        className="
+          flex flex-col
+          gap-2
+          text-[1.1rem]
+          md:text-[1.3rem]
+          text-center
+          leading-tight
+        "
+      >
+        <span className="font-medium">{name}</span>
+        <span className="text-[0.9rem] md:text-[1.1rem]">{role}</span>
+        <span className="underline">{email}</span>
         <span>{phone}</span>
       </div>
     </div>
