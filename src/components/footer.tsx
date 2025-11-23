@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { FaWhatsapp, FaInstagram } from "react-icons/fa";
+import { FaWhatsapp, FaInstagram, FaLinkedin, FaFacebook } from "react-icons/fa";
 import { MdLocationOn, MdOutlineEmail } from "react-icons/md";
 
 export default function Footer() {
@@ -32,10 +32,10 @@ export default function Footer() {
           QUICK LINKS
         </h3>
         <div className="flex flex-col gap-2 text-gray-300">
-          <a href="#" className="hover:underline">Home</a>
-          <a href="#" className="hover:underline">About</a>
-          <a href="#" className="hover:underline">Timeline</a>
-          <a href="#" className="hover:underline">Contact</a>
+        <a href="#home" className="hover:underline">Home</a>
+    <a href="#about" className="hover:underline">About</a>
+    <a href="#timeline" className="hover:underline">Timeline</a>
+    <a href="#contact" className="hover:underline">Contact</a>
         </div>
       </div>
 
@@ -46,20 +46,21 @@ export default function Footer() {
         <div className="flex flex-col gap-4 text-gray-300">
           <div className="flex items-start gap-3">
             <MdLocationOn className="text-xl mt-1 flex-shrink-0" />
-            <span>No. address, address street, address City.</span>
+            <span className="text-start">UCSC Building Complex, 35 Reid Ave, Colombo 00700</span>
           </div>
-          <div className="flex items-center gap-3">
-            <FaWhatsapp className="text-xl" />
-            <span>000-000-0000</span>
-          </div>
-          <div className="flex items-center gap-3">
-            <MdOutlineEmail className="text-xl" />
-            <span>something@gmail.com</span>
-          </div>
-          <div className="flex items-center gap-3">
+               <a className="flex items-center gap-3" href="https://www.linkedin.com/company/cssl-genz-chapter-of-ucsc/posts/?feedView=all">
+            <FaLinkedin className="text-xl" />
+            <span>@cssl-genz-chapter-of-ucsc</span>
+          </a>
+          <a className="flex items-center gap-3" href="https://www.instagram.com/cssl_ucsc">
             <FaInstagram className="text-xl" />
-            <span>@username</span>
-          </div>
+            <span>@cssl_ucsc</span>
+          </a>
+          <a className="flex items-center gap-3" href="https://www.facebook.com/cssl.ucsc">
+            <FaFacebook className="text-xl" />
+            <span>@cssl.ucsc</span>
+          </a>
+     
         </div>
       </div>
       

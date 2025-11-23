@@ -4,7 +4,8 @@ import Button from "@/components/button";
 import Link from "next/link";
 export default function Hero() {
   return (
-    <div className="countdown-outer items-center justify-center text-center flex flex-col h-full gap-4 px-4 md:bg-[#211600]">
+    <div className="countdown-outer items-center justify-center text-center flex flex-col h-full gap-4 px-4 md:bg-[#211600] bg-[url('/assets/images/splash/landing-6-mobile.webp')] bg-cover bg-center
+          bg-black/80 bg-blend-multiply">
       <div className="logo-outer w-full relative">
         <Image
           src="/assets/genzipher-text-logo-1.webp"
