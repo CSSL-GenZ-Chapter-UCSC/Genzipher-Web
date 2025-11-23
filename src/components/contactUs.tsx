@@ -13,6 +13,7 @@ export default function ContactUs() {
           email="hansaja.dev101@gmail.com"
           phone="+94 70 396 4857"
           profilePic="/assets/hansajakd.webp"
+          picPosition="left"
         />
         <ContactCard
           name="Lehan Munasinghe"
@@ -20,7 +21,10 @@ export default function ContactUs() {
           email="lehanselaka@gmail.com"
           phone="+94 75 295 4809"
           profilePic="/assets/lehan-munasinghe.webp"
+          picPosition="right"
+
         />
+
       </div>
     </div>
   );
