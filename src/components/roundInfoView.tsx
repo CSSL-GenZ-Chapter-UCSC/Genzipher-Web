@@ -28,8 +28,8 @@ export default function RoundInfoView({
       >
         {text}
       </h2>
-      <div className="my-auto flex relative md:static w-full">
-        <div className="md:absolute ml-auto mr-[5%] md:m-0 right-[6%] top-1/2 z-30 md:-translate-y-1/2 w-[75%] md:w-full  md:h-full md:flex md:items-center md:justify-center text-white py-[4%] pl-[20%] md:p-[4%] bg-[#D8CDB966] md:bg-inherit rounded-xl md:text-center">
+      <div className="my-auto flex relative md:static w-full h-[70%]">
+        <div className="md:absolute ml-auto mr-[5%] md:m-0 right-[6%] top-1/2 z-30 md:-translate-y-1/2 w-[75%] h-full md:w-full  md:h-full md:flex md:items-center md:justify-center text-white py-[4%] pl-[20%] md:p-[4%] bg-[#D8CDB966] md:bg-inherit rounded-xl md:text-center">
           <div className="relative z-9999 md:w-1/2 md:ml-auto">
             <div className="hidden md:block text-[1rem] md:text-[2rem] mb-6 font-semibold tracking-wide uppercase">
               What to expect?

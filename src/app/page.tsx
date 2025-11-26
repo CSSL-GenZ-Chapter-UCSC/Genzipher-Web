@@ -94,7 +94,7 @@ export default function Home() {
             <RoundInfoView
               img={`/assets/lady1.webp`}
               text={`Workshop 1`}
-              footer={`CTF`}
+              footer={`A Workshop on CTF`}
               venue="Online"
               subtext=""
             />
@@ -104,7 +104,7 @@ export default function Home() {
             <RoundInfoView
               img={`/assets/lady2.webp`}
               text={`Workshop 2`}
-              footer={`AI Agents`}
+              footer={`A Workshop on AI Agents`}
               venue="Online"
               subtext=""
             />
@@ -137,7 +137,7 @@ export default function Home() {
               text={`Workshop 1`}
               footer={`A Workshop on CTF`}
               venue="Online"
-              subtext="You will be given 8 hours"
+              subtext=""
             />
 
             <RoundInfoView
@@ -145,7 +145,7 @@ export default function Home() {
               text={`Workshop 2`}
               footer={`A Workshop on AI Agents`}
               venue="Online"
-              subtext="You will be given 8 hours"
+              subtext=""
             />
             <RoundInfoView
               img={`/assets/guy2.webp`}
