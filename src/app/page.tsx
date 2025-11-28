@@ -9,7 +9,6 @@ import ContactUs from "@/components/contactUs";
 import SplashScreen from "@/components/splashScreen";
 import Image from "next/image";
 import MobileSplash from "@/components/mobileSplash";
-
 import About from "@/components/about";
 import AboutMobile from "@/components/about.mobile"; // ✅ MOBILE VERSION
 import RoundsSection
