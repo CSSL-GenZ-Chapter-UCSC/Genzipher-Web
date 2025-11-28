@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useState } from "react";
 import Link from "next/link";
+import { motion } from "framer-motion";
 
 // Types
 interface Award {
@@ -90,24 +91,37 @@ export default function Awards() {
                 onClick={() => onClickItem(originalIndex)}
                 aria-label={`Show ${it.title}`}
                 className={[
-                  isCenter ? "basis-[var(--card-w-center)]" : "basis-[var(--card-w-side)]",
-                  "min-w-0 relative p-[2px] rounded-[44px] transition-transform duration-500 ease-[cubic-bezier(0.45,1.45,0.8,1)] will-change-transform",
+                  isCenter ? "basis-(--card-w-center)" : "basis-(--card-w-side)",
+                  "min-w-0 relative p-0.5 rounded-[44px] will-change-transform",
                   // Only offset side cards on md+ so mobile doesn't grow vertically
-                  isCenter ? "scale-100" : "md:translate-y-4 md:scale-95",
+                  isCenter ? "" : "md:translate-y-4",
                   "hover:scale-100 focus:outline-none",
                 ].join(" ")}
                 style={{ background: it.borderGradient, aspectRatio: `${it.w}/${it.h}` }}
               >
                 <div className="rounded-[42px] bg-[#0F0D08] overflow-hidden w-full h-full">
                   <div className="relative w-full h-full">
-                    <Image
-                      src={it.src}
-                      alt={it.title}
-                      fill
-                      className="object-contain select-none transition-opacity duration-300"
-                      priority={isCenter}
-                      sizes="(min-width: 1024px) 28vw, (min-width: 768px) 40vw, 60vw"
-                    />
+                    <motion.div
+                      // layout enables smooth position/size transitions when order changes
+                      layout
+                      // animate consistently for both left and right clicks
+                      animate={{
+                        scale: isCenter ? 1 : 0.96,
+                        y: isCenter ? 0 : 12,
+                        opacity: isCenter ? 1 : 0.92,
+                      }}
+                      transition={{ duration: 0.45, ease: [0.2, 0.9, 0.2, 1] }}
+                      style={{ width: "100%", height: "100%" }}
+                    >
+                      <Image
+                        src={it.src}
+                        alt={it.title}
+                        fill
+                        className="object-contain select-none"
+                        priority={isCenter}
+                        sizes="(min-width: 1024px) 28vw, (min-width: 768px) 40vw, 60vw"
+                      />
+                    </motion.div>
                   </div>
                 </div>
               </button>
