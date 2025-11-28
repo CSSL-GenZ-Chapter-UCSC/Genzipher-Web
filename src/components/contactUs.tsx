@@ -9,7 +9,7 @@ export default function ContactUs() {
       <div className="flex flex-col justify-between  items-center  md:grid md:grid-cols-2 w-full h-[40%] md:h-full mt-[20%] md:mt-0 md:px-[15%] ">
         <ContactCard
           name="Hansaja Kithmal Damsara"
-          role="Event Co-Chairs"
+          role="Event Co-Chair"
           email="hansaja.dev101@gmail.com"
           phone="+94 70 396 4857"
           profilePic="/assets/hansajakd.webp"
@@ -17,7 +17,7 @@ export default function ContactUs() {
         />
         <ContactCard
           name="Lehan Munasinghe"
-          role="Event Co-Chairs"
+          role="Event Co-Chair"
           email="lehanselaka@gmail.com"
           phone="+94 75 295 4809"
           profilePic="/assets/lehan-munasinghe.webp"

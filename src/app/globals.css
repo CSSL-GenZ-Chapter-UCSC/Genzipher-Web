@@ -55,3 +55,17 @@ body {
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
+
+
+@media (min-aspect-ratio: 16/9) and (min-width: 1200px) {
+  .awards-container {
+    /* slightly larger card sizes on ultra-wide screens (tuned up) */
+    --card-w-center: clamp(9rem, 20vw, 13rem) !important;
+    --card-w-side: clamp(7rem, 14vw, 9rem) !important;
+  }
+
+  /* slightly reduce vertical offset of side cards to avoid pushing up under the header */
+  .awards-container > button:not(:nth-child(2)) {
+    transform: translateY(2px) !important;
+  }
+}
