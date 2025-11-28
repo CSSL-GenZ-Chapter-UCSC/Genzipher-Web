@@ -180,6 +180,7 @@ export default function RoundsSection() {
             animate="center"
             exit="exit"
             transition={{ duration: 0.5, ease: "easeInOut" }}
+            //@ts-ignore
             className="w-full h-full"
             onAnimationComplete={() => setAnimating(false)}
           >
