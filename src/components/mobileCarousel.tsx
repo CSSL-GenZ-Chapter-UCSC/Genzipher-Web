@@ -64,7 +64,7 @@ export default function MobileCarousel({ children }: { children: React.ReactNode
         })}
       </div>
 
-      <div className="absolute bottom-6 left-0 right-0 flex items-center justify-center gap-2 z-50">
+      <div className="absolute bottom-6 left-0 right-0 flex items-center justify-center gap-2 z-50 mb-[20%]">
         {pages.map((_, i) => (
           <button
             key={i}
