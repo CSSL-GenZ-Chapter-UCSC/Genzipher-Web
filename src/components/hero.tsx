@@ -21,7 +21,7 @@ export default function Hero() {
       <div className="w-full">
         <CountDown />
       </div>
-      <div className="md:mt-6">
+      <div className="">
         <Link href="/register">
           <Button text="REGISTER" />
         </Link>

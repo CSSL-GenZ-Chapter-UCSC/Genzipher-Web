@@ -25,7 +25,8 @@ export default function ContactCard({
         justify-center items-center
         bg-[#140E021C] md:bg-inherit
         rounded-2xl
-
+        md:mb-auto
+        mb-[1rem]
         /* MOBILE: switch direction based on picPosition */
         ${picPosition === "right" ? "flex-row-reverse" : "flex-row"}
       `}

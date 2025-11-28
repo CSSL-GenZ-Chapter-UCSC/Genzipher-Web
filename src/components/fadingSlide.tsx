@@ -1,7 +1,10 @@
 "use client";
 
 import { useInView } from "react-intersection-observer";
+import { motion } from "framer-motion";
 import Image from "next/image";
+import React from "react";
+
 export default function FadingSlide({
   num,
   children,
@@ -15,24 +18,36 @@ export default function FadingSlide({
   });
 
   return (
+    // This section is just a "scroll spacer" – one viewport tall
     <section
       ref={ref}
-      className={`
-        w-screen h-screen snap-start shrink-0
-        transition-opacity duration-800 ease-in-out overflow-hidden
-        ${inView ? "opacity-100" : "opacity-0"}
-      `}
+      className="
+        relative
+        w-screen h-screen
+        snap-start shrink-0
+      "
     >
-      <Image
-        src={`/assets/twerl${num}.webp`}
-        alt="Overlay"
-        width={500}
-        height={500}
-        className="pointer-events-none absolute left-1/2 top-0 -translate-x-1/2 object-contain z-999"
-        style={{ height: "100%", width: "auto" }}
-      />
+      {/* This is the actual visible slide, pinned to the viewport */}
+      <motion.div
+        className="fixed inset-0 overflow-hidden"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: inView ? 1 : 0 }}
+        transition={{ duration: 0.6, ease: 'easeInOut' }}
+        style={{
+          pointerEvents: inView ? "auto" : "none", // only active slide is interactive
+        }}
+      >
+        <Image
+          src={`/assets/twerl${num}.webp`}
+          alt="Overlay"
+          width={500}
+          height={500}
+          className="pointer-events-none absolute left-1/2 top-0 -translate-x-1/2 object-contain z-50"
+          style={{ height: "100%", width: "auto" }}
+        />
 
-      {children}
+        {children}
+      </motion.div>
     </section>
   );
 }

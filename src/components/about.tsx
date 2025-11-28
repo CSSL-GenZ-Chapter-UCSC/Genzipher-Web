@@ -4,9 +4,13 @@ import Image from "next/image";
 import Button from "./button";
 export default function About() {
   return (
-    <div className="w-full">
+    <div className="w-full bg-[#D8CDB9]">
       {/* First Section - Genzipher */}
-      <section 
+      {/* <section 
+        id="about-section-1"
+        className="relative w-full h-screen  overflow-hidden"
+      > */}
+           <section 
         id="about-section-1"
         className="relative w-full h-screen bg-[#D8CDB9] overflow-hidden"
       >

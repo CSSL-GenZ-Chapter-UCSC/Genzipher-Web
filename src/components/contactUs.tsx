@@ -6,7 +6,7 @@ export default function ContactUs() {
       <h2 className="text-6xl block md:hidden text-[#5B3F04] text-center  mt-10 mb-5">
         Contact Us
       </h2>
-      <div className="flex flex-col justify-between  items-center  md:grid md:grid-cols-2 w-full h-[40%] md:h-full mt-[20%] md:mt-0 md:px-[15%] ">
+      <div className="flex flex-col justify-between  items-center  md:grid md:grid-cols-2 w-full h-[40%] md:h-full m-auto md:mt-0 md:px-[15%] ">
         <ContactCard
           name="Hansaja Kithmal Damsara"
           role="Event Co-Chair"
