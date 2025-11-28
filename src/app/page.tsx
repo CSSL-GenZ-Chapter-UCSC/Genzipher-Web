@@ -8,6 +8,7 @@ import Footer from "@/components/footer";
 import ContactUs from "@/components/contactUs";
 import SplashScreen from "@/components/splashScreen";
 import Image from "next/image";
+import MobileSplash from "@/components/mobileSplash";
 import About from "@/components/about";
 import AboutMobile from "@/components/about.mobile"; // ✅ MOBILE VERSION
 import RoundsSection
@@ -41,23 +42,8 @@ export default function Home() {
         <SplashScreen />
       </section>
 
-      {/* MOBILE SPLASH SCREEN */}
-      <section
-      id="home"
-        className="
-          w-full h-full snap-start 
-          bg-[url('/assets/images/splash/landing-6-mobile.webp')] bg-cover bg-center
-          bg-black/60 bg-blend-multiply flex items-center justify-center md:hidden
-        "
-      >
-        <Image
-          src="/assets/genzipher-text-logo-1.webp"
-          alt="GenZipher Logo"
-          width={964}
-          height={356}
-          className="mx-auto mb-[15%] md:mb-4 md:w-[60vw] h-auto"
-        />
-      </section>
+      {/* MOBILE SPLASH SCREEN (first-load animated) */}
+      <MobileSplash />
 
       {/* HERO SECTION */}
       <section className="w-full h-full snap-start bg-[url('/assets/countdown-m-bg.webp')] bg-cover bg-center md:bg-none">
