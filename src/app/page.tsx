@@ -1,10 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-
-import RoundInfoView from "@/components/roundInfoView";
-import FadingSlide from "@/components/fadingSlide";
-import MobileCarousel from "@/components/mobileCarousel";
 import Hero from "@/components/hero";
 import PartnerWithUs from "@/components/partnerWithUs";
 import Awards from "@/components/awards";
@@ -12,10 +8,10 @@ import Footer from "@/components/footer";
 import ContactUs from "@/components/contactUs";
 import SplashScreen from "@/components/splashScreen";
 import Image from "next/image";
-
 import About from "@/components/about";
 import AboutMobile from "@/components/about.mobile"; // ✅ MOBILE VERSION
-
+import RoundsSection
+ from "@/components/roundsSection";
 export default function Home() {
   // ✅ Detect mobile screen width
   const [isMobile, setIsMobile] = useState(false);
@@ -30,7 +26,7 @@ export default function Home() {
   return (
     <main
       className="
-        w-screen h-[100svh] 
+        w-screen h-screen
         overflow-y-auto overflow-x-hidden 
        snap-y snap-mandatory 
         bg-[#0f0d08] box-border
@@ -73,89 +69,8 @@ export default function Home() {
         {isMobile ? <AboutMobile /> : <About />}
       </section>
 
-      {/* ROUNDS SECTION */}
-      <section className="w-full h-full snap-start bg-[#140E02]" id="timeline">
-        {/* DESKTOP SLIDES */}
-        <div
-          className="hidden md:block h-full overflow-x-hidden overflow-y-auto snap-y snap-mandatory"
-          style={{ scrollbarWidth: "none" }}
-        >
-          <FadingSlide key={1} num={1}>
-            <RoundInfoView
-              img={`/assets/guy1.webp`}
-              text={`First Round`}
-              subtext="You will be given 8 hours"
-              venue="Online"
-              footer="Teams of 3–4 members will dive into an online selection round, where competitive programming and CTF challenges run side by side. Only the top 10 teams will advance to the grand finale."
-            />
-          </FadingSlide>
-
-          <FadingSlide key={2} num={2}>
-            <RoundInfoView
-              img={`/assets/lady1.webp`}
-              text={`Workshop 1`}
-              footer={`A Workshop on CTF`}
-              venue="Online"
-              subtext=""
-            />
-          </FadingSlide>
-
-          <FadingSlide key={3} num={1}>
-            <RoundInfoView
-              img={`/assets/lady2.webp`}
-              text={`Workshop 2`}
-              footer={`A Workshop on AI Agents`}
-              venue="Online"
-              subtext=""
-            />
-          </FadingSlide>
-
-          <FadingSlide key={4} num={1}>
-            <RoundInfoView
-              img={`/assets/guy2.webp`}
-              text={`Final Round`}
-              footer={`The top 10 teams from Round 1 step into the ultimate challenge, each consisting of 3–4 members. In this grand finale, teams tackle a real world problem by completing the full product development cycle. The journey begins with a “pawning phase,” where teams decipher clues to uncover the development theme, setting the stage for innovative. Participants are free to use any tech stack, including AI-powered tools, to bring their ideas to life.`}
-              venue="To be decided"
-              subtext="You will be given 24 hours"
-            />
-          </FadingSlide>
-        </div>
-
-        {/* MOBILE CAROUSEL */}
-        <div className="block md:hidden h-full">
-          <MobileCarousel>
-            <RoundInfoView
-              img={`/assets/guy1.webp`}
-              text={`First Round`}
-              subtext="You will be given 8 hours"
-              venue="Online"
-              footer="Teams of 3–4 members will dive into an online selection round, where competitive programming and CTF challenges run side by side. Only the top 10 teams will advance to the grand finale."
-            />
-
-            <RoundInfoView
-              img={`/assets/lady1.webp`}
-              text={`Workshop 1`}
-              footer={`A Workshop on CTF`}
-              venue="Online"
-              subtext=""
-            />
-
-            <RoundInfoView
-              img={`/assets/lady2.webp`}
-              text={`Workshop 2`}
-              footer={`A Workshop on AI Agents`}
-              venue="Online"
-              subtext=""
-            />
-            <RoundInfoView
-              img={`/assets/guy2.webp`}
-              text={`Final Round`}
-              footer={`The top 10 teams from Round 1 step into the ultimate challenge, each consisting of 3–4 members. In this grand finale, teams tackle a real world problem by completing the full product development cycle. The journey begins with a “pawning phase,” where teams decipher clues to uncover the development theme, setting the stage for innovative. Participants are free to use any tech stack, including AI-powered tools, to bring their ideas to life.`}
-              venue="To be decided"
-              subtext="You will be given 24 hours"
-            />
-          </MobileCarousel>
-        </div>
+      <section className="w-full h-full snap-start bg-[#140E02]">
+        <RoundsSection />
       </section>
 
       {/* PARTNER SECTION */}
