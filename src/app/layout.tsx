@@ -29,6 +29,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        {/* Preload critical images used by the mobile splash to improve first paint */}
+        <link rel="preload" as="image" href="/assets/images/splash/landing-6-mobile.webp" />
+        <link rel="preload" as="image" href="/assets/genzipher-text-logo-1.webp" />
+      </head>
       <body
         className={`${amarante.className} ${amarante.className} antialiased`}
       >
