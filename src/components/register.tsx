@@ -39,30 +39,30 @@ import { formSchema } from "@/utils/validate";
 const universityList = [
   "University of Colombo School of Computing (UCSC)",
   "University of Moratuwa",
-  "Informatics Institute of Technology (IIT)",
-  "Sri Lanka Institute of Information Technology (SLIIT)",
   "University of Peradeniya",
   "University of Colombo",
   "University of Sri Jayewardenepura",
-  "NSBM Green University",
-  "National Institute of Business Management (NIBM)",
-  "Sri Lanka Technological Campus (SLTC)",
-  "Esoft",
-  "International College of Business and Technology (ICBT)",
-  "General Sir John Kotelawala Defence University (KDU)",
-  "KAATSU International University (KIU)",
-  "Open University of Sri Lanka (OUSL)",
-  "Rajarata University",
-  "Sabaragamuva University",
-  "South Eastern University",
-  "Eastern University",
   "University of Jaffna",
   "University of Kelaniya",
   "University of Ruhuna",
   "University of Vavuniya",
-  "University of Vocational Technology (UNIVOTEC)",
+  "Rajarata University",
+  "Sabaragamuva University",
+  "South Eastern University",
+  "Eastern University",
   "Uva Wellassa University",
   "Wayamba University",
+  "University of Vocational Technology (UNIVOTEC)",
+  "Informatics Institute of Technology (IIT)",
+  "Sri Lanka Institute of Information Technology (SLIIT)",
+  "National Institute of Business Management (NIBM)",
+  "NSBM Green University",
+  "International College of Business and Technology (ICBT)",
+  "General Sir John Kotelawala Defence University (KDU)",
+  "Sri Lanka Technological Campus (SLTC)",
+  "Esoft",
+  "KAATSU International University (KIU)",
+  "Open University of Sri Lanka (OUSL)",
   "Aquinas College",
   "Horizon Campus",
   "Other",
@@ -158,11 +158,7 @@ const UniversityInput = ({
               className="w-4 h-4 text-gray-400"
             >
               <circle cx="9" cy="9" r="6" strokeWidth="1.5" />
-              <path
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                d="m13 13 3 3"
-              />
+              <path strokeWidth="1.5" strokeLinecap="round" d="m13 13 3 3" />
             </svg>
             <input
               autoFocus
