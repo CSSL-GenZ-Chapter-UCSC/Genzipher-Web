@@ -29,7 +29,7 @@ export default function Home() {
       className="
         w-screen h-screen
         overflow-y-auto overflow-x-hidden 
-       snap-y snap-mandatory 
+       md:snap-y md:snap-mandatory 
         bg-[#0f0d08] box-border
         scroll-smooth
       "
@@ -37,7 +37,7 @@ export default function Home() {
       {/* DESKTOP SPLASH SCREEN */}
       <section
         id="home"
-        className="snap-start h-screen overflow-hidden bg-black hidden md:block"
+        className="md:snap-start h-screen overflow-hidden bg-black hidden md:block"
       >
         <SplashScreen />
       </section>
@@ -46,31 +46,31 @@ export default function Home() {
       <MobileSplash />
 
       {/* HERO SECTION */}
-      <section className="w-full h-full snap-start bg-[url('/assets/countdown-m-bg.webp')] bg-cover bg-center md:bg-none">
+      <section className="w-full h-full md:snap-start bg-[url('/assets/countdown-m-bg.webp')] bg-cover bg-center md:bg-none">
         <Hero />
       </section>
 
       {/* ABOUT SECTION (DESKTOP | MOBILE) */}
-      <section className="relative w-screen snap-start bg-[#D8CDB9]" id="about">
+      <section className="relative w-screen md:snap-start bg-[#D8CDB9]" id="about">
         {isMobile ? <AboutMobile /> : <About />}
       </section>
 
-      <section className="w-full h-full snap-start bg-[#140E02]">
+      <section className="w-full h-max md:snap-start bg-[#140E02]">
         <RoundsSection />
       </section>
 
       {/* PARTNER SECTION */}
-      <section className="w-full h-full snap-start">
+      <section className="w-full h-full md:snap-start">
         <PartnerWithUs />
       </section>
 
       {/* AWARDS SECTION */}
-      <section className="w-full h-full snap-start">
+      <section className="w-full h-full md:snap-start">
         <Awards />
       </section>
 
       {/* DESKTOP CONTACT + FOOTER */}
-      <section className="md:block hidden w-full snap-start" is="contact">
+      <section className="md:block hidden w-full md:snap-start" is="contact">
         <div className="flex flex-col justify-between bg-[#D8CDB9]">
           <ContactUs />
           <Footer />
@@ -78,12 +78,12 @@ export default function Home() {
       </section>
 
       {/* MOBILE CONTACT */}
-      <section className="block md:hidden w-full h-full snap-start">
+      <section className="block md:hidden w-full h-full md:snap-start">
         <ContactUs />
       </section>
 
       {/* MOBILE FOOTER */}
-      <section className="flex md:hidden w-full h-[100vh] bg-[#D8CDB9] snap-start">
+      <section className="flex md:hidden w-full h-[100vh] bg-[#D8CDB9] md:snap-start">
         <Footer />
       </section>
     </main>
