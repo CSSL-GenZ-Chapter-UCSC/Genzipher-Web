@@ -233,11 +233,7 @@ export default function RoundsSection() {
                         <h4 className="text-2xl font-semibold text-white">
                           {s.props.text}
                         </h4>
-                        {hasSubtext ? (
-                          <p className="text-sm text-[#F2D8A1]/90">
-                            {s.props.subtext}
-                          </p>
-                        ) : null}
+                   
                         <p className="text-base text-[#E8DEC7]/85 leading-relaxed">
                           {s.props.footer}
                         </p>
