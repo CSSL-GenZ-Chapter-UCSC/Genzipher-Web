@@ -29,11 +29,11 @@ export default function FadingSlide({
     >
       {/* This is the actual visible slide, pinned to the viewport */}
       <motion.div
-        //@ts-ignore
+      //@ts-ignore
         className="fixed inset-0 overflow-hidden"
         initial={{ opacity: 0 }}
         animate={{ opacity: inView ? 1 : 0 }}
-        transition={{ duration: 0.6, ease: "easeInOut" }}
+        transition={{ duration: 0.6, ease: 'easeInOut' }}
         style={{
           pointerEvents: inView ? "auto" : "none", // only active slide is interactive
         }}
