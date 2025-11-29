@@ -1,49 +1,71 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { formSchema } from "@/utils/validate";
+
+// const universityList = [
+//   "Aquinas College",
+//   "Eastern University",
+//   "Esoft",
+//   "General Sir John Kotelawala Defence University (KDU)",
+//   "Horizon Campus",
+//   "Informatics Institute of Technology (IIT)",
+//   "International College of Business and Technology (ICBT)",
+//   "KAATSU International University (KIU)",
+//   "National Institute of Business Management (NIBM)",
+//   "NSBM Green University",
+//   "Open University of Sri Lanka (OUSL)",
+//   "Rajarata University",
+//   "Sabaragamuva University",
+//   "Saegis Campus",
+//   "SANASA Campus",
+//   "South Eastern University",
+//   "Sri Lanka Institute of Information Technology (SLIIT)",
+//   "Sri Lanka Technological Campus (SLTC)",
+//   "University of Colombo",
+//   "University of Colombo School of Computing (UCSC)",
+//   "University of Jaffna",
+//   "University of Kelaniya",
+//   "University of Moratuwa",
+//   "University of Peradeniya",
+//   "University of Ruhuna",
+//   "University of Sri Jayewardenepura",
+//   "University of Vavuniya",
+//   "University of Vocational Technology (UNIVOTEC)",
+//   "Uva Wellassa University",
+//   "Wayamba University",
+//   "Other",
+// ];
 
 const universityList = [
   "University of Colombo School of Computing (UCSC)",
-  "University of Colombo",
-  "University of Peradeniya",
-  "University of Sri Jayewardenepura",
-  "University of Kelaniya",
   "University of Moratuwa",
-  "University of Jaffna",
-  "University of Ruhuna",
-  "IIT",
-  "ICBT",
+  "Informatics Institute of Technology (IIT)",
+  "Sri Lanka Institute of Information Technology (SLIIT)",
+  "University of Peradeniya",
+  "University of Colombo",
+  "University of Sri Jayewardenepura",
+  "NSBM Green University",
+  "National Institute of Business Management (NIBM)",
+  "Sri Lanka Technological Campus (SLTC)",
   "Esoft",
-  "KIU",
-  "SLTC",
-  "OUSL (Open University of Sri Lanka)",
-  "Eastern University",
-  "South Eastern University",
+  "International College of Business and Technology (ICBT)",
+  "General Sir John Kotelawala Defence University (KDU)",
+  "KAATSU International University (KIU)",
+  "Open University of Sri Lanka (OUSL)",
   "Rajarata University",
   "Sabaragamuva University",
-  "Wayamba University",
-  "Uva Wellassa University",
-  "University of the Visual & Performing Arts",
-  "Gampaha Wickramarachchi University of Indigenous Medicine",
+  "South Eastern University",
+  "Eastern University",
+  "University of Jaffna",
+  "University of Kelaniya",
+  "University of Ruhuna",
   "University of Vavuniya",
-  "KDU (General Sir John Kotelawala Defence University)",
-  "Buddhasravaka Bhiksu University",
-  "Buddhist and Pali University",
-  "Ocean University",
-  "UNIVOTEC (University of Vocational Technology)",
-  "SLIIT (Sri Lanka Institute of Information Technology)",
-  "CINEC Campus",
-  "NSBM Green University",
+  "University of Vocational Technology (UNIVOTEC)",
+  "Uva Wellassa University",
+  "Wayamba University",
   "Aquinas College",
   "Horizon Campus",
-  "Saegis Campus",
-  "KAATSU",
-  "SANASA Campus",
-  "Nāgānanda International Institute for Buddhist Studies",
-  "SIBA Campus (Sri Lanka International Buddhist Academy)",
-  "NIBM (National Institute of Business Management)",
-  "SAITM",
-  "Other", 
+  "Other",
 ];
 
 const UniversityInput = ({
@@ -55,37 +77,125 @@ const UniversityInput = ({
 }) => {
   const isOther = value && !universityList.includes(value);
   const [showOtherInput, setShowOtherInput] = useState(isOther);
+  const [isOpen, setIsOpen] = useState(false);
+  const [query, setQuery] = useState("");
+  const containerRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     const shouldShowOther = value && !universityList.includes(value);
     setShowOtherInput(shouldShowOther);
   }, [value]);
 
-  const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const selectedValue = e.target.value;
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        containerRef.current &&
+        !containerRef.current.contains(event.target as Node)
+      ) {
+        setIsOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  const filteredUniversities = universityList.filter((uni) =>
+    uni.toLowerCase().includes(query.trim().toLowerCase())
+  );
+
+  const handleSelect = (selectedValue: string) => {
     if (selectedValue === "Other") {
       setShowOtherInput(true);
-      onChange(""); // Clear value so user can type
+      onChange("");
     } else {
       setShowOtherInput(false);
       onChange(selectedValue);
     }
+
+    setIsOpen(false);
+    setQuery("");
   };
 
+  const displayValue = showOtherInput ? value || "Other" : value;
+
   return (
-    <div>
-      <select
-        value={showOtherInput ? "Other" : value}
-        onChange={handleSelectChange}
-        className="w-full bg-[#1f1c19] rounded-md px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#e0a82e]"
+    <div className="relative" ref={containerRef}>
+      <button
+        type="button"
+        onClick={() => {
+          setIsOpen((prev) => !prev);
+          setQuery("");
+        }}
+        className="w-full bg-[#1f1c19] rounded-md px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#e0a82e] flex items-center justify-between border border-transparent hover:border-[#e0a82e]/40 transition"
       >
-        <option value="">Select</option>
-        {universityList.map((uni) => (
-          <option key={uni} value={uni}>
-            {uni}
-          </option>
-        ))}
-      </select>
+        <span
+          className={`text-left ${
+            displayValue ? "text-white" : "text-gray-400"
+          }`}
+        >
+          {displayValue || "Select a university"}
+        </span>
+        <span
+          className={`text-xs text-gray-400 transition-transform ${
+            isOpen ? "-rotate-180" : ""
+          }`}
+        >
+          ▼
+        </span>
+      </button>
+
+      {isOpen && (
+        <div className="absolute left-0 right-0 mt-2 bg-[#1f1c19] border border-[#3b332d] rounded-lg shadow-2xl z-20 overflow-hidden">
+          <div className="flex items-center gap-2 px-3 py-2 border-b border-[#3b332d]">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 20 20"
+              fill="none"
+              stroke="currentColor"
+              className="w-4 h-4 text-gray-400"
+            >
+              <circle cx="9" cy="9" r="6" strokeWidth="1.5" />
+              <path
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                d="m13 13 3 3"
+              />
+            </svg>
+            <input
+              autoFocus
+              type="text"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              placeholder="Search universities..."
+              className="flex-1 bg-transparent text-sm text-white placeholder:text-gray-500 focus:outline-none"
+            />
+          </div>
+          <div className="max-h-52 overflow-y-auto">
+            {filteredUniversities.length === 0 ? (
+              <div className="px-4 py-3 text-sm text-gray-400">
+                No matches found
+              </div>
+            ) : (
+              filteredUniversities.map((uni) => (
+                <button
+                  type="button"
+                  key={uni}
+                  onClick={() => handleSelect(uni)}
+                  className={`w-full text-left px-4 py-3 text-sm transition hover:bg-[#2b2825] ${
+                    value === uni ? "text-[#e0a82e]" : "text-gray-200"
+                  }`}
+                >
+                  {uni}
+                </button>
+              ))
+            )}
+          </div>
+        </div>
+      )}
+
       {showOtherInput && (
         <input
           type="text"
@@ -267,7 +377,7 @@ export default function Register() {
       setSuccess(true);
       setFormData({
         teamName: "",
-        teamSize: "3", 
+        teamSize: "3",
         leader: {
           fullName: "",
           email: "",
@@ -285,8 +395,8 @@ export default function Register() {
           yearOfStudy: "",
         }),
       });
-      setTeamSize(3); 
-      setAllSameUniversity(false); 
+      setTeamSize(3);
+      setAllSameUniversity(false);
     } catch (err: any) {
       console.log(err);
       setError(err.message || "An error occurred while submitting the form");
