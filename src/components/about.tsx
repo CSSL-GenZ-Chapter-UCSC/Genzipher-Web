@@ -34,8 +34,9 @@ export default function About({ scrollContainer }: { scrollContainer?: React.Ref
     const imageX = useTransform(smoothProgress, [0, 1], ["0%", "0%"]);
 
     // Vertical scroll transform for GenZipher section
-    // Stays at 0% (0-40%), slides out to top (40-60%)
-    const genZipherY = useTransform(smoothProgress, [0, 0.4, 0.6], ["0%", "0%", "-100%"]);
+    // Starts from top (-50%) and slides down to center (0%) during fade in (0-10%)
+    // Stays at 0% (10-40%), slides out to top (40-60%)
+    const genZipherY = useTransform(smoothProgress, [0, 0.1, 0.4, 0.6], ["-50%", "0%", "0%", "-100%"]);
 
     // Vertical scroll transform for CSSL section
     // Starts off-screen bottom (0-40%), slides in (40-60%), stays centered (60-100%)
