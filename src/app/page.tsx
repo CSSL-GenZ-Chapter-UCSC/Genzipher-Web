@@ -39,7 +39,7 @@ export default function Home() {
         relative
         w-screen h-screen
         overflow-y-auto overflow-x-hidden 
-       snap-y snap-mandatory 
+       md:snap-y md:snap-mandatory 
         bg-[#0f0d08] box-border
       "
         >

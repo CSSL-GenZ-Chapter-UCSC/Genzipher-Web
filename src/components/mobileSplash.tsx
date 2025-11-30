@@ -8,41 +8,90 @@ export default function MobileSplash() {
     <section
       id="home"
       className={
-        "w-full h-full snap-start bg-[url('/assets/images/splash/landing-6-mobile.webp')] bg-cover bg-center " +
-        "bg-black/60 bg-blend-multiply flex items-center justify-center md:hidden"
+        "w-full h-full snap-start bg-[url('/assets/images/splash/landing.webp')] bg-cover bg-center " +
+        "bg-black/50 bg-blend-multiply flex items-center justify-center md:hidden overflow-hidden relative"
       }
     >
-      <div className="z-10 mx-auto mb-[15%] relative">
-        {/* Glow behind the logo (animated via motion inside plain div to avoid typing issues) */}
-        <div className="absolute inset-0 flex items-center justify-center z-0 pointer-events-none">
-          <div className="w-[360px] h-40 rounded-full bg-yellow-400/10 blur-3xl" />
-        </div>
-
-        {/* Entrance (dramatic) + floating */}
-        <div className="relative">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: [1.06, 0.98, 1] }}
-            transition={{ duration: 0.55, ease: [0.2, 0.9, 0.2, 1] }}
-          >
-            <motion.div
-              animate={{ y: [0, -5, 0] }}
-              transition={{ duration: 2.0, repeat: Infinity, ease: "easeInOut" }}
-            >
-              <img
-                src="/assets/genzipher-text-logo-1.webp"
-                alt="GenZipher Logo"
-                width={720}
-                height={266}
-                loading="eager"
-                decoding="sync"
-                fetchPriority="high"
-                className="mx-auto md:w-[60vw] h-auto block"
-                style={{ display: "block" }}
+      {/* Floating particles */}
+      <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
+        {[...Array(12)].map((_, i) => {
+          const left = `${Math.random() * 100}%`;
+          const top = `${Math.random() * 100}%`;
+          const randX = Math.random() * 20 - 10;
+          const dur = 3 + Math.random() * 2;
+          const d = Math.random() * 2;
+          return (
+            <div key={i} className="absolute w-1 h-1 rounded-full" style={{ left, top }}>
+              <motion.div
+                style={{ width: "100%", height: "100%", borderRadius: 9999, backgroundColor: "rgba(245,158,11,0.4)" }}
+                animate={{
+                  y: [0, -30, 0],
+                  x: [0, randX, 0],
+                  opacity: [0, 0.8, 0],
+                  scale: [0, 1.5, 0],
+                }}
+                transition={{ duration: dur, delay: d, repeat: Infinity, ease: "easeInOut" }}
               />
-            </motion.div>
+            </div>
+          );
+        })}
+      </div>
+
+      <div className="z-10 mx-auto mb-[15%] relative">
+        {/* Logo with simple smooth appearance - NO GLOW, NO FLOAT */}
+        <div className="relative">
+          {/* Preload the image in the background ASAP */}
+          <link rel="preload" as="image" href="/assets/genzipher-text-logo-1.webp" />
+          
+          {/* Simple fade + scale entrance only */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ 
+              opacity: 1, 
+              scale: 1,
+            }}
+            transition={{ 
+              duration: 0.6,
+              ease: "easeOut",
+            }}
+          >
+            <img
+              src="/assets/genzipher-text-logo-1.webp"
+              alt="GenZipher Logo"
+              width={720}
+              height={266}
+              fetchPriority="high"
+              loading="eager"
+              decoding="async"
+              className="mx-auto w-[85vw] max-w-[720px] h-auto block"
+              style={{ 
+                display: "block",
+              }}
+            />
           </motion.div>
+
+          {/* Sparkle accents around logo */}
+          {[
+            { x: -40, y: -20, delay: 1.2 },
+            { x: 40, y: -30, delay: 1.4 },
+            { x: -50, y: 20, delay: 1.6 },
+            { x: 45, y: 25, delay: 1.8 },
+          ].map((pos, i) => (
+            <div key={i} className="absolute z-30 pointer-events-none" style={{ left: `calc(50% + ${pos.x}%)`, top: `calc(50% + ${pos.y}%)` }}>
+              <motion.div initial={{ scale: 0, opacity: 0 }} animate={{ scale: [0, 1, 0], opacity: [0, 1, 0], rotate: [0, 180, 360] }} transition={{ duration: 1.5, delay: pos.delay, ease: "easeOut" }} style={{ display: "inline-block" }}>
+                <div className="w-2 h-2 bg-yellow-300 rounded-full blur-[1px]" />
+                <div className="absolute inset-0">
+                  <motion.div style={{ width: "100%", height: "100%", borderRadius: 9999, backgroundColor: "#FDE68A" }} animate={{ scale: [1, 2, 1], opacity: [0.8, 0, 0.8] }} transition={{ duration: 0.6, repeat: Infinity }} />
+                </div>
+              </motion.div>
+            </div>
+          ))}
         </div>
+      </div>
+
+      {/* Bottom fade edge for smooth transition */}
+      <div className="absolute bottom-0 left-0 right-0 h-32 bg-linear-to-t from-black/30 to-transparent z-5 pointer-events-none">
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 1, delay: 0.5 }} style={{ width: "100%", height: "100%" }} />
       </div>
     </section>
   );
