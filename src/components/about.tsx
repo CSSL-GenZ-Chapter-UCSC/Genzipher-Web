@@ -3,11 +3,11 @@ import { useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import Button from "./button";
-import { motion, useScroll, useTransform, useMotionValueEvent } from "framer-motion";
+import { motion, useScroll, useTransform, useMotionValueEvent, useSpring } from "framer-motion";
 
 export default function About({ scrollContainer }: { scrollContainer?: React.RefObject<any> }) {
-    const containerRef = useRef<HTMLDivElement>(null);
-    
+    const containerRef = useRef < HTMLDivElement > (null);
+
     const { scrollYProgress } = useScroll({
         target: containerRef,
         container: scrollContainer,
@@ -16,102 +16,107 @@ export default function About({ scrollContainer }: { scrollContainer?: React.Ref
     });
 
 
-    useMotionValueEvent(scrollYProgress, "change", (latest) => {
-    console.log("Page scroll progress: ", latest);
-});
+    const smoothProgress = useSpring(scrollYProgress, {
+        stiffness: 100,
+        damping: 30,
+        restDelta: 0.001
+    });
 
+    useMotionValueEvent(smoothProgress, "change", (latest) => {
+        console.log("Page scroll progress: ", latest);
+    });
 
     // Parallax effect: Image scrolls down as user scrolls
-    const imageY = useTransform(scrollYProgress, [0, 1], ["0%", "-50%"]);
-    
+    const imageY = useTransform(smoothProgress, [0, 1], ["0%", "-50%"]);
+
     // Image horizontal movement: starts from center (-25%), moves to right (0%)
     // const imageX = useTransform(scrollYProgress, [0, 0.1, 1], ["50%", "0%",  "0%"]);
-    const imageX = useTransform(scrollYProgress, [0, 1], ["0%",  "0%"]);
-    
-    // Horizontal scroll transform for GenZipher section
-    // Stays at 0% (0-40%), slides out to left (40-60%)
-    const genZipherHorizontalX = useTransform(scrollYProgress, [0, 0.4, 0.6], ["0%", "0%", "-100%"]);
+    const imageX = useTransform(smoothProgress, [0, 1], ["0%", "0%"]);
 
-    // Horizontal scroll transform for CSSL section
-    // Starts off-screen right (0-40%), slides in (40-60%), stays centered (60-100%)
-    const csslHorizontalX = useTransform(scrollYProgress, [0, 0.4, 0.6, 1], ["100%", "100%", "0%", "0%"]);
+    // Vertical scroll transform for GenZipher section
+    // Stays at 0% (0-40%), slides out to top (40-60%)
+    const genZipherY = useTransform(smoothProgress, [0, 0.4, 0.6], ["0%", "0%", "-100%"]);
+
+    // Vertical scroll transform for CSSL section
+    // Starts off-screen bottom (0-40%), slides in (40-60%), stays centered (60-100%)
+    const csslY = useTransform(smoothProgress, [0, 0.4, 0.6, 1], ["100%", "100%", "0%", "0%"]);
 
     // Opacity animations for sections
     // GenZipher: fade in (0-10%), stay visible (10-40%), fade out during slide (40-60%)
-    const genZipherOpacity = useTransform(scrollYProgress, [0, 0.1, 0.4, 0.6], [0, 1, 1, 0]);
-    
+    const genZipherOpacity = useTransform(smoothProgress, [0, 0.1, 0.4, 0.6], [0, 1, 1, 0]);
+
     // CSSL: fade in during slide (40-60%), stay visible (60-95%), slight fade at end (95-100%)
-    const csslOpacity = useTransform(scrollYProgress, [0.4, 0.6, 0.95, 1], [0, 1, 1, 0.95]);
+    const csslOpacity = useTransform(smoothProgress, [0.4, 0.6, 0.95, 1], [0, 1, 1, 0.95]);
 
     return (
         <div className="w-full bg-[#D8CDB9]">
 
             {/* Wrapper for Section 1 & 2 (Parallax Part) - Creates scroll space */}
             <section ref={containerRef} className="w-full h-[300vh] flex flex-col bg-[#D8CDB9]">
-                
+
                 {/* Sticky Container - Stays in viewport while user scrolls */}
                 <div className="h-screen w-full sticky top-0 overflow-hidden hidden md:flex md:flex-row">
-                    
+
                     {/* Left Side - Horizontal Scrolling Text Container */}
                     <div className="w-1/2 h-full overflow-hidden relative">
-                            {/* Section 1: GenZipher */}
-                            <motion.div 
-                                style={{ x: genZipherHorizontalX }}
-                                className="absolute w-full h-full flex flex-col justify-center px-8 md:px-16 lg:px-24 will-change-transform transform-gpu"
+                        {/* Section 1: GenZipher */}
+                        <motion.div
+                            style={{ y: genZipherY }}
+                            className="absolute w-full h-full flex flex-col justify-center px-8 md:px-16 lg:px-24 will-change-transform transform-gpu"
+                        >
+                            <motion.div
+                                style={{ opacity: genZipherOpacity }}
+                                className="flex flex-col gap-6"
                             >
-                                <motion.div
-                                    style={{ opacity: genZipherOpacity }}
-                                    className="flex flex-col gap-6"
-                                >
-                                    <div className="w-full max-w-[500px]">
-                                        <Image
-                                            src="/assets/genzipher-text-logo-1.webp"
-                                            alt="Genzipher"
-                                            width={692}
-                                            height={252}
-                                            className="w-full h-auto"
-                                            priority
-                                        />
-                                    </div>
-                                    <p className="text-[#383838] text-base md:text-lg lg:text-xl leading-relaxed text-justify">
-                                        Step into the world of the gods with GenZipher, the signature hackathon by the CSSL GenZ Chapter of UCSC.
-                                        This year, we fuse ancient Greek mythology with modern innovation, challenging participants to conquer challenges that test the limits of creativity and skill.
-                                        GenZipher combines the power of AI assisted development, security focused challenges, and real world problem solving. Competitors go on a CTF style knowledge hunt, deciphering mythic clues and digital riddles to unveil the core development theme. Once revealed, teams rise to the challenge, creating innovative solutions that fit the real world.
-                                        GenZipher is more than just a competition, it's a quest just like the ones of the mythical heroes, where the competitors go on a digital adventure for an impactful solution.
-                                    </p>
-                                </motion.div>
+                                <div className="w-full max-w-[500px]">
+                                    <Image
+                                        src="/assets/genzipher-text-logo-1.webp"
+                                        alt="Genzipher"
+                                        width={692}
+                                        height={252}
+                                        className="w-full h-auto"
+                                        priority
+                                    />
+                                </div>
+                                <p className="text-[#383838] text-base md:text-lg lg:text-xl leading-relaxed text-justify">
+                                    Step into the world of the gods with GenZipher, the signature hackathon by the CSSL GenZ Chapter of UCSC.
+                                    This year, we fuse ancient Greek mythology with modern innovation, challenging participants to conquer challenges that test the limits of creativity and skill.
+                                    GenZipher combines the power of AI assisted development, security focused challenges, and real world problem solving. Competitors go on a CTF style knowledge hunt, deciphering mythic clues and digital riddles to unveil the core development theme. Once revealed, teams rise to the challenge, creating innovative solutions that fit the real world.
+                                    GenZipher is more than just a competition, it's a quest just like the ones of the mythical heroes, where the competitors go on a digital adventure for an impactful solution.
+                                </p>
                             </motion.div>
+                        </motion.div>
 
-                            {/* Section 2: CSSL */}
-                            <motion.div 
-                                style={{ x: csslHorizontalX }}
-                                className="absolute w-full h-full flex flex-col justify-center px-8 md:px-16 lg:px-24 will-change-transform transform-gpu"
+                        {/* Section 2: CSSL */}
+                        <motion.div
+                            style={{ y: csslY }}
+                            className="absolute w-full h-full flex flex-col justify-center px-8 md:px-16 lg:px-24 will-change-transform transform-gpu"
+                        >
+                            <motion.div
+                                style={{ opacity: csslOpacity }}
+                                className="flex flex-col gap-6 items-start"
                             >
-                                <motion.div
-                                    style={{ opacity: csslOpacity }}
-                                    className="flex flex-col gap-6 items-start"
-                                >
-                                    <div className="w-32 md:w-40 lg:w-52">
-                                        <Image
-                                            src="/assets/CSSL-logo2.webp"
-                                            alt="CSSL"
-                                            width={207}
-                                            height={207}
-                                            className="w-full h-auto"
-                                            priority
-                                        />
-                                    </div>
-                                    <p className="text-[#383838] text-base md:text-lg lg:text-[22px] leading-relaxed text-justify">
-                                        The Computer Society of Sri Lanka (CSSL) is the professional body representing IT professionals in the country. To nurture the next generation of leaders, the CSSL GenZ Chapter was established as a youth-focused initiative, empowering undergraduates through direct engagement with industry experts. Established by the University of Colombo School of Computing (UCSC), The CSSL GenZ Chapter of UCSC stands as an initiative dedicated to empowering the next generation of IT professionals. As a proud extension of the Computer Society of Sri Lanka (CSSL), our chapter serves as a place for innovation and continuous learning.
-                                    </p>
-                                </motion.div>
+                                <div className="w-32 md:w-40 lg:w-52">
+                                    <Image
+                                        src="/assets/CSSL-logo2.webp"
+                                        alt="CSSL"
+                                        width={207}
+                                        height={207}
+                                        className="w-full h-auto"
+                                        priority
+                                    />
+                                </div>
+                                <p className="text-[#383838] text-base md:text-lg lg:text-[22px] leading-relaxed text-justify">
+                                    The Computer Society of Sri Lanka (CSSL) is the professional body representing IT professionals in the country. To nurture the next generation of leaders, the CSSL GenZ Chapter was established as a youth-focused initiative, empowering undergraduates through direct engagement with industry experts. Established by the University of Colombo School of Computing (UCSC), The CSSL GenZ Chapter of UCSC stands as an initiative dedicated to empowering the next generation of IT professionals. As a proud extension of the Computer Society of Sri Lanka (CSSL), our chapter serves as a place for innovation and continuous learning.
+                                </p>
                             </motion.div>
+                        </motion.div>
                     </div>
 
                     {/* Right Side - Parallax Image Container */}
                     <div className="w-1/2 h-full overflow-hidden">
-                        <motion.div 
-                            style={{ y: imageY, x: imageX }} 
+                        <motion.div
+                            style={{ y: imageY, x: imageX }}
                             className="relative w-full h-[200%] will-change-transform transform-gpu"
                         >
                             <Image
