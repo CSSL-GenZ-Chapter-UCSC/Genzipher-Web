@@ -1,133 +1,174 @@
 "use client";
-import Link from "next/link";
+import { useRef } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import Button from "./button";
-export default function About() {
-  return (
-    <div className="w-full bg-[#D8CDB9]">
-      {/* First Section - Genzipher */}
-      {/* <section 
-        id="about-section-1"
-        className="relative w-full h-screen  overflow-hidden"
-      > */}
-           <section 
-        id="about-section-1"
-        className="relative w-full h-screen bg-[#D8CDB9] overflow-hidden"
-      >
-        {/* Left content container (logo + paragraph) */}
-        <div className="absolute z-10 flex flex-col w-full max-w-[692px] top-8 md:top-12 left-4 md:left-12 px-4 md:px-0">
-          {/* Logo */}
-          <div className="w-full mb-4">
-            <Image
-              src="/assets/genzipher-text-logo-1.webp"
-              alt="Genzipher"
-              width={692}
-              height={252}
-              priority
-              className="w-full h-auto"
-            />
-          </div>
+import { motion, useScroll, useTransform, useMotionValueEvent, useSpring } from "framer-motion";
 
-          {/* Paragraph */}
-          <p className="text-[#383838] text-base md:text-lg lg:text-xl leading-tight text-justify break-words">
-            Step into the world of the gods with GenZipher, the signature hackathon by the CSSL GenZ Chapter of UCSC.
-            This year, we fuse ancient Greek mythology with modern innovation, challenging participants to conquer challenges that test the limits of creativity and skill.
-            GenZipher combines the power of AI assisted development, security focused challenges, and real world problem solving. Competitors go on a CTF style knowledge hunt, deciphering mythic clues and digital riddles to unveil the core development theme. Once revealed, teams rise to the challenge, creating innovative solutions that fit the real world.
-            GenZipher is more than just a competition, it's a quest just like the ones of the mythical heroes, where the competitors go on a digital adventure for an impactful solution.
-          </p>
-        </div>
+export default function About({ scrollContainer }: { scrollContainer?: React.RefObject<any> }) {
+    const containerRef = useRef < HTMLDivElement > (null);
 
-        {/* Right-side image */}
-        <div 
-          className="absolute top-0 -right-24 md:-right-48 lg:-right-72 bottom-0 z-20 w-1/2 md:w-[52%] overflow-hidden hidden sm:block"
-        >
-          <Image
-            src="/assets/queen.webp"
-            alt="Genzipher Character"
-            fill
-            className="object-cover scale-105 md:scale-110"
-            style={{
-              objectPosition: "85% 0%",
-            }}
-            priority
-          />
-        </div>
-      </section>
+    const { scrollYProgress } = useScroll({
+        target: containerRef,
+        container: scrollContainer,
+        offset: ["start start", "end end"],
+        layoutEffect: false
+    });
 
-      {/* Second Section - CSSL */}
-      <section 
-        id="about-section-2"
-        className="relative w-full h-screen bg-[#D8CDB9] overflow-hidden"
-      >
-        {/* Left content container (logo + paragraph) */}
-        <div className="absolute z-10 flex flex-col items-center w-full max-w-[692px] top-6 md:top-12 left-4 md:left-12 px-4 md:px-0 gap-4">
-          {/* Logo */}
-          <Image
-            src="/assets/CSSL-logo2.webp"
-            alt="CSSL"
-            width={207}
-            height={207}
-            priority
-            className="w-32 md:w-40 lg:w-52 h-auto"
-          />
 
-          {/* Paragraph */}
-          <p className="text-[#383838] text-base md:text-lg lg:text-[22px] leading-tight text-justify break-words">
-            The Computer Society of Sri Lanka (CSSL) is the professional body representing IT professionals in the country. To nurture the next generation of leaders, the CSSL GenZ Chapter was established as a youth-focused initiative, empowering undergraduates through direct engagement with industry experts. Established by the University of Colombo School of Computing (UCSC), The CSSL GenZ Chapter of UCSC stands as an initiative dedicated to empowering the next generation of IT professionals. As a proud extension of the Computer Society of Sri Lanka (CSSL), our chapter serves as a place for innovation and continuous learning. 
-          </p>
-        </div>
+    const smoothProgress = useSpring(scrollYProgress, {
+        stiffness: 100,
+        damping: 30,
+        restDelta: 0.001
+    });
 
-        {/* Right-side image - Bottom half of queen.png */}
-        <div 
-          className="absolute top-0 -right-24 md:-right-48 lg:-right-72 bottom-0 z-20 w-1/2 md:w-[65%] overflow-hidden hidden sm:block"
-        >
-          <Image
-            src="/assets/queen.webp"
-            alt="CSSL Character"
-            fill
-            className="object-cover"
-            style={{
-              objectPosition: "85% 65%",
-            }}
-            priority
-          />
-        </div>
-      </section>
+    useMotionValueEvent(smoothProgress, "change", (latest) => {
+        console.log("Page scroll progress: ", latest);
+    });
 
-      {/* Third Section - About Hackathon: side-by-side image + text */}
-      <section id="about-section-3" className="relative w-full min-h-screen bg-[#D8CDB9] overflow-hidden flex items-center">
-        <div className="w-full max-w-[1200px] mx-auto px-6">
-          <div className="flex flex-col md:flex-row items-center md:items-center justify-center gap-6 md:gap-10">
-            {/* Left: image */}
-            <div className="shrink-0 w-full md:w-1/3 lg:w-1/4 flex justify-center">
-              <Image
-                src="/assets/queen.webp"
-                alt="Hackathon Character"
-                width={520}         
-                height={520}         
-                className="w-44 md:w-56 lg:w-72 h-auto object-contain" 
-                style={{ objectPosition: "center center" }}
-                priority
-              />
-            </div>
+    // Parallax effect: Image scrolls down as user scrolls
+    const imageY = useTransform(smoothProgress, [0, 1], ["0%", "-50%"]);
 
-            {/* Right: text + button */}
-            <div className="w-full md:w-2/3 lg:w-3/5">
-              <div className="max-w-3xl mx-auto">
-                <p className="text-[#383838] text-base md:text-lg lg:text-[24px] leading-relaxed text-justify">
-                  Don't miss your chance to become a digital hero! Step into the epic world of GenZipher! Register now to join the signature hackathon adventure of the CSSL GenZ Chapter of UCSC. Assemble your team, decode mythic clues, and create solutions that could leave a lasting impact. Claim your place in this legendary quest today! Register now!
-                </p>
+    // Image horizontal movement: starts from center (-25%), moves to right (0%)
+    // const imageX = useTransform(scrollYProgress, [0, 0.1, 1], ["50%", "0%",  "0%"]);
+    const imageX = useTransform(smoothProgress, [0, 1], ["0%", "0%"]);
 
-                <div className="mt-4 md:mt-6 flex justify-center">
-                  <Link href="/register">
-                    <Button text="REGISTER" />
-                  </Link>
+    // Vertical scroll transform for GenZipher section
+    // Starts from top (-50%) and slides down to center (0%) during fade in (0-10%)
+    // Stays at 0% (10-40%), slides out to top (40-60%)
+    const genZipherY = useTransform(smoothProgress, [0, 0.1, 0.4, 0.6], ["-50%", "0%", "0%", "-100%"]);
+
+    // Vertical scroll transform for CSSL section
+    // Starts off-screen bottom (0-40%), slides in (40-60%), stays centered (60-100%)
+    const csslY = useTransform(smoothProgress, [0, 0.4, 0.6, 1], ["100%", "100%", "0%", "0%"]);
+
+    // Opacity animations for sections
+    // GenZipher: fade in (0-10%), stay visible (10-40%), fade out during slide (40-60%)
+    const genZipherOpacity = useTransform(smoothProgress, [0, 0.1, 0.4, 0.6], [0, 1, 1, 0]);
+
+    // CSSL: fade in during slide (40-60%), stay visible (60-95%), slight fade at end (95-100%)
+    const csslOpacity = useTransform(smoothProgress, [0.4, 0.6, 0.95, 1], [0, 1, 1, 0.95]);
+
+    return (
+        <div className="w-full bg-[#D8CDB9]">
+
+            {/* Wrapper for Section 1 & 2 (Parallax Part) - Creates scroll space */}
+            <section ref={containerRef} className="w-full h-[300vh] flex flex-col bg-[#D8CDB9]">
+
+                {/* Sticky Container - Stays in viewport while user scrolls */}
+                <div className="h-screen w-full sticky top-0 overflow-hidden hidden md:flex md:flex-row">
+
+                    {/* Left Side - Horizontal Scrolling Text Container */}
+                    <div className="w-1/2 h-full overflow-hidden relative">
+                        {/* Section 1: GenZipher */}
+                        <motion.div
+                            style={{ y: genZipherY }}
+                            className="absolute w-full h-full flex flex-col justify-center px-8 md:px-16 lg:px-24 will-change-transform transform-gpu"
+                        >
+                            <motion.div
+                                style={{ opacity: genZipherOpacity }}
+                                className="flex flex-col gap-6"
+                            >
+                                <div className="w-full max-w-[500px]">
+                                    <Image
+                                        src="/assets/genzipher-text-logo-1.webp"
+                                        alt="Genzipher"
+                                        width={692}
+                                        height={252}
+                                        className="w-full h-auto"
+                                        priority
+                                    />
+                                </div>
+                                <p className="text-[#383838] text-base md:text-lg lg:text-xl leading-relaxed text-justify">
+                                    Step into the world of the gods with GenZipher, the signature hackathon by the CSSL GenZ Chapter of UCSC.
+                                    This year, we fuse ancient Greek mythology with modern innovation, challenging participants to conquer challenges that test the limits of creativity and skill.
+                                    GenZipher combines the power of AI assisted development, security focused challenges, and real world problem solving. Competitors go on a CTF style knowledge hunt, deciphering mythic clues and digital riddles to unveil the core development theme. Once revealed, teams rise to the challenge, creating innovative solutions that fit the real world.
+                                    GenZipher is more than just a competition, it's a quest just like the ones of the mythical heroes, where the competitors go on a digital adventure for an impactful solution.
+                                </p>
+                            </motion.div>
+                        </motion.div>
+
+                        {/* Section 2: CSSL */}
+                        <motion.div
+                            style={{ y: csslY }}
+                            className="absolute w-full h-full flex flex-col justify-center px-8 md:px-16 lg:px-24 will-change-transform transform-gpu"
+                        >
+                            <motion.div
+                                style={{ opacity: csslOpacity }}
+                                className="flex flex-col gap-6 items-start"
+                            >
+                                <div className="w-32 md:w-40 lg:w-52">
+                                    <Image
+                                        src="/assets/CSSL-logo2.webp"
+                                        alt="CSSL"
+                                        width={207}
+                                        height={207}
+                                        className="w-full h-auto"
+                                        priority
+                                    />
+                                </div>
+                                <p className="text-[#383838] text-base md:text-lg lg:text-[22px] leading-relaxed text-justify">
+                                    The Computer Society of Sri Lanka (CSSL) is the professional body representing IT professionals in the country. To nurture the next generation of leaders, the CSSL GenZ Chapter was established as a youth-focused initiative, empowering undergraduates through direct engagement with industry experts. Established by the University of Colombo School of Computing (UCSC), The CSSL GenZ Chapter of UCSC stands as an initiative dedicated to empowering the next generation of IT professionals. As a proud extension of the Computer Society of Sri Lanka (CSSL), our chapter serves as a place for innovation and continuous learning.
+                                </p>
+                            </motion.div>
+                        </motion.div>
+                    </div>
+
+                    {/* Right Side - Parallax Image Container */}
+                    <div className="w-1/2 h-full overflow-hidden">
+                        <motion.div
+                            style={{ y: imageY, x: imageX }}
+                            className="relative w-full h-[200%] will-change-transform transform-gpu"
+                        >
+                            <Image
+                                src="/assets/queen.webp"
+                                alt="Genzipher Character"
+                                fill
+                                className="object-contain object-top"
+                                priority
+                            />
+                        </motion.div>
+                    </div>
+
                 </div>
-              </div>
-            </div>
-          </div>
+            </section>
+
+            {/* Section 3 - About Hackathon with Left Image */}
+            <section
+                id="about-section-3"
+                className="relative w-full h-screen bg-[#D8CDB9] overflow-hidden z-20"
+            >
+                {/* Left-side image */}
+                <div
+                    className="absolute top-0 left-0 md:left-8 lg:left-30 bottom-0 z-20 w-1/4 overflow-hidden hidden lg:block"
+                >
+                    <Image
+                        src="/assets/queen.webp"
+                        alt="Hackathon Character"
+                        fill
+                        className="object-cover scale-90"
+                        style={{
+                            objectPosition: "left center",
+                        }}
+                        priority
+                    />
+                </div>
+
+                {/* Right content container (paragraph + button) */}
+                <div className="absolute z-10 flex flex-col items-center justify-center top-1/2 -translate-y-1/2 right-4 md:right-16 lg:right-32 w-full lg:w-1/2 px-4 md:px-8 lg:px-0">
+                    {/* Paragraph */}
+                    <p className="text-[#383838] text-lg md:text-2xl lg:text-[30px] leading-relaxed text-left wrap-break-word">
+                        Don't miss your chance to become a digital hero! Step into the epic world of GenZipher! Register now to join the signature hackathon adventure of the CSSL GenZ Chapter of UCSC. Assemble your team, decode mythic clues, and create solutions that could leave a lasting impact. Claim your place in this legendary quest today! Register now!
+                    </p>
+
+                    {/* Register Button */}
+                    <div className="mt-5 md:mt-8">
+                        <Link href="/register">
+                            <Button text="REGISTER" />
+                        </Link>
+                    </div>
+                </div>
+            </section>
         </div>
-      </section>
-    </div>
-  );
+    );
 }
