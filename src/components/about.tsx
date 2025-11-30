@@ -94,39 +94,37 @@ export default function About() {
         </div>
       </section>
 
-      {/* Third Section - About Hackathon with Left Image */}
-      <section
-        id="about-section-3"
-        className="relative w-full h-screen bg-[#D8CDB9] overflow-hidden"
-      >
-        {/* Left-side image */}
-        <div 
-          className="absolute top-0 left-0 md:left-8 lg:left-30 bottom-0 z-20 w-1/4 overflow-hidden hidden lg:block"
-        >
-          <Image
-            src="/assets/queen.webp"
-            alt="Hackathon Character"
-            fill
-            className="object-cover scale-90"
-            style={{
-              objectPosition: "left center",
-            }}
-            priority
-          />
-        </div>
+      {/* Third Section - About Hackathon: side-by-side image + text */}
+      <section id="about-section-3" className="relative w-full min-h-screen bg-[#D8CDB9] overflow-hidden flex items-center">
+        <div className="w-full max-w-[1200px] mx-auto px-6">
+          <div className="flex flex-col md:flex-row items-center md:items-center justify-center gap-6 md:gap-10">
+            {/* Left: image */}
+            <div className="shrink-0 w-full md:w-1/3 lg:w-1/4 flex justify-center">
+              <Image
+                src="/assets/queen.webp"
+                alt="Hackathon Character"
+                width={520}         
+                height={520}         
+                className="w-44 md:w-56 lg:w-72 h-auto object-contain" 
+                style={{ objectPosition: "center center" }}
+                priority
+              />
+            </div>
 
-        {/* Right content container (paragraph + button) */}
-        <div className="absolute z-10 flex flex-col items-center justify-center top-1/2 -translate-y-1/2 right-4 md:right-16 lg:right-32 w-full lg:w-1/2 px-4 md:px-8 lg:px-0">
-          {/* Paragraph */}
-          <p className="text-[#383838] text-lg md:text-2xl lg:text-[30px] leading-relaxed text-left break-words">
-            Don't miss your chance to become a digital hero! Step into the epic world of GenZipher! Register now to join the signature hackathon adventure of the CSSL GenZ Chapter of UCSC. Assemble your team, decode mythic clues, and create solutions that could leave a lasting impact. Claim your place in this legendary quest today! Register now!
-          </p>
+            {/* Right: text + button */}
+            <div className="w-full md:w-2/3 lg:w-3/5">
+              <div className="max-w-3xl mx-auto">
+                <p className="text-[#383838] text-base md:text-lg lg:text-[24px] leading-relaxed text-justify">
+                  Don't miss your chance to become a digital hero! Step into the epic world of GenZipher! Register now to join the signature hackathon adventure of the CSSL GenZ Chapter of UCSC. Assemble your team, decode mythic clues, and create solutions that could leave a lasting impact. Claim your place in this legendary quest today! Register now!
+                </p>
 
-          {/* Register Button */}
-          <div className="mt-5 md:mt-8">
-            <Link href="/register">
-              <Button text="REGISTER" />
-            </Link>
+                <div className="mt-4 md:mt-6 flex justify-center">
+                  <Link href="/register">
+                    <Button text="REGISTER" />
+                  </Link>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>

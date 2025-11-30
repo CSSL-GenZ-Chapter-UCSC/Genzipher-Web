@@ -12,9 +12,9 @@ export default function Hero() {
           alt="GenZipher Logo"
           width={964}
           height={356}
-          className="mx-auto mb-[15%] md:mb-4 md:w-[60vw] h-auto"
+          className="mx-auto mb-15 md:mb-15 md:w-[60vw] h-auto"
         />
-        <span className="absolute text-2xl md:text-4xl text-white top-[80%] left-1/2 -translate-x-1/2 -translate-y-1/2  w-[80%]  md:w-full">
+        <span className="absolute text-2xl md:text-4xl text-white top-[80%] left-1/2 -translate-x-1/2 -translate-y-1/2  w-[80%] md:w-full">
           Enter the Realm of Myths, Code Your Legend
         </span>
       </div>
