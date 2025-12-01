@@ -39,7 +39,7 @@ const slides = [
   {
     num: 4,
     props: {
-      img: "/assets/guy1.webp",
+      img: "/assets/guy2.webp",
       text: "First Round",
       subtext: "8 hours",
       venue: "Online",
@@ -51,7 +51,7 @@ const slides = [
   {
     num: 5,
     props: {
-      img: "/assets/guy2.webp",
+      img: "/assets/guy3.webp",
       text: "Final Round",
       subtext: "24 hours",
       venue: "To be decided",
