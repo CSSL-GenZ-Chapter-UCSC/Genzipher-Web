@@ -158,7 +158,7 @@ export default function About({ scrollContainer }: { scrollContainer?: React.Ref
                         src="/assets/queen.webp"
                         alt="Hackathon Character"
                         fill
-                        className="object-cover scale-90"
+                        className="object-contain scale-90"
                         style={{
                             objectPosition: "left center",
                         }}
