@@ -7,7 +7,7 @@ export default function SplashScreen() {
   return (
     <section className="relative w-full h-screen bg-black overflow-hidden flex items-center justify-center">
       {/* Particles Effect */}
-      <ParticlesOverlay count={20} />
+      <ParticlesOverlay count={100} />
 
       {/* Main Content Grid */}
       <div className="relative z-10 w-full h-full flex items-center justify-between max-w-[1920px] mx-auto pl-8 pr-0 lg:pl-16 lg:pr-0 xl:pl-24 xl:pr-0">
