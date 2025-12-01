@@ -1,6 +1,7 @@
 "use client";
 import React, { useState, useEffect, useRef } from "react";
 import { formSchema } from "@/utils/validate";
+import Link from "next/link";
 
 // const universityList = [
 //   "Aquinas College",
@@ -212,6 +213,9 @@ export default function Register() {
 
   const [success, setSuccess] = useState(false);
   const [allSameUniversity, setAllSameUniversity] = useState(false);
+  const [showScrollHint, setShowScrollHint] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+  const formRef = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
     let timer: NodeJS.Timeout;
@@ -226,6 +230,38 @@ export default function Register() {
       }
     };
   }, [error]); // This effect runs whenever the 'error' state changes
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 768);
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  useEffect(() => {
+    if (!isMobile) {
+      setShowScrollHint(false);
+      return;
+    }
+
+    const node = formRef.current;
+    if (!node) return;
+
+    setShowScrollHint(true);
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setShowScrollHint(!entry.isIntersecting);
+      },
+      { threshold: 0.25 }
+    );
+
+    observer.observe(node);
+
+    return () => {
+      observer.disconnect();
+    };
+  }, [isMobile]);
 
   const [formData, setFormData] = useState({
     teamName: "",
@@ -403,6 +439,18 @@ export default function Register() {
 
   return (
     <main className="min-h-screen bg-[#0f0d08] text-white flex flex-col items-center py-10 px-4">
+      <div className="w-full max-w-5xl flex items-center justify-start mb-6 md:mb-8">
+        <Link
+          href="/"
+          className="inline-flex items-center gap-2 bg-[#1f1c19] text-[#e0a82e] border border-[#e0a82e]/50 rounded-full px-4 py-2 text-sm md:text-base font-semibold shadow-lg shadow-black/20 hover:bg-[#2b2825] hover:border-[#f2c14e] hover:text-[#f2c14e] transition-colors"
+        >
+          <span className="text-lg" aria-hidden="true">
+            ←
+          </span>
+          <span className="tracking-wide">Back to Home</span>
+        </Link>
+      </div>
+
       {Array.isArray(error) && error.length > 0 && (
         <div className="fixed bottom-4 left-1/2 -translate-x-1/2 w-full max-w-5xl bg-red-600 text-white rounded-xl p-4 shadow-lg z-50">
           <div className="flex justify-between items-start">
@@ -429,203 +477,133 @@ export default function Register() {
       )}
 
       <section className="w-full max-w-5xl bg-[#2b2825] rounded-xl p-6 md:p-8 mb-10 shadow-lg">
-        <h2 className="text-lg md:text-xl font-semibold mb-4 text-white">
+        <h2 className="text-lg md:text-xl font-semibold mb-6 text-white">
           Competition Guidelines
         </h2>
 
-        <div className="space-y-5 text-sm md:text-base text-gray-200 leading-relaxed">
+        <div className="space-y-10 text-sm md:text-base text-gray-200 leading-relaxed">
+          {/* Competition Overview */}
           <div>
-            <h3 className="text-[#e0a82e] font-semibold mb-1">
-              1. Team Composition Requirements
+            <h3 className="text-[#e0a82e] font-semibold mb-2">
+              Competition Overview
             </h3>
             <p>
-              Each team must consist of 3 to 4 members. Teams should include
-              individuals with complementary skills in:
+              GenZipher is the signature hackathon by the{" "}
+              <span className="font-semibold">CSSL GenZ Chapter of UCSC</span>,
+              combining AI-assisted development, innovative coding, and
+              security-focused challenges. Centered around a real-world problem
+              statement, it encourages participants to explore Artificial
+              Intelligence in creating practical and efficient solutions,
+              strengthening coding, algorithmic thinking, teamwork, and
+              full-cycle solution design.
             </p>
-            <ul className="list-disc list-inside ml-3 mt-1">
+          </div>
+
+          {/* Team Composition Requirements */}
+          <div>
+            <h3 className="text-[#e0a82e] font-semibold mb-2">
+              Team Composition Requirements
+            </h3>
+
+            <p>
+              Teams must consist of 3–4 members. A diverse skill set is
+              recommended due to the competition's varied challenges.
+            </p>
+
+            <p className="mt-3 font-semibold text-gray-300">
+              Recommended roles:
+            </p>
+            <ul className="list-disc list-inside ml-3 mt-1 space-y-1">
               <li>
-                Software Development / Engineering (Frontend, Backend, or
-                Full-stack)
+                Web Developer / Engineer – frontend, backend, or full-stack.
               </li>
               <li>
-                Cybersecurity / Information Security (offensive or defensive)
+                Cybersecurity Specialist – for CTF and security-related tasks.
               </li>
               <li>
-                Optional: UI/UX Designer, DevOps Engineer, or Project Lead for
-                better coordination.
+                Programmer / Coder – strong in problem-solving and algorithms.
               </li>
             </ul>
-            <p className="mt-1">
-              Teams are encouraged to ensure a balance between innovation and
-              security expertise.
+
+            <p className="mt-4 font-semibold text-gray-300">
+              Optional but beneficial roles:
             </p>
+            <ul className="list-disc list-inside ml-3 mt-1 space-y-1">
+              <li>UI/UX Designer – improve product usability and design.</li>
+              <li>DevOps Engineer – deployment, CI/CD, automation.</li>
+              <li>Project Lead – plan, organize and manage team workflow.</li>
+            </ul>
           </div>
 
+          {/* Eligibility */}
           <div>
-            <h3 className="text-[#e0a82e] font-semibold mb-1">
-              2. Role Expectations
-            </h3>
-            <p>
-              Developers are responsible for system design, coding, and feature
-              implementation. Security Specialists ensure solutions are built
-              with secure architectures, perform threat modeling, vulnerability
-              assessment, and ensure compliance with best security practices.
-              Collaboration between both roles is mandatory to deliver
-              secure-by-design solutions.
-            </p>
-          </div>
+            <h3 className="text-[#e0a82e] font-semibold mb-2">Eligibility</h3>
 
-          <div>
-            <h3 className="text-[#e0a82e] font-semibold mb-1">
-              3. Eligibility
-            </h3>
             <p>
-              Participants may be students, professionals, or independent
-              innovators. All members must register under one team name. A
-              participant may not belong to multiple teams.
+              The competition is open to undergraduate students from state and
+              private universities.
             </p>
+            <ul className="list-disc list-inside ml-3 mt-1 space-y-1">
+              <li>All members must register under one team name.</li>
+              <li>No participant may join more than one team.</li>
+            </ul>
           </div>
         </div>
       </section>
 
-      <section className="w-full max-w-5xl bg-[#2b2825] rounded-xl p-6 md:p-8 mb-10 shadow-lg">
-        <h2 className="text-lg md:text-xl font-semibold mb-4 text-white">
-          Team Introduction
-        </h2>
-        <div className="grid md:grid-cols-2 gap-4">
-          <div>
-            <label className="block text-gray-300 text-sm mb-1">
-              Team Name
-            </label>
-            <input
-              type="text"
-              value={formData.teamName}
-              onChange={(e) =>
-                setFormData({ ...formData, teamName: e.target.value })
-              }
-              className="w-full bg-[#1f1c19] rounded-md px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#e0a82e]"
-            />
-          </div>
-          <div>
-            <label className="block text-gray-300 text-sm mb-1">
-              Team Size
-            </label>
-            <select
-              value={formData.teamSize}
-              onChange={handleTeamSizeChange}
-              className="w-full bg-[#1f1c19] rounded-md px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#e0a82e]"
-            >
-              <option value="3">3</option>
-              <option value="4">4</option>
-            </select>
-          </div>
-        </div>
-      </section>
-
-      <section className="w-full max-w-5xl bg-[#2b2825] rounded-xl p-6 md:p-8 mb-10 shadow-lg">
-        <div className="flex flex-wrap justify-between items-center mb-4 gap-2">
-          <h2 className="text-lg md:text-xl font-semibold text-white">
-            Team Leader Details
+      <section ref={formRef} className="w-full max-w-5xl" id="reg-form">
+        <section className="w-full max-w-5xl bg-[#2b2825] rounded-xl p-6 md:p-8 mb-10 shadow-lg">
+          <h2 className="text-lg md:text-xl font-semibold mb-4 text-white">
+            Team Introduction
           </h2>
-          <div className="flex items-center">
-            <input
-              type="checkbox"
-              id="sameUni"
-              checked={allSameUniversity}
-              onChange={handleSameUniversityChange}
-              className="w-4 h-4 text-[#e0a82e] bg-[#1f1c19] border-gray-600 rounded focus:ring-offset-0 focus:ring-1 focus:ring-[#e0a82e]"
-            />
-            <label htmlFor="sameUni" className="ml-2 text-sm text-gray-300">
-              All members from the same university?
-            </label>
-          </div>
-        </div>
-        <div className="grid md:grid-cols-2 gap-4">
-          <div>
-            <label className="block text-gray-300 text-sm mb-1">
-              Full Name
-            </label>
-            <input
-              type="text"
-              value={formData.leader.fullName}
-              onChange={(e) => handleLeaderChange("fullName", e.target.value)}
-              className="w-full bg-[#1f1c19] rounded-md px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#e0a82e]"
-            />
-          </div>
-          <div>
-            <label className="block text-gray-300 text-sm mb-1">Email</label>
-            <input
-              type="email"
-              value={formData.leader.email}
-              onChange={(e) => handleLeaderChange("email", e.target.value)}
-              className="w-full bg-[#1f1c19] rounded-md px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#e0a82e]"
-            />
-          </div>
-          <div>
-            <label className="block text-gray-300 text-sm mb-1">
-              Phone Number
-            </label>
-            <div className="flex items-center">
-              <span className="bg-[#1f1c19] px-3 py-2 rounded-l-md border-r border-gray-600 text-gray-400 text-sm">
-                +94
-              </span>
+          <div className="grid md:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-gray-300 text-sm mb-1">
+                Team Name
+              </label>
               <input
                 type="text"
-                value={formData.leader.phone}
-                onChange={(e) => handleLeaderChange("phone", e.target.value)}
-                className="flex-1 bg-[#1f1c19] rounded-r-md px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#e0a82e]"
+                value={formData.teamName}
+                onChange={(e) =>
+                  setFormData({ ...formData, teamName: e.target.value })
+                }
+                className="w-full bg-[#1f1c19] rounded-md px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#e0a82e]"
               />
             </div>
+            <div>
+              <label className="block text-gray-300 text-sm mb-1">
+                Team Size
+              </label>
+              <select
+                value={formData.teamSize}
+                onChange={handleTeamSizeChange}
+                className="w-full bg-[#1f1c19] rounded-md px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#e0a82e]"
+              >
+                <option value="3">3</option>
+                <option value="4">4</option>
+              </select>
+            </div>
           </div>
-          <div>
-            <label className="block text-gray-300 text-sm mb-1">
-              University / Institution Name
-            </label>
-            <UniversityInput
-              value={formData.leader.university}
-              onChange={(value) => handleLeaderChange("university", value)}
-            />
-          </div>
-          <div>
-            <label className="block text-gray-300 text-sm mb-1">
-              Student ID Number
-            </label>
-            <input
-              type="text"
-              value={formData.leader.studentId}
-              onChange={(e) => handleLeaderChange("studentId", e.target.value)}
-              className="w-full bg-[#1f1c19] rounded-md px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#e0a82e]"
-            />
-          </div>
-          <div>
-            <label className="block text-gray-300 text-sm mb-1">
-              Year of Study
-            </label>
-            <select
-              value={formData.leader.yearOfStudy}
-              onChange={(e) =>
-                handleLeaderChange("yearOfStudy", e.target.value)
-              }
-              className="w-full bg-[#1f1c19] rounded-md px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#e0a82e]"
-            >
-              <option value="">Select</option>
-              <option value="1st Year">1st Year</option>
-              <option value="2nd Year">2nd Year</option>
-              <option value="3rd Year">3rd Year</option>
-              <option value="4th Year">4th Year</option>
-            </select>
-          </div>
-        </div>
-      </section>
+        </section>
 
-      {Array.from({ length: teamSize - 1 }, (_, i) => i).map((index) => (
-        <section
-          key={index}
-          className="w-full max-w-5xl bg-[#2b2825] rounded-xl p-6 md:p-8 mb-10 shadow-lg"
-        >
-          <h2 className="text-lg md:text-xl font-semibold mb-4 text-white">
-            Member {index + 1} Details
-          </h2>
+        <section className="w-full max-w-5xl bg-[#2b2825] rounded-xl p-6 md:p-8 mb-10 shadow-lg">
+          <div className="flex flex-wrap justify-between items-center mb-4 gap-2">
+            <h2 className="text-lg md:text-xl font-semibold text-white">
+              Team Leader Details
+            </h2>
+            <div className="flex items-center">
+              <input
+                type="checkbox"
+                id="sameUni"
+                checked={allSameUniversity}
+                onChange={handleSameUniversityChange}
+                className="w-4 h-4 text-[#e0a82e] bg-[#1f1c19] border-gray-600 rounded focus:ring-offset-0 focus:ring-1 focus:ring-[#e0a82e]"
+              />
+              <label htmlFor="sameUni" className="ml-2 text-sm text-gray-300">
+                All members from the same university?
+              </label>
+            </div>
+          </div>
           <div className="grid md:grid-cols-2 gap-4">
             <div>
               <label className="block text-gray-300 text-sm mb-1">
@@ -633,10 +611,8 @@ export default function Register() {
               </label>
               <input
                 type="text"
-                value={formData.members[index].fullName}
-                onChange={(e) =>
-                  handleMemberChange(index, "fullName", e.target.value)
-                }
+                value={formData.leader.fullName}
+                onChange={(e) => handleLeaderChange("fullName", e.target.value)}
                 className="w-full bg-[#1f1c19] rounded-md px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#e0a82e]"
               />
             </div>
@@ -644,10 +620,8 @@ export default function Register() {
               <label className="block text-gray-300 text-sm mb-1">Email</label>
               <input
                 type="email"
-                value={formData.members[index].email}
-                onChange={(e) =>
-                  handleMemberChange(index, "email", e.target.value)
-                }
+                value={formData.leader.email}
+                onChange={(e) => handleLeaderChange("email", e.target.value)}
                 className="w-full bg-[#1f1c19] rounded-md px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#e0a82e]"
               />
             </div>
@@ -661,10 +635,8 @@ export default function Register() {
                 </span>
                 <input
                   type="text"
-                  value={formData.members[index].phone}
-                  onChange={(e) =>
-                    handleMemberChange(index, "phone", e.target.value)
-                  }
+                  value={formData.leader.phone}
+                  onChange={(e) => handleLeaderChange("phone", e.target.value)}
                   className="flex-1 bg-[#1f1c19] rounded-r-md px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#e0a82e]"
                 />
               </div>
@@ -674,10 +646,8 @@ export default function Register() {
                 University / Institution Name
               </label>
               <UniversityInput
-                value={formData.members[index].university}
-                onChange={(value) =>
-                  handleMemberChange(index, "university", value)
-                }
+                value={formData.leader.university}
+                onChange={(value) => handleLeaderChange("university", value)}
               />
             </div>
             <div>
@@ -686,9 +656,9 @@ export default function Register() {
               </label>
               <input
                 type="text"
-                value={formData.members[index].studentId}
+                value={formData.leader.studentId}
                 onChange={(e) =>
-                  handleMemberChange(index, "studentId", e.target.value)
+                  handleLeaderChange("studentId", e.target.value)
                 }
                 className="w-full bg-[#1f1c19] rounded-md px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#e0a82e]"
               />
@@ -698,9 +668,9 @@ export default function Register() {
                 Year of Study
               </label>
               <select
-                value={formData.members[index].yearOfStudy}
+                value={formData.leader.yearOfStudy}
                 onChange={(e) =>
-                  handleMemberChange(index, "yearOfStudy", e.target.value)
+                  handleLeaderChange("yearOfStudy", e.target.value)
                 }
                 className="w-full bg-[#1f1c19] rounded-md px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#e0a82e]"
               >
@@ -713,12 +683,127 @@ export default function Register() {
             </div>
           </div>
         </section>
-      ))}
+
+        {Array.from({ length: teamSize - 1 }, (_, i) => i).map((index) => (
+          <section
+            key={index}
+            className="w-full max-w-5xl bg-[#2b2825] rounded-xl p-6 md:p-8 mb-10 shadow-lg"
+          >
+            <h2 className="text-lg md:text-xl font-semibold mb-4 text-white">
+              Member {index + 1} Details
+            </h2>
+            <div className="grid md:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-gray-300 text-sm mb-1">
+                  Full Name
+                </label>
+                <input
+                  type="text"
+                  value={formData.members[index].fullName}
+                  onChange={(e) =>
+                    handleMemberChange(index, "fullName", e.target.value)
+                  }
+                  className="w-full bg-[#1f1c19] rounded-md px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#e0a82e]"
+                />
+              </div>
+              <div>
+                <label className="block text-gray-300 text-sm mb-1">
+                  Email
+                </label>
+                <input
+                  type="email"
+                  value={formData.members[index].email}
+                  onChange={(e) =>
+                    handleMemberChange(index, "email", e.target.value)
+                  }
+                  className="w-full bg-[#1f1c19] rounded-md px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#e0a82e]"
+                />
+              </div>
+              <div>
+                <label className="block text-gray-300 text-sm mb-1">
+                  Phone Number
+                </label>
+                <div className="flex items-center">
+                  <span className="bg-[#1f1c19] px-3 py-2 rounded-l-md border-r border-gray-600 text-gray-400 text-sm">
+                    +94
+                  </span>
+                  <input
+                    type="text"
+                    value={formData.members[index].phone}
+                    onChange={(e) =>
+                      handleMemberChange(index, "phone", e.target.value)
+                    }
+                    className="flex-1 bg-[#1f1c19] rounded-r-md px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#e0a82e]"
+                  />
+                </div>
+              </div>
+              <div>
+                <label className="block text-gray-300 text-sm mb-1">
+                  University / Institution Name
+                </label>
+                <UniversityInput
+                  value={formData.members[index].university}
+                  onChange={(value) =>
+                    handleMemberChange(index, "university", value)
+                  }
+                />
+              </div>
+              <div>
+                <label className="block text-gray-300 text-sm mb-1">
+                  Student ID Number
+                </label>
+                <input
+                  type="text"
+                  value={formData.members[index].studentId}
+                  onChange={(e) =>
+                    handleMemberChange(index, "studentId", e.target.value)
+                  }
+                  className="w-full bg-[#1f1c19] rounded-md px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#e0a82e]"
+                />
+              </div>
+              <div>
+                <label className="block text-gray-300 text-sm mb-1">
+                  Year of Study
+                </label>
+                <select
+                  value={formData.members[index].yearOfStudy}
+                  onChange={(e) =>
+                    handleMemberChange(index, "yearOfStudy", e.target.value)
+                  }
+                  className="w-full bg-[#1f1c19] rounded-md px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#e0a82e]"
+                >
+                  <option value="">Select</option>
+                  <option value="1st Year">1st Year</option>
+                  <option value="2nd Year">2nd Year</option>
+                  <option value="3rd Year">3rd Year</option>
+                  <option value="4th Year">4th Year</option>
+                </select>
+              </div>
+            </div>
+          </section>
+        ))}
+      </section>
+
       {success && (
         <div className="w-full max-w-5xl bg-green-600 text-white rounded-xl p-4 mb-6 shadow-lg fixed bottom-0">
           <p className="font-semibold">
             Success! Your team registration has been submitted.
           </p>
+        </div>
+      )}
+      {showScrollHint && !success && (
+        <div
+          className="fixed bottom-4 left-1/2 -translate-x-1/2 z-40 md:hidden"
+          onClick={() => {
+            formRef.current?.scrollIntoView({
+              behavior: "smooth",
+              block: "start",
+            });
+          }}
+        >
+          <span className="w-9 h-9 rounded-full bg-[#e0a82e] text-black flex items-center justify-center text-lg font-black animate-bounce">
+            ↓
+          </span>
         </div>
       )}
       <button
