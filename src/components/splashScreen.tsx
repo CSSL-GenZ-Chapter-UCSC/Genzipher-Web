@@ -28,7 +28,7 @@ export default function SplashScreen() {
           <div className="relative w-auto">
             <div className="block">
               <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.8, delay: 0.3 }}>
-                <img src="/assets/images/splash/landing.webp" alt="Greek Goddess" className="h-[100vh] w-auto object-contain object-bottom block" loading="eager" fetchPriority="high" style={{ mixBlendMode: "multiply" }} />
+                <img src="/assets/images/splash/landing.webp" alt="Greek Goddess" className="h-[100vh] w-auto object-cover block" loading="eager" fetchPriority="high" style={{ mixBlendMode: "multiply" }} />
               </motion.div>
             </div>
 
@@ -40,6 +40,7 @@ export default function SplashScreen() {
 
       {/* Bottom fade */}
       <motion.div
+      //@ts-ignore
         className="absolute bottom-0 left-0 right-0 h-48 bg-gradient-to-t from-black/50 to-transparent pointer-events-none"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
