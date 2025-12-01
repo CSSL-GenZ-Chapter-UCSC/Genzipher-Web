@@ -1,113 +1,50 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
-import NextImage from "next/image";
+import { motion } from "framer-motion";
+import ParticlesOverlay from "@/components/ParticlesOverlay";
 
 export default function SplashScreen() {
-  const [scrollProgress, setScrollProgress] = useState(0);
-  const containerRef = useRef<HTMLDivElement>(null);
-
-  const images = [
-    "/assets/images/splash/landing-1.webp",
-    "/assets/images/splash/landing-2.webp",
-    "/assets/images/splash/landing-3.webp",
-    "/assets/images/splash/landing-4.webp",
-    "/assets/images/splash/landing-5.webp",
-    "/assets/images/splash/landing-6.webp",
-  ];
-
-  useEffect(() => {
-    const handleScroll = () => {
-      if (!containerRef.current) return;
-      const el = containerRef.current;
-      const scrollTop = el.scrollTop;
-      const scrollHeight = el.scrollHeight - el.clientHeight;
-      const progress = Math.min(Math.max(scrollTop / scrollHeight, 0), 1);
-      setScrollProgress(progress);
-    };
-
-    const el = containerRef.current;
-    el?.addEventListener("scroll", handleScroll);
-    return () => el?.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  const getCurrentImageIndex = () =>
-    Math.min(Math.floor(scrollProgress * images.length), images.length - 1);
-
-  const getImageStyle = (index: number) => {
-    const progress = scrollProgress * (images.length - 1);
-    const imageProgress = progress - index;
-    const lastIndex = images.length - 1;
-    const focalMultiplier = index === lastIndex ? 1.0 : 0.35;
-    const scale = 1 + Math.max(0, 1 - Math.abs(imageProgress)) * focalMultiplier;
-    const opacity = Math.max(0, 1 - Math.abs(imageProgress));
-
-    return {
-      transform: `scale(${scale})`,
-      opacity,
-      zIndex: index === getCurrentImageIndex() ? 10 : 1,
-      transformOrigin: "center center",
-      transition: "transform 850ms cubic-bezier(.2,.9,.2,1), opacity 650ms ease",
-      // keep the visual “viewport” centered while scaling
-      willChange: "transform, opacity",
-    } as React.CSSProperties;
-  };
-
   return (
-    <div
-      ref={containerRef}
-      className="relative h-screen overflow-y-scroll no-scrollbar bg-black"
-    >
-      <div className="relative h-[600vh]">
-        <div className="sticky top-0 h-screen w-full overflow-hidden select-none">
-          {images.map((src, index) => (
-            <div
-              key={index}
-              className="absolute inset-0 transition-all duration-700 ease-out"
-              style={getImageStyle(index)}
-            >
-              <NextImage
-                src={src}
-                alt={`Scene ${index + 1}`}
-                fill
-                priority={index === 0}
-                sizes="100vw"
-                // 👇 force centered crop in all cases
-                className="object-cover object-center"
-                style={{ objectPosition: "center center" }}
-              />
-            </div>
-          ))}
+    <section className="relative w-full h-screen bg-black overflow-hidden flex items-center justify-center">
+      {/* Particles Effect */}
+      <ParticlesOverlay count={20} />
 
-          <div className="absolute inset-0 bg-black/50 pointer-events-none z-10"></div>
-          <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-20">
-            {(() => {
-              const progress = scrollProgress * (images.length - 1);
-              const lastIndex = images.length - 1;
-              const fadeStart = lastIndex - 0.5;
-              const logoOpacity = Math.max(0, Math.min(1, (progress - fadeStart) / 0.5));
-              const minScale = 0.96;
-              const maxScale = 1.06;
-              const logoScale = minScale + (maxScale - minScale) * logoOpacity;
-              return (
-                <NextImage
-                  src="/assets/genzipher-text-logo-1.webp"
-                  alt="Genzipher"
-                  width={692}
-                  height={252}
-                  style={{
-                    opacity: logoOpacity,
-                    transform: `scale(${logoScale})`,
-                    transition:
-                      "opacity 900ms ease, transform 900ms cubic-bezier(.2,.9,.2,1)",
-                  }}
-                  priority
-                />
-              );
-            })()}
+      {/* Main Content Grid */}
+      <div className="relative z-10 w-full h-full flex items-center justify-between max-w-[1920px] mx-auto pl-8 pr-0 lg:pl-16 lg:pr-0 xl:pl-24 xl:pr-0">
+        
+        {/* LEFT SIDE - GenZipher Logo */}
+        <div className="flex-1 h-full flex items-center justify-center relative">
+          <div className="relative max-w-[700px] w-full">
+            {/* Logo with simple fade in only */}
+            <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}>
+              <img src="/assets/genzipher-text-logo-1.webp" alt="GenZipher Logo" className="w-full h-auto" loading="eager" fetchPriority="high" />
+            </motion.div>
+          </div>
+        </div>
+
+        {/* RIGHT SIDE - Goddess Image */}
+        <div className="flex-1 h-full flex items-end justify-end relative pr-0">
+          {/* Goddess Image - flush to the right with vintage blend */}
+          <div className="relative w-auto">
+            <div className="block">
+              <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.8, delay: 0.3 }}>
+                <img src="/assets/images/splash/landing.webp" alt="Greek Goddess" className="h-[100vh] w-auto object-contain object-bottom block" loading="eager" fetchPriority="high" style={{ mixBlendMode: "multiply" }} />
+              </motion.div>
+            </div>
+
+            {/* Left-side gradient to blend photo into black background */}
+            <div aria-hidden="true" className="absolute top-0 bottom-0 left-0 w-48 pointer-events-none" style={{ background: "linear-gradient(to right, rgba(0,0,0,1), rgba(0,0,0,0))" }} />
           </div>
         </div>
       </div>
-    </div>
+
+      {/* Bottom fade */}
+      <motion.div
+        className="absolute bottom-0 left-0 right-0 h-48 bg-gradient-to-t from-black/50 to-transparent pointer-events-none"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1, delay: 0.5 }}
+      />
+    </section>
   );
 }
