@@ -15,7 +15,7 @@ export default function PartnerWithUs() {
       </div>
 
       <div className="flex flex-col w-[85%] h-full align-center justify-center items-center md:w-1/2 text-center md:text-left">
-        <h2 className="text-[#5b3c00] text-[3rem] lg:text-7xl mb-6 text-center">
+        <h2 className="text-[#5b3c00] text-[clamp(4vw,2vh,2vh)] lg:text-7xl mb-6 text-center">
           Forge the Future With Us
         </h2>
 

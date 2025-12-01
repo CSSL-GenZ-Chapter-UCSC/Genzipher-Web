@@ -9,6 +9,8 @@ export default function About({ scrollContainer }: { scrollContainer?: React.Ref
     const containerRef = useRef < HTMLDivElement > (null);
 
     const { scrollYProgress } = useScroll({
+                    //@ts-ignore
+
         target: containerRef,
         container: scrollContainer,
         offset: ["start start", "end end"],
@@ -63,10 +65,14 @@ export default function About({ scrollContainer }: { scrollContainer?: React.Ref
                         {/* Section 1: GenZipher */}
                         <motion.div
                             style={{ y: genZipherY }}
+                    //@ts-ignore
+
                             className="absolute w-full h-full flex flex-col justify-center px-8 md:px-16 lg:px-24 will-change-transform transform-gpu"
                         >
                             <motion.div
                                 style={{ opacity: genZipherOpacity }}
+                    //@ts-ignore
+
                                 className="flex flex-col gap-6"
                             >
                                 <div className="w-full max-w-[500px]">
@@ -91,10 +97,14 @@ export default function About({ scrollContainer }: { scrollContainer?: React.Ref
                         {/* Section 2: CSSL */}
                         <motion.div
                             style={{ y: csslY }}
+                    //@ts-ignore
+
                             className="absolute w-full h-full flex flex-col justify-center px-8 md:px-16 lg:px-24 will-change-transform transform-gpu"
                         >
                             <motion.div
                                 style={{ opacity: csslOpacity }}
+                    //@ts-ignore
+
                                 className="flex flex-col gap-6 items-start"
                             >
                                 <div className="w-32 md:w-40 lg:w-52">
@@ -118,6 +128,8 @@ export default function About({ scrollContainer }: { scrollContainer?: React.Ref
                     <div className="w-1/2 h-full overflow-hidden">
                         <motion.div
                             style={{ y: imageY, x: imageX }}
+                    //@ts-ignore
+
                             className="relative w-full h-[200%] will-change-transform transform-gpu"
                         >
                             <Image
