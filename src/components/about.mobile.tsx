@@ -48,9 +48,9 @@ export default function AboutMobile() {
                             viewport={{ once: false, amount: 0.3 }}
                     //@ts-ignore
 
-                            className="bg-black/60 rounded-lg p-6 backdrop-blur-sm max-w-lg w-full"
+                            className="bg-black/60 rounded-lg p-6 py-8 backdrop-blur-sm max-w-lg w-full"
                         >
-                            <div className="flex justify-center mb-4">
+                            <div className="flex justify-center mb-6">
                                 <Image
                                     src="/assets/genzipher-text-logo-1.webp"
                                     alt="Genzipher"
