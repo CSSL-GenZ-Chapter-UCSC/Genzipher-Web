@@ -24,10 +24,6 @@ export default function About({ scrollContainer }: { scrollContainer?: React.Ref
         restDelta: 0.001
     });
 
-    useMotionValueEvent(smoothProgress, "change", (latest) => {
-        console.log("Page scroll progress: ", latest);
-    });
-
     // Parallax effect: Image scrolls down as user scrolls
     const imageY = useTransform(smoothProgress, [0, 1], ["0%", "-50%"]);
 
