@@ -38,9 +38,26 @@ body {
   font-display: swap;
 }
 
-.neue-machina {
-  font-family: 'NeueMachina', serif;
+@font-face {
+  font-family: 'NeueMachina';
+  src: url('/fonts/NeueMachina-Regular.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
 }
+
+@font-face {
+  font-family: 'NeueMachina';
+  src: url('/fonts/NeueMachina-Light.otf') format('opentype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+.neue-machina-clock {
+  font-family: 'NeueMachina', sans-serif !important;
+}
+
 
 .clip-diagonal {
   clip-path: polygon(0 0, 100% 20%, 100% 100%, 0% 100%);
@@ -67,5 +84,24 @@ body {
   /* slightly reduce vertical offset of side cards to avoid pushing up under the header */
   .awards-container > button:not(:nth-child(2)) {
     transform: translateY(2px) !important;
+  }
+}
+
+
+@keyframes flipTop {
+  0% {
+    transform: rotateX(0deg);
+  }
+  100% {
+    transform: rotateX(-90deg);
+  }
+}
+
+@keyframes flipBottom {
+  0% {
+    transform: rotateX(90deg);
+  }
+  100% {
+    transform: rotateX(0deg);
   }
 }

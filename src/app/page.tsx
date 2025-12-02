@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState, useRef, useCallback } from "react";
-import Hero from "@/components/hero";
 import PartnerWithUs from "@/components/partnerWithUs";
 import Awards from "@/components/awards";
 import Footer from "@/components/footer";
@@ -10,7 +9,7 @@ import SplashScreen from "@/components/splashScreen";
 import Image from "next/image";
 import MobileSplash from "@/components/mobileSplash";
 import About from "@/components/about";
-import AboutMobile from "@/components/about.mobile"; // ✅ MOBILE VERSION
+import AboutMobile from "@/components/about.mobile"; 
 import RoundsSection
     from "@/components/roundsSection";
 export default function Home() {
@@ -53,11 +52,6 @@ export default function Home() {
 
             {/* MOBILE SPLASH SCREEN (first-load animated) */}
             <MobileSplash />
-
-            {/* HERO SECTION */}
-            <section className="w-full h-full  bg-[url('/assets/countdown-m-bg.webp')] bg-cover bg-center md:bg-none">
-                <Hero />
-            </section>
 
             {/* ABOUT SECTION (DESKTOP | MOBILE) */}
             <section className="relative w-screen  bg-[#D8CDB9]" id="about">
