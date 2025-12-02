@@ -1,9 +1,9 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import Link from "next/link";
-import { motion } from "framer-motion";
+import { motion, useInView } from "framer-motion";
 
 // Types
 interface Award {
@@ -54,12 +54,19 @@ export default function Awards() {
     else if (pos === 2) setOrder([current[1], current[2], current[0]]);
   }
 
+  // 🌟 Scroll Animation Setup
+  const containerRef = useRef(null);
+  //@ts-ignore
+  const isInView = useInView(containerRef, {
+    margin: "-10% 0px -10% 0px",
+    amount: 0.3,
+  });
+
   return (
     <section className="h-full w-full overflow-hidden bg-[#0F0D08]">
       <div className="h-full mx-auto w-full max-w-6xl px-4 md:px-6 grid grid-rows-[auto_0.5fr_auto] items-center">
 
         <header className="relative z-30 py-4 md:py-6 text-center h-[20vh] flex items-center justify-center">
-
           <h2 className="text-2xl md:text-3xl leading-tight text-[#E6D9B6]">
             {order[1] === "honor" ? (
               "EARN YOUR PRIZE"
@@ -73,9 +80,18 @@ export default function Awards() {
           </h2>
         </header>
 
-        {/* Cards row */}
-        <div
-          // CSS vars provide fluid sizing without magic numbers; responsive overrides per breakpoint
+        {/* ⭐ Animated Awards Row */}
+        <motion.div
+          ref={containerRef}
+          initial={{ opacity: 0, y: 40, scale: 0.95 }}
+          animate={
+            isInView
+              ? { opacity: 1, y: 0, scale: 1 }
+              : { opacity: 0, y: 40, scale: 0.95 }
+          }
+          transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+  //@ts-ignore
+
           className="awards-container relative z-10 min-h-0 flex items-center md:justify-center gap-3 md:gap-10 overflow-x-hidden md:overflow-visible px-2 md:px-0
                      [--card-w-center:clamp(9rem,38vw,15rem)] md:[--card-w-center:clamp(14rem,28vw,21rem)]
                      [--card-w-side:clamp(7.5rem,26vw,12rem)] md:[--card-w-side:clamp(10rem,20vw,14rem)]"
@@ -93,7 +109,6 @@ export default function Awards() {
                 className={[
                   isCenter ? "basis-(--card-w-center)" : "basis-(--card-w-side)",
                   "min-w-0 relative p-0.5 rounded-[44px] will-change-transform",
-                  // Only offset side cards on md+ so mobile doesn't grow vertically
                   isCenter ? "" : "md:translate-y-4",
                   "hover:scale-100 focus:outline-none",
                 ].join(" ")}
@@ -102,9 +117,7 @@ export default function Awards() {
                 <div className="rounded-[42px] bg-[#0F0D08] overflow-hidden w-full h-full">
                   <div className="relative w-full h-full">
                     <motion.div
-                      // layout enables smooth position/size transitions when order changes
                       layout
-                      // animate consistently for both left and right clicks
                       animate={{
                         scale: isCenter ? 1 : 0.96,
                         y: isCenter ? 0 : 12,
@@ -127,7 +140,7 @@ export default function Awards() {
               </button>
             );
           })}
-        </div>
+        </motion.div>
 
         {/* CTA */}
         <footer className="py-4 pt-10 flex justify-center">

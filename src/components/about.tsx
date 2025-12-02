@@ -146,13 +146,20 @@ export default function About({ scrollContainer }: { scrollContainer?: React.Ref
             </section>
 
             {/* Section 3 - About Hackathon with Left Image */}
+      {/* Section 3 - About Hackathon with Left Image */}
             <section
                 id="about-section-3"
                 className="relative w-full h-screen bg-[#D8CDB9] overflow-hidden z-20"
             >
-                {/* Left-side image */}
-                <div
-                    className="absolute top-0 left-0 md:left-8 lg:left-30 bottom-0 z-20 w-1/4 overflow-hidden hidden lg:block"
+                {/* Left-side image - ANIMATED */}
+                {/* CHANGED: hidden lg:block -> hidden md:block (Shows image on tablet/intermediate screens) */}
+                <motion.div
+                    initial={{ opacity: 0, x: -100 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: false, amount: 0.3 }}
+                    transition={{ duration: 0.2, ease: "easeOut" }}
+                    //@ts-ignore
+                    className="absolute top-0 left-0 md:left-0 lg:left-30 bottom-0 z-20 w-1/3 md:w-1/2 lg:w-1/4 overflow-hidden hidden md:block"
                 >
                     <Image
                         src="/assets/queen.webp"
@@ -164,22 +171,37 @@ export default function About({ scrollContainer }: { scrollContainer?: React.Ref
                         }}
                         priority
                     />
-                </div>
+                </motion.div>
 
-                {/* Right content container (paragraph + button) */}
-                <div className="absolute z-10 flex flex-col items-center justify-center top-1/2 -translate-y-1/2 right-4 md:right-16 lg:right-32 w-full lg:w-1/2 px-4 md:px-8 lg:px-0">
+                {/* Right content container (paragraph + button) - ANIMATED */}
+                <motion.div 
+                    initial={{ opacity: 0, y: 50 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: false, amount: 0.3 }}
+                    transition={{ duration: 0.3, ease: "easeOut", delay: 0.2 }}
+                    //@ts-ignore
+                    // CHANGED: w-full lg:w-1/2 -> w-full md:w-1/2 (Restricts text width on tablets so it doesn't overlap the image)
+                    className="absolute z-10 flex flex-col items-center justify-center top-1/2 -translate-y-1/2 right-4 md:right-8 lg:right-32 w-full md:w-1/2 lg:w-1/2 px-4 md:px-8 lg:px-0"
+                >
                     {/* Paragraph */}
-                    <p className="text-[#383838] text-lg md:text-2xl lg:text-[30px] leading-relaxed text-left wrap-break-word">
+                    <p className="text-[#383838] text-lg md:text-xl lg:text-[30px] leading-relaxed text-left wrap-break-word">
                         Don't miss your chance to become a digital hero! Step into the epic world of GenZipher! Register now to join the signature hackathon adventure of the CSSL GenZ Chapter of UCSC. Assemble your team, decode mythic clues, and create solutions that could leave a lasting impact. Claim your place in this legendary quest today! Register now!
                     </p>
 
                     {/* Register Button */}
-                    <div className="mt-5 md:mt-8">
+                    <motion.div 
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        whileInView={{ opacity: 1, scale: 1 }}
+                        viewport={{ once: false }}
+                        transition={{ duration: 0.3, delay: 0.2 }}
+                        //@ts-ignore
+                        className="mt-5 md:mt-8"
+                    >
                         <Link href="/register">
                             <Button text="REGISTER" />
                         </Link>
-                    </div>
-                </div>
+                    </motion.div>
+                </motion.div>
             </section>
         </div>
     );
