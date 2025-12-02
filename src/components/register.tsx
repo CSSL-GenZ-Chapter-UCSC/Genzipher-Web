@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { formSchema } from "@/utils/validate";
 import Link from "next/link";
-
+import Button from "./button";
 // const universityList = [
 //   "Aquinas College",
 //   "Eastern University",
@@ -806,15 +806,12 @@ export default function Register() {
           </span>
         </div>
       )}
-      <button
+
+      <Button
+        text={loading ? "SUBMITTING..." : "REGISTER"}
         onClick={handleSubmit}
         disabled={loading || success}
-        className={` ${
-          success ? "hidden" : "block"
-        } bg-[#e0a82e] text-black font-semibold rounded-md px-8 py-2 hover:bg-[#f2c14e] transition-all disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer`}
-      >
-        {loading ? "SUBMITTING..." : "REGISTER"}
-      </button>
+      ></Button>
     </main>
   );
 }

@@ -25,7 +25,7 @@ export default function Hero() {
       </div>
       <div className="">
         <Link href="/register">
-          <Button text="REGISTER" />
+          <Button text="REGISTER" disabled={false}/>
         </Link>
       </div>
     </div>

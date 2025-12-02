@@ -11,11 +11,12 @@ export default function ContactCard({
   email?: string;
   phone?: string;
   profilePic: string;
-  picPosition?: "left" | "right"; 
+  picPosition?: "left" | "right";
 }) {
   return (
     <div
       className={`
+        group
         flex
         md:flex-col
         items-center
@@ -25,7 +26,7 @@ export default function ContactCard({
         w-[90%] md:w-full
         bg-[#140E021C] md:bg-inherit
         rounded-2xl
-        transition-all
+        transition-all duration-300 ease-out
         ${picPosition === "right" ? "flex-row-reverse" : "flex-row"}
       `}
     >
@@ -43,9 +44,28 @@ export default function ContactCard({
 
       {/* TEXT */}
       <div className="flex flex-col gap-1 text-center md:text-center leading-tight">
-        <span className="text-[1.1rem] md:text-[1.3rem]">
-          {name}
-        </span>
+
+<span
+  className="
+    relative inline-block
+    text-[1.1rem] md:text-[1.3rem]
+    font-normal
+                       
+    transition-all duration-500 ease-out
+    group-hover:text-transparent          
+    group-hover:bg-gradient-to-r
+    group-hover:from-[#4C2901]
+    group-hover:via-[#C3840F]
+    group-hover:to-[#4C2901]
+    group-hover:bg-[length:200%_auto]
+    group-hover:bg-left
+    group-hover:bg-right
+    group-hover:bg-clip-text
+  "
+>
+  {name}
+</span>
+
         <span className="opacity-80 text-[0.9rem] md:text-[1.1rem]">
           {role}
         </span>

@@ -1,9 +1,38 @@
+"use client";
+
 import Image from "next/image";
 import Button from "@/components/button";
+import { motion, useInView } from "framer-motion";
+import { useRef } from "react";
+
 export default function PartnerWithUs() {
+  const ref = useRef(null);
+        //@ts-ignore
+
+  const isInView = useInView(ref, {
+    margin: "-10% 0px -10% 0px",
+    once: false,
+  });
+
   return (
-    <div className="flex md:flex-row items-center justify-between w-full h-screen bg-[#d8ccb4] px-3 md:pl-16 py-12 md:pr-[12%] md:gap-10 box-border">
-      <div className="flex justify-center w-full md:w-1/2 box-border h-full">
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 60 }}
+      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 60 }}
+      transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+        //@ts-ignore
+
+      className="flex md:flex-row items-center justify-between w-full h-screen bg-[#d8ccb4] px-3 md:pl-16 py-12 md:pr-[12%] md:gap-10 box-border"
+    >
+      {/* LEFT IMAGE */}
+      <motion.div
+        initial={{ opacity: 0, x: -50 }}
+        animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -50 }}
+        transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+        //@ts-ignore
+
+        className="flex justify-center w-full md:w-1/2 box-border h-full"
+      >
         <Image
           src="/assets/lionguy.webp"
           alt="Partner With Us"
@@ -12,9 +41,16 @@ export default function PartnerWithUs() {
           priority
           className="object-contain h-auto w-full max-w-[700px]"
         />
-      </div>
+      </motion.div>
 
-      <div className="flex flex-col w-[85%] h-full align-center justify-center items-center md:w-1/2 text-center md:text-left">
+      {/* RIGHT TEXT CONTENT */}
+      <motion.div
+        initial={{ opacity: 0, x: 50 }}
+        animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: 50 }}
+        transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1], delay: 0.1 }}
+        //@ts-ignore
+        className="flex flex-col w-[85%] h-full align-center justify-center items-center md:w-1/2 text-center md:text-left"
+      >
         <h2 className="text-[#5b3c00] text-[clamp(4vw,2vh,2vh)] lg:text-7xl mb-6 text-center">
           Forge the Future With Us
         </h2>
@@ -29,9 +65,9 @@ export default function PartnerWithUs() {
         </p>
 
         <div>
-          <Button text="PARTNER" />
+          <Button text="PARTNER" disabled={false} />
         </div>
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 }
