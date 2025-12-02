@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useState, useRef } from "react";
 import Link from "next/link";
 import { motion, useInView } from "framer-motion";
+import Button from "./button";
 
 // Types
 interface Award {
@@ -65,7 +66,6 @@ export default function Awards() {
   return (
     <section className="h-full w-full overflow-hidden bg-[#0F0D08]">
       <div className="h-full mx-auto w-full max-w-6xl px-4 md:px-6 grid grid-rows-[auto_0.5fr_auto] items-center">
-
         <header className="relative z-30 py-4 md:py-6 text-center h-[20vh] flex items-center justify-center">
           <h2 className="text-2xl md:text-3xl leading-tight text-[#E6D9B6]">
             {order[1] === "honor" ? (
@@ -90,7 +90,7 @@ export default function Awards() {
               : { opacity: 0, y: 40, scale: 0.95 }
           }
           transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-  //@ts-ignore
+          //@ts-ignore
 
           className="awards-container relative z-10 min-h-0 flex items-center md:justify-center gap-3 md:gap-10 overflow-x-hidden md:overflow-visible px-2 md:px-0
                      [--card-w-center:clamp(9rem,38vw,15rem)] md:[--card-w-center:clamp(14rem,28vw,21rem)]
@@ -107,12 +107,22 @@ export default function Awards() {
                 onClick={() => onClickItem(originalIndex)}
                 aria-label={`Show ${it.title}`}
                 className={[
-                  isCenter ? "basis-(--card-w-center)" : "basis-(--card-w-side)",
+                  isCenter
+                    ? "basis-(--card-w-center)"
+                    : "basis-(--card-w-side)",
                   "min-w-0 relative p-0.5 rounded-[44px] will-change-transform",
                   isCenter ? "" : "md:translate-y-4",
-                  "hover:scale-100 focus:outline-none",
+
+                  // 🌟 HOVER ANIMATION ADDED
+                  "transition-all duration-300 ease-out",
+                  "hover:scale-[1.04] hover:-translate-y-1",
+
+                  "focus:outline-none",
                 ].join(" ")}
-                style={{ background: it.borderGradient, aspectRatio: `${it.w}/${it.h}` }}
+                style={{
+                  background: it.borderGradient,
+                  aspectRatio: `${it.w}/${it.h}`,
+                }}
               >
                 <div className="rounded-[42px] bg-[#0F0D08] overflow-hidden w-full h-full">
                   <div className="relative w-full h-full">
@@ -145,9 +155,7 @@ export default function Awards() {
         {/* CTA */}
         <footer className="py-4 pt-10 flex justify-center">
           <Link href="/register" className="inline-block group">
-            <span className="inline-flex items-center justify-center w-[10.8rem] h-14 bg-[#C39613] font-bold rounded-md text-black transition-shadow duration-300 shadow-[0_0_20px_rgba(195,150,19,0.4),0_0_40px_rgba(195,150,19,0.25),0_0_60px_rgba(195,150,19,0.15)] hover:shadow-[0_0_25px_rgba(195,150,19,0.7),0_0_50px_rgba(195,150,19,0.5),0_0_80px_rgba(195,150,19,0.3)]">
-              REGISTER
-            </span>
+            <Button text="REGISTER" disabled={false} />
           </Link>
         </footer>
       </div>

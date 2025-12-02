@@ -198,7 +198,7 @@ export default function About({ scrollContainer }: { scrollContainer?: React.Ref
                         className="mt-5 md:mt-8"
                     >
                         <Link href="/register">
-                            <Button text="REGISTER" />
+                            <Button text="REGISTER" disabled={false}/>
                         </Link>
                     </motion.div>
                 </motion.div>
