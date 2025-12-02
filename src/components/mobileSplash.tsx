@@ -140,7 +140,7 @@ export default function MobileSplash() {
       </div>
 
       {/* BOTTOM COUNTDOWN CONTAINER (Absolute position) */}
-      <div className="absolute bottom-[10%] left-0 right-0 z-20 flex flex-col items-center gap-2">
+      <div className="absolute bottom-[20%] left-0 right-0 z-20 flex flex-col items-center gap-2">
         <motion.h2
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
