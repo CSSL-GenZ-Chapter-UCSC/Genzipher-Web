@@ -38,13 +38,13 @@ export default function MobileSplash() {
         })}
       </div>
 
-      <div className="z-10 mx-auto mb-[15%] relative">
-        {/* Logo with simple smooth appearance - NO GLOW, NO FLOAT */}
+      {/* CENTERED LOGO CONTAINER */}
+      <div className="z-10 relative w-full flex justify-center">
         <div className="relative">
           {/* Preload the image in the background ASAP */}
           <link rel="preload" as="image" href="/assets/genzipher-text-logo-1.webp" />
           
-          {/* Simple fade + scale entrance only */}
+          {/* Simple fade + scale entrance */}
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ 
@@ -70,9 +70,6 @@ export default function MobileSplash() {
               }}
             />
           </motion.div>
-           <div className="w-full">
-                    <CountDown />
-          </div>
 
           {/* Sparkle accents around logo */}
           {[
@@ -90,6 +87,26 @@ export default function MobileSplash() {
               </motion.div>
             </div>
           ))}
+        </div>
+      </div>
+
+      {/* BOTTOM COUNTDOWN CONTAINER (Absolute position) */}
+      <div className="absolute bottom-[10%] left-0 right-0 z-20 flex flex-col items-center gap-2">
+        <motion.h2
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.8, ease: "easeOut" }}
+          className="text-center font-serif text-[#8f7e68] tracking-[0.15em] text-xs drop-shadow-md"
+          style={{
+            WebkitMaskImage: "linear-gradient(to bottom, rgba(0,0,0,1) 65%, rgba(0,0,0,0) 100%)",
+            maskImage: "linear-gradient(to bottom, rgba(0,0,0,1) 65%, rgba(0,0,0,0) 100%)",
+          }}
+        >
+          Registrations closing in:
+        </motion.h2>
+        
+        <div className="w-full flex justify-center px-6">
+          <CountDown />
         </div>
       </div>
 
