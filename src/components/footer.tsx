@@ -5,7 +5,7 @@ import { MdLocationOn, MdOutlineEmail } from "react-icons/md";
 export default function Footer() {
   return (
     // <div className="mt-auto md:mt-auto h-max w-full md:h-auto bg-[#2a1a0e] text-gray-200 p-8 md:p-12 grid grid-cols-1 md:grid-cols-3 gap-10 rounded-t-[3rem]  box-border text-center align-center justify-center">
-   <div className="mt-auto md:mt-auto h-max w-full md:h-auto bg-[#2a1a0e] text-gray-200 p-8 pt-50 md:pt-50 md:p-12 grid grid-cols-1 md:grid-cols-3 gap-10 box-border text-center align-center justify-center relative z-10 clip-diagonal">   
+   <div className="mt-auto md:mt-auto h-max w-full md:h-auto bg-[#0F0D08] text-gray-200 p-8 pt-50 md:pt-50 md:p-12 grid grid-cols-1 md:grid-cols-3 gap-10 box-border text-center align-center justify-center relative z-10 clip-diagonal">   
       <div className="flex flex-col gap-6 justify-center align-center items-center">
         <div className="w-[80%] max-w-[300px]">
           <Image

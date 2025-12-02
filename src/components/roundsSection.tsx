@@ -39,7 +39,7 @@ const slides = [
   {
     num: 4,
     props: {
-      img: "/assets/guy1.webp",
+      img: "/assets/guy2.webp",
       text: "First Round",
       subtext: "8 hours",
       venue: "Online",
@@ -51,7 +51,7 @@ const slides = [
   {
     num: 5,
     props: {
-      img: "/assets/guy2.webp",
+      img: "/assets/guy3.webp",
       text: "Final Round",
       subtext: "24 hours",
       venue: "To be decided",
@@ -148,7 +148,6 @@ export default function RoundsSection() {
           <div className="absolute -left-24 top-10 h-72 w-72 bg-[#d8cdb9]/10 blur-3xl" />
           <div className="absolute right-[-120px] bottom-0 h-96 w-96 bg-[#d8cdb9]/12 blur-3xl" />
           <div className="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-white/10 via-transparent to-transparent" />
-          <div className="absolute inset-y-24 left-1/2 w-px bg-gradient-to-b from-[#F2D8A1]/50 via-[#F2D8A1]/10 to-transparent" />
         </div>
 
         <div className="relative z-10 w-full max-w-6xl xl:max-w-7xl px-10 xl:px-14 py-14 flex flex-col gap-12">
