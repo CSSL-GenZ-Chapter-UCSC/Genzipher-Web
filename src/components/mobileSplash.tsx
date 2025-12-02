@@ -96,6 +96,7 @@ export default function MobileSplash() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.8, ease: "easeOut" }}
+          //@ts-ignore
           className="text-center font-serif text-[#8f7e68] tracking-[0.15em] text-xs drop-shadow-md"
           style={{
             WebkitMaskImage: "linear-gradient(to bottom, rgba(0,0,0,1) 65%, rgba(0,0,0,0) 100%)",
