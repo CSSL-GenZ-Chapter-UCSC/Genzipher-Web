@@ -19,7 +19,9 @@ export default function Hero() {
         </span>
       </div>
       <div className="w-full">
-        <CountDown />
+        <div className="block md:hidden">
+          <CountDown />
+        </div>
       </div>
       <div className="">
         <Link href="/register">

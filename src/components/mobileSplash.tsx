@@ -2,6 +2,7 @@
 
 import React from "react";
 import { motion } from "framer-motion";
+import CountDown from "./countdown";
 
 export default function MobileSplash() {
   return (
@@ -69,6 +70,9 @@ export default function MobileSplash() {
               }}
             />
           </motion.div>
+           <div className="w-full">
+                    <CountDown />
+          </div>
 
           {/* Sparkle accents around logo */}
           {[

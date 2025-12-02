@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import ParticlesOverlay from "@/components/ParticlesOverlay";
+import CountDown from "./countdown";
 
 export default function SplashScreen() {
   return (
@@ -12,13 +13,23 @@ export default function SplashScreen() {
       {/* Main Content Grid */}
       <div className="relative z-10 w-full h-full flex items-center justify-between max-w-[1920px] mx-auto pl-8 pr-0 lg:pl-16 lg:pr-0 xl:pl-24 xl:pr-0">
         
-        {/* LEFT SIDE - GenZipher Logo */}
+        {/* LEFT SIDE - GenZipher Logo + Countdown (stacked) */}
         <div className="flex-1 h-full flex items-center justify-center relative">
-          <div className="relative max-w-[700px] w-full">
-            {/* Logo with simple fade in only */}
-            <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}>
+          <div className="relative max-w-[900px] w-full flex flex-col items-center justify-center h-full py-6">
+            {/* Logo with simple fade in only; nudge up slightly for balance */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
+              style={{ width: '100%', transform: 'translateY(-1rem)' }}
+            >
               <img src="/assets/genzipher-text-logo-1.webp" alt="GenZipher Logo" className="w-full h-auto" loading="eager" fetchPriority="high" />
             </motion.div>
+
+            {/* Countdown placed in-flow below the logo so its width isn't constrained/shrunk */}
+            <div className="mt-6 w-full">
+              <CountDown />
+            </div>
           </div>
         </div>
 
@@ -39,13 +50,14 @@ export default function SplashScreen() {
       </div>
 
       {/* Bottom fade */}
-      <motion.div
-      //@ts-ignore
-        className="absolute bottom-0 left-0 right-0 h-48 bg-gradient-to-t from-black/50 to-transparent pointer-events-none"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 1, delay: 0.5 }}
-      />
+      <div className="absolute bottom-0 left-0 right-0 h-48 bg-gradient-to-t from-black/50 to-transparent pointer-events-none">
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1, delay: 0.5 }}
+          style={{ width: '100%', height: '100%' }}
+        />
+      </div>
     </section>
   );
 }
