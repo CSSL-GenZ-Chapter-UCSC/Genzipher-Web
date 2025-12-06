@@ -3,39 +3,6 @@ import React, { useState, useEffect, useRef } from "react";
 import { formSchema } from "@/utils/validate";
 import Link from "next/link";
 import Button from "./button";
-// const universityList = [
-//   "Aquinas College",
-//   "Eastern University",
-//   "Esoft",
-//   "General Sir John Kotelawala Defence University (KDU)",
-//   "Horizon Campus",
-//   "Informatics Institute of Technology (IIT)",
-//   "International College of Business and Technology (ICBT)",
-//   "KAATSU International University (KIU)",
-//   "National Institute of Business Management (NIBM)",
-//   "NSBM Green University",
-//   "Open University of Sri Lanka (OUSL)",
-//   "Rajarata University",
-//   "Sabaragamuva University",
-//   "Saegis Campus",
-//   "SANASA Campus",
-//   "South Eastern University",
-//   "Sri Lanka Institute of Information Technology (SLIIT)",
-//   "Sri Lanka Technological Campus (SLTC)",
-//   "University of Colombo",
-//   "University of Colombo School of Computing (UCSC)",
-//   "University of Jaffna",
-//   "University of Kelaniya",
-//   "University of Moratuwa",
-//   "University of Peradeniya",
-//   "University of Ruhuna",
-//   "University of Sri Jayewardenepura",
-//   "University of Vavuniya",
-//   "University of Vocational Technology (UNIVOTEC)",
-//   "Uva Wellassa University",
-//   "Wayamba University",
-//   "Other",
-// ];
 
 const universityList = [
   "University of Colombo School of Computing (UCSC)",
@@ -156,6 +123,7 @@ const UniversityInput = ({
               viewBox="0 0 20 20"
               fill="none"
               stroke="currentColor"
+              strokeWidth="1.5"
               className="w-4 h-4 text-gray-400"
             >
               <circle cx="9" cy="9" r="6" strokeWidth="1.5" />
@@ -206,10 +174,18 @@ const UniversityInput = ({
   );
 };
 
+// Helper component for error display
+const FieldError = ({ error }: { error?: string[] }) => {
+  if (!error || error.length === 0) return null;
+  return <p className="text-red-500 text-xs mt-1 ml-1">{error[0]}</p>;
+};
+
 export default function Register() {
   const [teamSize, setTeamSize] = useState<number>(3);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string[]>([]);
+  // Added state for specific field errors
+  const [validationErrors, setValidationErrors] = useState<any>({});
 
   const [success, setSuccess] = useState(false);
   const [allSameUniversity, setAllSameUniversity] = useState(false);
@@ -219,9 +195,12 @@ export default function Register() {
 
   useEffect(() => {
     let timer: NodeJS.Timeout;
-    if (error) {
+    if (error.length > 0 || Object.keys(validationErrors).length > 0) {
       timer = setTimeout(() => {
         setError([]);
+        // We generally don't clear form validation errors on timeout (users need to see what to fix),
+        // but if you want to keep consistent behavior with previous logic, you can uncomment below:
+        // setValidationErrors({});
       }, 5000);
     }
     return () => {
@@ -229,7 +208,7 @@ export default function Register() {
         clearTimeout(timer);
       }
     };
-  }, [error]); // This effect runs whenever the 'error' state changes
+  }, [error, validationErrors]);
 
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth < 768);
@@ -346,19 +325,22 @@ export default function Register() {
     const result = formSchema.safeParse(dataToValidate);
 
     if (!result.success) {
-      return result.error.issues.map((i) => i.message);
+      // Changed to use format() to get structured errors
+      setValidationErrors(result.error.format());
+      return false;
     }
 
-    return null;
+    setValidationErrors({});
+    return true;
   };
 
   const handleSubmit = async () => {
     setError([]);
     setSuccess(false);
 
-    const validationError = validateForm();
-    if (validationError) {
-      setError(validationError); // This will now be an array
+    // Update to check boolean return
+    const isValid = validateForm();
+    if (!isValid) {
       return;
     }
 
@@ -431,7 +413,7 @@ export default function Register() {
       setAllSameUniversity(false);
     } catch (err: any) {
       console.log(err);
-      setError(err.message || "An error occurred while submitting the form");
+      setError([err.message || "An error occurred while submitting the form"]);
     } finally {
       setLoading(false);
     }
@@ -451,6 +433,7 @@ export default function Register() {
         </Link>
       </div>
 
+      {/* Global Error Display (Keep for Server Errors) */}
       {Array.isArray(error) && error.length > 0 && (
         <div className="fixed bottom-4 left-1/2 -translate-x-1/2 w-full max-w-5xl bg-red-600 text-white rounded-xl p-4 shadow-lg z-50">
           <div className="flex justify-between items-start">
@@ -569,6 +552,7 @@ export default function Register() {
                 }
                 className="w-full bg-[#1f1c19] rounded-md px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#e0a82e]"
               />
+              <FieldError error={validationErrors?.teamName?._errors} />
             </div>
             <div>
               <label className="block text-gray-300 text-sm mb-1">
@@ -615,6 +599,9 @@ export default function Register() {
                 onChange={(e) => handleLeaderChange("fullName", e.target.value)}
                 className="w-full bg-[#1f1c19] rounded-md px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#e0a82e]"
               />
+              <FieldError
+                error={validationErrors?.leader?.fullName?._errors}
+              />
             </div>
             <div>
               <label className="block text-gray-300 text-sm mb-1">Email</label>
@@ -624,6 +611,7 @@ export default function Register() {
                 onChange={(e) => handleLeaderChange("email", e.target.value)}
                 className="w-full bg-[#1f1c19] rounded-md px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#e0a82e]"
               />
+              <FieldError error={validationErrors?.leader?.email?._errors} />
             </div>
             <div>
               <label className="block text-gray-300 text-sm mb-1">
@@ -636,10 +624,13 @@ export default function Register() {
                 <input
                   type="text"
                   value={formData.leader.phone}
-                  onChange={(e) => handleLeaderChange("phone", e.target.value)}
+                  onChange={(e) =>
+                    handleLeaderChange("phone", e.target.value)
+                  }
                   className="flex-1 bg-[#1f1c19] rounded-r-md px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#e0a82e]"
                 />
               </div>
+              <FieldError error={validationErrors?.leader?.phone?._errors} />
             </div>
             <div>
               <label className="block text-gray-300 text-sm mb-1">
@@ -648,6 +639,9 @@ export default function Register() {
               <UniversityInput
                 value={formData.leader.university}
                 onChange={(value) => handleLeaderChange("university", value)}
+              />
+              <FieldError
+                error={validationErrors?.leader?.university?._errors}
               />
             </div>
             <div>
@@ -661,6 +655,9 @@ export default function Register() {
                   handleLeaderChange("studentId", e.target.value)
                 }
                 className="w-full bg-[#1f1c19] rounded-md px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#e0a82e]"
+              />
+              <FieldError
+                error={validationErrors?.leader?.studentId?._errors}
               />
             </div>
             <div>
@@ -680,6 +677,9 @@ export default function Register() {
                 <option value="3rd Year">3rd Year</option>
                 <option value="4th Year">4th Year</option>
               </select>
+              <FieldError
+                error={validationErrors?.leader?.yearOfStudy?._errors}
+              />
             </div>
           </div>
         </section>
@@ -705,6 +705,11 @@ export default function Register() {
                   }
                   className="w-full bg-[#1f1c19] rounded-md px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#e0a82e]"
                 />
+                <FieldError
+                  error={
+                    validationErrors?.members?.[index]?.fullName?._errors
+                  }
+                />
               </div>
               <div>
                 <label className="block text-gray-300 text-sm mb-1">
@@ -717,6 +722,11 @@ export default function Register() {
                     handleMemberChange(index, "email", e.target.value)
                   }
                   className="w-full bg-[#1f1c19] rounded-md px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#e0a82e]"
+                />
+                <FieldError
+                  error={
+                    validationErrors?.members?.[index]?.email?._errors
+                  }
                 />
               </div>
               <div>
@@ -736,6 +746,11 @@ export default function Register() {
                     className="flex-1 bg-[#1f1c19] rounded-r-md px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#e0a82e]"
                   />
                 </div>
+                <FieldError
+                  error={
+                    validationErrors?.members?.[index]?.phone?._errors
+                  }
+                />
               </div>
               <div>
                 <label className="block text-gray-300 text-sm mb-1">
@@ -745,6 +760,11 @@ export default function Register() {
                   value={formData.members[index].university}
                   onChange={(value) =>
                     handleMemberChange(index, "university", value)
+                  }
+                />
+                <FieldError
+                  error={
+                    validationErrors?.members?.[index]?.university?._errors
                   }
                 />
               </div>
@@ -759,6 +779,11 @@ export default function Register() {
                     handleMemberChange(index, "studentId", e.target.value)
                   }
                   className="w-full bg-[#1f1c19] rounded-md px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#e0a82e]"
+                />
+                <FieldError
+                  error={
+                    validationErrors?.members?.[index]?.studentId?._errors
+                  }
                 />
               </div>
               <div>
@@ -778,6 +803,11 @@ export default function Register() {
                   <option value="3rd Year">3rd Year</option>
                   <option value="4th Year">4th Year</option>
                 </select>
+                <FieldError
+                  error={
+                    validationErrors?.members?.[index]?.yearOfStudy?._errors
+                  }
+                />
               </div>
             </div>
           </section>
