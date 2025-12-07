@@ -45,7 +45,7 @@ const slides = [
       img: "/assets/guy2.webp",
       text: "Initial Round",
       subtext: "8 hours",
-      date: "Jan 11",
+      date: "Date: TBD",
       venue: "Online",
       footer:
         "Teams of 3–4 members will dive into an online selection round, where competitive programming and CTF challenges run side by side. Only the top 10 teams will advance to the grand finale.",
