@@ -62,11 +62,6 @@ export default function Home() {
                 <RoundsSection />
             </section>
 
-            {/* PARTNER SECTION */}
-            <section className="w-full h-full">
-                <PartnerWithUs />
-            </section>
-
             {/* AWARDS SECTION */}
             <section className="w-full h-full">
                 <Awards />

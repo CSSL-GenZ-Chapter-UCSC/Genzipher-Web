@@ -75,6 +75,7 @@ export default function MobileSplash() {
               duration: 0.6,
               ease: "easeOut",
             }}
+            style={{ position: 'relative' , display: 'flex', flexDirection: 'column', alignItems: 'center'}}
           >
             <img
               src="/assets/genzipher-text-logo-1.webp"
@@ -84,11 +85,15 @@ export default function MobileSplash() {
               fetchPriority="high"
               loading="eager"
               decoding="async"
-              className="mx-auto w-[85vw] max-w-[720px] h-auto block"
+              className="mx-auto w-[85vw] max-w-[720px] h-auto block relative"
               style={{
                 display: "block",
               }}
             />
+
+
+              <h2 className="text-[#D8CDB9] text-[1rem] bottom-[-0.5rem] absolute">Decoding the Future of Innovation</h2>
+            
           </motion.div>
 
           {/* Sparkle accents around logo */}

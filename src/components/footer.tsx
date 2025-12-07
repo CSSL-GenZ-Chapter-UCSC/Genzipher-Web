@@ -44,19 +44,19 @@ export default function Footer() {
           CONTACT US
         </h3>
         <div className="flex flex-col gap-4 text-gray-300">
-          <div className="flex items-start gap-3">
+          <a className="flex items-start gap-3" href="https://maps.app.goo.gl/qRjYcgDzwLcFreSz9" target="_blank">
             <MdLocationOn className="text-xl mt-1 flex-shrink-0" />
             <span className="text-start">UCSC Building Complex, 35 Reid Ave, Colombo 00700</span>
-          </div>
-               <a className="flex items-center gap-3" href="https://www.linkedin.com/company/cssl-genz-chapter-of-ucsc/posts/?feedView=all">
+          </a>
+               <a className="flex items-center gap-3" href="https://www.linkedin.com/company/cssl-genz-chapter-of-ucsc/posts/?feedView=all" target="_blank">
             <FaLinkedin className="text-xl" />
             <span>@cssl-genz-chapter-of-ucsc</span>
           </a>
-          <a className="flex items-center gap-3" href="https://www.instagram.com/cssl_ucsc">
+          <a className="flex items-center gap-3" href="https://www.instagram.com/cssl_ucsc" target="_blank">
             <FaInstagram className="text-xl" />
             <span>@cssl_ucsc</span>
           </a>
-          <a className="flex items-center gap-3" href="https://www.facebook.com/cssl.ucsc">
+          <a className="flex items-center gap-3" href="https://www.facebook.com/cssl.ucsc" target="_blank">
             <FaFacebook className="text-xl" />
             <span>@cssl.ucsc</span>
           </a>
