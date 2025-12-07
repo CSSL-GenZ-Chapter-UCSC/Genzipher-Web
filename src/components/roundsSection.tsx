@@ -292,7 +292,7 @@ export default function RoundsSection() {
           <div className="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-white/8 to-transparent" />
         </div>
 
-        <div className="relative w-full px-5 pt-14 pb-24 space-y-10">
+        <div className="relative w-full px-5 pt-14 md:pb-24 space-y-10">
           <motion.div
             initial="hidden"
             whileInView="show"

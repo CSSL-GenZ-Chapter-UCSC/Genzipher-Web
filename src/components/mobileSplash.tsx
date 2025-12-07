@@ -92,7 +92,7 @@ export default function MobileSplash() {
             />
 
 
-              <h2 className="text-[#D8CDB9] text-[1rem] bottom-[-0.5rem] absolute">Decoding the Future of Innovation</h2>
+              {/* <h2 className="text-[#D8CDB9] text-[1rem] bottom-[-0.5rem] absolute">Decoding the Future of Innovation</h2> */}
             
           </motion.div>
 

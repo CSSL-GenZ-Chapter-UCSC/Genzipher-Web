@@ -28,7 +28,7 @@ function SingleDigitFlip({ digit }: { digit: string }) {
         {/* Top half - static */}
         <div className="absolute top-0 left-0 w-full h-1/2 bg-[#140E02] md:rounded-t-[1rem] rounded-t-[0.5rem] border-[1px] border-b-0 border-[#736E63] overflow-hidden">
           <div
-            className="absolute top-0 left-0 w-full h-[200%] flex items-center justify-center translate-y-[0.2rem] md:translate-y-[0.45rem]"
+            className="absolute top-0 left-0 w-full h-[200%] flex items-center justify-center translate-y-[0.2rem] md:translate-y-[0.5em]"
           
           >
             <span
@@ -46,7 +46,7 @@ function SingleDigitFlip({ digit }: { digit: string }) {
         {/* Bottom half - static */}
         <div className="absolute bottom-0 left-0 w-full h-1/2 bg-[#140E02] md:rounded-b-[1rem] rounded-b-[0.5rem] border-[1px] border-t-0 border-[#736E63] overflow-hidden">
           <div
-            className="absolute top-[-100%] left-0 w-full h-[200%] flex items-center justify-center translate-y-[0.2rem] md:translate-y-[0.45rem]"
+            className="absolute top-[-100%] left-0 w-full h-[200%] flex items-center justify-center translate-y-[0.2rem] md:translate-y-[0.5em]"
           
           >
             <span
