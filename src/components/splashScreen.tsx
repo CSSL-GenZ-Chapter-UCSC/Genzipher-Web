@@ -26,7 +26,7 @@ export default function SplashScreen() {
               style={{ width: '100%', transform: 'translateY(-1rem)', display: 'flex', flexDirection: 'column', alignItems: 'center', position: 'relative' }}
             >
               <img src="/assets/genzipher-text-logo-1.webp" alt="GenZipher Logo" className="w-full h-auto" loading="eager" fetchPriority="high" />
-              <h2 className="text-[#D8CDB9] text-[1.6rem] bottom-[-0.1rem] absolute">Decoding the Future of Innovation</h2>
+              {/* <h2 className="text-[#D8CDB9] text-[1.6rem] bottom-[-0.1rem] absolute">Decoding the Future of Innovation</h2> */}
             </motion.div>
 
             {/* Added Text: Registrations closing in */}
@@ -39,7 +39,6 @@ export default function SplashScreen() {
               style={{
                 WebkitMaskImage: "linear-gradient(to bottom, rgba(0,0,0,1) 65%, rgba(0,0,0,0) 100%)",
                 maskImage: "linear-gradient(to bottom, rgba(0,0,0,1) 65%, rgba(0,0,0,0) 100%)",
-                transform: "translateY(0.8rem)",
               }}
             >
               Registrations closing in:
