@@ -158,7 +158,7 @@ export default function About({ scrollContainer }: { scrollContainer?: React.Ref
                     className="absolute top-0 left-0 md:left-0 lg:left-30 bottom-0 z-20 w-1/3 md:w-1/2 lg:w-1/4 overflow-hidden hidden md:block"
                 >
                     <Image
-                        src="/assets/queen.webp"
+                        src="/assets/lionguy.webp"
                         alt="Hackathon Character"
                         fill
                         className="object-contain scale-90"

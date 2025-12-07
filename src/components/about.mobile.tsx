@@ -129,7 +129,7 @@ export default function AboutMobile() {
 
             {/* SECTION 3 - independent solid background */}
             <section
-                className="w-full flex flex-col justify-start pt-12 snap-start relative z-20 bg-[#D8CDB9] min-h-screen"
+                className="w-full flex flex-col justify-start pt-12 snap-start relative z-20 bg-[#D8CDB9] h-max"
             >
                 <motion.div
                     initial={{ opacity: 0 }}

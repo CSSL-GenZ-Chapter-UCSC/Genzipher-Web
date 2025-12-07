@@ -10,10 +10,11 @@ const slides = [
     props: {
       img: "/assets/guy1.webp",
       text: "Introductory Session",
-      subtext: "8 hours",
+      subtext: "",
+      date: "Dec 15", 
       venue: "Online",
       footer:
-        "Teams of 3–4 members will dive into an online selection round, where competitive programming and CTF challenges run side by side. Only the top 10 teams will advance to the grand finale.",
+        "The GenZipher Introductory Session serves as the gateway to the competition, offering participants a clear understanding of the structure, rules, and expectations of the challenge ahead. This session provides essential insights into cybersecurity fundamentals, CTF methodologies, and effective problem solving strategies, ensuring that every contestant is well equipped before entering the competition.",
     },
   },
   {
@@ -22,6 +23,7 @@ const slides = [
       img: "/assets/lady1.webp",
       text: "Workshop 1",
       subtext: "",
+      date: "Date: TBD", 
       venue: "Online",
       footer: "A Workshop on CTF",
     },
@@ -32,6 +34,7 @@ const slides = [
       img: "/assets/lady2.webp",
       text: "Workshop 2",
       subtext: "",
+      date: "Date: TBD",
       venue: "Online",
       footer: "A Workshop on AI Agents",
     },
@@ -40,8 +43,9 @@ const slides = [
     num: 4,
     props: {
       img: "/assets/guy2.webp",
-      text: "First Round",
+      text: "Initial Round",
       subtext: "8 hours",
+      date: "Jan 11",
       venue: "Online",
       footer:
         "Teams of 3–4 members will dive into an online selection round, where competitive programming and CTF challenges run side by side. Only the top 10 teams will advance to the grand finale.",
@@ -54,9 +58,10 @@ const slides = [
       img: "/assets/guy3.webp",
       text: "Final Round",
       subtext: "24 hours",
+      date: "Date: TBD",
       venue: "To be decided",
       footer:
-        "The top 10 teams from Round 1 step into the ultimate challenge, each consisting of 3–4 members. In this grand finale, teams tackle a real world problem by completing the full product development cycle. The journey begins with a “pawning phase,” where teams decipher clues to uncover the development theme, setting the stage for innovative. Participants are free to use any tech stack, including AI-powered tools, to bring their ideas to life.",
+        "The top 10 teams from Round 1 step into the ultimate challenge. In this grand finale, teams tackle a real world problem by completing the full product development cycle. The journey begins with a “pawning phase,” where teams decipher clues to uncover the development theme, setting the stage for innovative. Participants are free to use any tech stack, including AI-powered tools, to bring their ideas to life.",
     },
   },
 ];
@@ -163,7 +168,7 @@ export default function RoundsSection() {
               The journey
             </p>
             <h3 className="text-[2.6rem] font-semibold text-white leading-tight">
-              Follow the mythic path to the finale
+              Follow the mythical path to the finale
             </h3>
             <p className="text-base text-[#e9dfca]/80">
               Scroll to drift through each phase or click a card to jump ahead.
@@ -219,20 +224,28 @@ export default function RoundsSection() {
                       </motion.div>
 
                       <div className="mt-5 space-y-3">
-                        <div className="flex items-center gap-3 text-xs uppercase tracking-[0.26em] text-[#F2D8A1]/80">
-                          <span className="rounded-full border border-white/15 bg-white/5 px-3 py-1">
+                        {/* Desktop Metadata Row */}
+                        <div className="flex flex-wrap items-center gap-3 text-xs uppercase tracking-[0.26em] text-[#F2D8A1]/80">
+                          {/* <span className="rounded-full border border-white/15 bg-white/5 px-3 py-1">
                             Phase {s.num.toString().padStart(2, "0")}
                           </span>
+                           */}
+                          {/* --- Date Added Here (Desktop) --- */}
+                          <span className="rounded-full border border-white/15 bg-white/5 px-3 py-1">
+                            {s.props.date}
+                          </span>
+
                           {hasSubtext ? (
                             <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1">
                               {s.props.subtext}
                             </span>
                           ) : null}
                         </div>
+
                         <h4 className="text-2xl font-semibold text-white">
                           {s.props.text}
                         </h4>
-                   
+
                         <p className="text-base text-[#E8DEC7]/85 leading-relaxed">
                           {s.props.footer}
                         </p>
@@ -308,6 +321,8 @@ export default function RoundsSection() {
               {slides.map((s, i) => {
                 const isLast = i === slides.length - 1;
                 const isOpen = expandedMobile === i;
+                const hasSubtext = Boolean(s.props.subtext?.trim());
+
                 const summary = s.props.subtext?.trim()
                   ? s.props.subtext
                   : `${s.props.footer.slice(0, 118)}${
@@ -356,20 +371,26 @@ export default function RoundsSection() {
                       </motion.div>
 
                       <div className="p-5 space-y-3">
-                        <div className="flex items-center gap-2 text-xs uppercase tracking-[0.28em] text-[#F2D8A1]/80">
-                          <span className="px-2 py-1 rounded-full bg-white/5 border border-white/10 text-[0.62rem]">
+                        {/* Mobile Metadata Row */}
+                        <div className="flex flex-wrap items-center gap-2 text-xs uppercase tracking-[0.28em] text-[#F2D8A1]/80">
+                          {/* <span className="px-2 py-1 rounded-full bg-white/5 border border-white/10 text-[0.62rem]">
                             Phase {s.num}
+                          </span> */}
+                          
+                          {/* --- Date Added Here (Mobile) --- */}
+                          <span className="px-2 py-1 rounded-full bg-white/5 border border-white/10 text-[0.62rem]">
+                            {s.props.date}
                           </span>
-                          <span className="text-white/60">GenZipher</span>
                         </div>
 
                         <h4 className="text-2xl font-semibold text-white leading-tight">
                           {s.props.text}
                         </h4>
-
-                        <p className="text-[#E8DEC7]/85 leading-relaxed">
-                          {summary}
-                        </p>
+                        {hasSubtext ? (
+                          <p className="text-[#E8DEC7]/85 leading-relaxed">
+                            {summary}
+                          </p>
+                        ) : null}
 
                         <button
                           onClick={() =>

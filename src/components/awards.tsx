@@ -66,9 +66,9 @@ export default function Awards() {
   return (
     <section className="h-full w-full overflow-hidden bg-[#0F0D08]">
       <div className="h-full mx-auto w-full max-w-6xl px-4 md:px-6 grid grid-rows-[auto_0.5fr_auto] items-center">
-        <header className="relative z-30 py-4 md:py-6 text-center h-[20vh] flex items-center justify-center">
-          <h2 className="text-2xl md:text-3xl leading-tight text-[#E6D9B6]">
-            {order[1] === "honor" ? (
+        <header className="relative z-30 py-4 md:py-6 text-center h-[20vh] flex flex-col items-center justify-center">
+          <h2 className="text-2xl md:text-4xl leading-tight text-[#E6D9B6]">
+            {/* {order[1] === "honor" ? (
               "EARN YOUR PRIZE"
             ) : (
               <>
@@ -76,8 +76,11 @@ export default function Awards() {
                 <br />
                 <span>and courage</span>
               </>
-            )}
+            )} */}
+            Price pool will be revealed soon
           </h2>
+
+          {/* <h2 className="text-2xl md:text-3xl leading-tight text-[#E6D9B6]">Prize pool will be revealed soon</h2> */}
         </header>
 
         {/* ⭐ Animated Awards Row */}
