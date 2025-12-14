@@ -11,7 +11,7 @@ const slides = [
       img: "/assets/guy1.webp",
       text: "Introductory Session",
       subtext: "",
-      date: "Dec 15", 
+      date: "Dec 20", 
       venue: "Online",
       footer:
         "The GenZipher Introductory Session serves as the gateway to the competition, offering participants a clear understanding of the structure, rules, and expectations of the challenge ahead. This session provides essential insights into cybersecurity fundamentals, CTF methodologies, and effective problem solving strategies, ensuring that every contestant is well equipped before entering the competition.",
@@ -23,7 +23,7 @@ const slides = [
       img: "/assets/lady1.webp",
       text: "Workshop 1",
       subtext: "",
-      date: "Date: TBD", 
+      date: "Dec 27", 
       venue: "Online",
       footer: "A Workshop on CTF",
     },
@@ -34,7 +34,7 @@ const slides = [
       img: "/assets/lady2.webp",
       text: "Workshop 2",
       subtext: "",
-      date: "Date: TBD",
+      date: "Jan 2",
       venue: "Online",
       footer: "A Workshop on AI Agents",
     },
@@ -45,7 +45,7 @@ const slides = [
       img: "/assets/guy2.webp",
       text: "Initial Round",
       subtext: "8 hours",
-      date: "Date: TBD",
+      date: "Jan 11",
       venue: "Online",
       footer:
         "Teams of 3–4 members will dive into an online selection round, where competitive programming and CTF challenges run side by side. Only the top 10 teams will advance to the grand finale.",
@@ -56,9 +56,9 @@ const slides = [
     num: 5,
     props: {
       img: "/assets/guy3.webp",
-      text: "Final Round",
+      text: "Final Round & Award ceremony",
       subtext: "24 hours",
-      date: "Date: TBD",
+      date: "Jan 24 & 25",
       venue: "To be decided",
       footer:
         "The top 10 teams from Round 1 step into the ultimate challenge. In this grand finale, teams tackle a real world problem by completing the full product development cycle. The journey begins with a “pawning phase,” where teams decipher clues to uncover the development theme, setting the stage for innovative. Participants are free to use any tech stack, including AI-powered tools, to bring their ideas to life.",
