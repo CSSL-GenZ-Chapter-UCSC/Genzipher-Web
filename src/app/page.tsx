@@ -12,6 +12,7 @@ import About from "@/components/about";
 import AboutMobile from "@/components/about.mobile"; 
 import RoundsSection
     from "@/components/roundsSection";
+import UniversityStats from "@/components/universityStats";
 export default function Home() {
     // Ref for the scroll container (main)
     const mainRef = useRef < HTMLElement > (null);
@@ -60,6 +61,10 @@ export default function Home() {
 
             <section className="w-full h-max  bg-[#140E02]">
                 <RoundsSection />
+            </section>
+            {/* UNIVERSITY STATS SECTION */}
+            <section className="w-full h-max  bg-[#140E02]">
+                <UniversityStats />
             </section>
 
             {/* AWARDS SECTION */}
