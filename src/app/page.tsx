@@ -63,9 +63,9 @@ export default function Home() {
                 <RoundsSection />
             </section>
             {/* UNIVERSITY STATS SECTION */}
-            <section className="w-full h-max  bg-[#140E02]">
+            {/* <section className="w-full h-max  bg-[#140E02]">
                 <UniversityStats />
-            </section>
+            </section> */}
 
             {/* AWARDS SECTION */}
             <section className="w-full h-full">
