@@ -11,7 +11,7 @@ const slides = [
       img: "/assets/guy1.webp",
       text: "Introductory Session",
       subtext: "",
-      date: "Dec 20", 
+      date: "Dec 20",
       venue: "Online",
       footer:
         "The GenZipher Introductory Session serves as the gateway to the competition, offering participants a clear understanding of the structure, rules, and expectations of the challenge ahead. This session provides essential insights into cybersecurity fundamentals, CTF methodologies, and effective problem solving strategies, ensuring that every contestant is well equipped before entering the competition.",
@@ -23,7 +23,7 @@ const slides = [
       img: "/assets/lady1.webp",
       text: "Workshop 1",
       subtext: "",
-      date: "Dec 27", 
+      date: "Dec 27",
       venue: "Online",
       footer: "A Workshop on CTF",
     },
@@ -56,10 +56,10 @@ const slides = [
     num: 5,
     props: {
       img: "/assets/guy3.webp",
-      text: "Final Round & Award ceremony",
+      text: "Final Round & Awarding ceremony",
       subtext: "24 hours",
       date: "Jan 24 & 25",
-      venue: "To be decided",
+      venue: "OREL IT",
       footer:
         "The top 10 teams from Round 1 step into the ultimate challenge. In this grand finale, teams tackle a real world problem by completing the full product development cycle. The journey begins with a “pawning phase,” where teams decipher clues to uncover the development theme, setting the stage for innovative. Participants are free to use any tech stack, including AI-powered tools, to bring their ideas to life.",
     },
@@ -218,9 +218,20 @@ export default function RoundsSection() {
                           className="object-contain object-top transition duration-500 group-hover:scale-105"
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-[#0f0b03] via-[#0f0b03]/70 to-transparent" />
-                        <div className="absolute right-3 top-3 rounded-full border border-white/15 bg-white/10 px-3 py-1 text-xs uppercase tracking-[0.2em] text-[#F2D8A1]">
-                          {s.props.venue}
-                        </div>
+
+                        {s.props.venue.includes("OREL") ? (
+                          <a
+                            href="https://maps.app.goo.gl/Vv2PTEomnDFedRG4A"
+                            target="_blank"
+                            className="absolute right-3 top-3 rounded-full border border-white/15 bg-white/10 px-3 py-1 text-xs uppercase tracking-[0.2em] text-[#F2D8A1] max-w-[40%]"
+                          >
+                            {s.props.venue}
+                          </a>
+                        ) : (
+                          <div className="absolute right-3 top-3 rounded-full border border-white/15 bg-white/10 px-3 py-1 text-xs uppercase tracking-[0.2em] text-[#F2D8A1] max-w-[40%]">
+                            {s.props.venue}
+                          </div>
+                        )}
                       </motion.div>
 
                       <div className="mt-5 space-y-3">
@@ -365,9 +376,18 @@ export default function RoundsSection() {
                           className="object-cover object-top"
                         />
                         {/* <div className="absolute inset-0 bg-gradient-to-t from-[#0f0b03] via-transparent to-white/5" /> */}
-                        <div className="absolute right-3 top-3 px-3 py-1 text-[0.68rem] uppercase tracking-[0.18em] rounded-full border border-white/20 bg-white/10 text-[#F2D8A1]">
-                          {s.props.venue}
-                        </div>
+                        {s.props.venue.includes("OREL") ? (
+                          <a
+                            href="https://maps.app.goo.gl/Vv2PTEomnDFedRG4A"
+                            className="absolute right-3 top-3 px-3 py-1 text-[0.68rem] uppercase tracking-[0.18em] rounded-full border border-white/20 bg-white/10 text-[#F2D8A1]"
+                          >
+                            "{s.props.venue}"
+                          </a>
+                        ) : (
+                          <div className="absolute right-3 top-3 px-3 py-1 text-[0.68rem] uppercase tracking-[0.18em] rounded-full border border-white/20 bg-white/10 text-[#F2D8A1]">
+                            {s.props.venue}
+                          </div>
+                        )}
                       </motion.div>
 
                       <div className="p-5 space-y-3">
@@ -376,7 +396,7 @@ export default function RoundsSection() {
                           {/* <span className="px-2 py-1 rounded-full bg-white/5 border border-white/10 text-[0.62rem]">
                             Phase {s.num}
                           </span> */}
-                          
+
                           {/* --- Date Added Here (Mobile) --- */}
                           <span className="px-2 py-1 rounded-full bg-white/5 border border-white/10 text-[0.62rem]">
                             {s.props.date}

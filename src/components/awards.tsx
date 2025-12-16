@@ -77,7 +77,7 @@ export default function Awards() {
                 <span>and courage</span>
               </>
             )} */}
-            Price pool will be revealed soon
+            Prize pool will be revealed soon
           </h2>
 
           {/* <h2 className="text-2xl md:text-3xl leading-tight text-[#E6D9B6]">Prize pool will be revealed soon</h2> */}
