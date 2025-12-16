@@ -381,7 +381,7 @@ export default function RoundsSection() {
                             href="https://maps.app.goo.gl/Vv2PTEomnDFedRG4A"
                             className="absolute right-3 top-3 px-3 py-1 text-[0.68rem] uppercase tracking-[0.18em] rounded-full border border-white/20 bg-white/10 text-[#F2D8A1]"
                           >
-                            "{s.props.venue}"
+                            {s.props.venue}
                           </a>
                         ) : (
                           <div className="absolute right-3 top-3 px-3 py-1 text-[0.68rem] uppercase tracking-[0.18em] rounded-full border border-white/20 bg-white/10 text-[#F2D8A1]">
