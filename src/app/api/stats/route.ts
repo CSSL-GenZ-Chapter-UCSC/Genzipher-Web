@@ -53,10 +53,10 @@ export async function GET() {
         
         // Only count if the cell has text
         if (rawUni && typeof rawUni === "string" && rawUni.trim() !== "") {
-          const label = getUniversityLabel(rawUni);
+          // const label = getUniversityLabel(rawUni);
           
-          if (label) {
-            universityCounts[label] = (universityCounts[label] || 0) + 1;
+          if (rawUni) {
+            universityCounts[rawUni] = (universityCounts[rawUni] || 0) + 1;
           }
         }
       });
