@@ -1,11 +1,98 @@
+
+
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 type StatItem = {
   name: string;
   count: number;
 };
+
+function CardShell({
+  className = "",
+  children,
+}: {
+  className?: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <div
+      className={[
+        "relative overflow-hidden rounded-2xl h-full",
+        "border border-[#D8CDB9]/15",
+        "bg-gradient-to-br from-[#1C1507] via-[#120D03] to-[#0B0702]",
+        "shadow-[0_0_0_1px_rgba(216,205,185,0.06),0_18px_60px_rgba(0,0,0,0.55)]",
+        "transition-all duration-300 hover:border-[#D8CDB9]/30",
+        className,
+      ].join(" ")}
+    >
+      <div className="pointer-events-none absolute inset-0 rounded-2xl bg-[radial-gradient(circle_at_20%_10%,rgba(216,205,185,0.14),transparent_55%)]" />
+      <div className="pointer-events-none absolute inset-0 rounded-2xl bg-[radial-gradient(circle_at_80%_90%,rgba(216,205,185,0.08),transparent_55%)]" />
+      <div className="relative h-full">{children}</div>
+    </div>
+  );
+}
+
+// Increased height from 210px to 260px for desktop
+function FeaturedCard({ uni }: { uni: StatItem }) {
+  return (
+    <CardShell className="h-[170px] md:h-[260px]">
+      <div className="h-full flex flex-col items-center justify-center px-6">
+        <div className="text-[#D8CDB9] text-5xl md:text-6xl font-semibold leading-none">
+          {uni.count}
+        </div>
+
+        <div className="w-full mt-5 md:mt-6 border-t border-[#D8CDB9]/15" />
+
+        {/* Removed 'leading-relaxed' to prevent excessive spacing and ensured no clamping */}
+        <div className="mt-4 text-center text-[#D8CDB9]/85 uppercase tracking-[0.28em] text-[10px] md:text-[14px] leading-tight">
+          {uni.name}
+        </div>
+      </div>
+    </CardShell>
+  );
+}
+
+// Increased height from 120px to 160px and removed line-clamp-2
+function SmallCard({ uni }: { uni: StatItem }) {
+  return (
+    <CardShell className="h-[110px] md:h-[160px] rounded-xl">
+      <div className="h-full flex flex-col items-center justify-center px-4">
+        <div className="text-[#D8CDB9] text-3xl md:text-4xl font-semibold leading-none">
+          {uni.count}
+        </div>
+
+        <div className="w-full mt-3 border-t border-[#D8CDB9]/12" />
+
+        {/* Removed 'line-clamp-2' so text can wrap to 3+ lines if necessary */}
+        <div className="mt-2 text-center text-[#D8CDB9]/80 uppercase tracking-[0.24em] text-[11px] leading-snug">
+          {uni.name}
+        </div>
+      </div>
+    </CardShell>
+  );
+}
+
+// ... rest of the components (MobileHorizontalCard, UniversityStats) remain unchanged
+
+function MobileHorizontalCard({ uni }: { uni: StatItem }) {
+  return (
+    <CardShell className="rounded-xl">
+      <div className="flex items-center justify-between px-6 py-5">
+        <div className="text-[#D8CDB9] text-4xl font-semibold leading-none">
+          {uni.count}
+        </div>
+
+        <div className="mx-5 h-10 w-px bg-[#D8CDB9]/15" />
+
+        <div className="flex-1 text-[#D8CDB9]/85 uppercase tracking-[0.25em] text-[12px] leading-relaxed">
+          {uni.name}
+        </div>
+      </div>
+    </CardShell>
+  );
+}
 
 export default function UniversityStats() {
   const [stats, setStats] = useState<StatItem[]>([]);
@@ -16,15 +103,10 @@ export default function UniversityStats() {
       try {
         const res = await fetch("/api/stats");
         if (!res.ok) throw new Error("Failed to fetch");
-
         const data = await res.json();
 
-        // Convert object to array and sort by count descending
         const formattedStats: StatItem[] = Object.entries(data)
-          .map(([name, count]) => ({
-            name,
-            count: Number(count),
-          }))
+          .map(([name, count]) => ({ name, count: Number(count) }))
           .sort((a, b) => b.count - a.count);
 
         setStats(formattedStats);
@@ -38,6 +120,9 @@ export default function UniversityStats() {
     fetchStats();
   }, []);
 
+  const top3 = useMemo(() => stats.slice(0, 3), [stats]);
+  const rest = useMemo(() => stats.slice(3), [stats]);
+
   if (loading) {
     return (
       <div className="w-full bg-[#140E02] py-10 flex justify-center items-center text-[#D8CDB9] border-t border-[#D8CDB9]/10">
@@ -46,54 +131,81 @@ export default function UniversityStats() {
     );
   }
 
+  if (!stats.length) {
+    return (
+      <div className="w-full bg-[#140E02] py-12 md:py-20 px-4 md:px-10 border-t border-[#D8CDB9]/10">
+        <div className="max-w-7xl mx-auto text-center text-[#D8CDB9]/60">
+          No university stats yet.
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="w-full bg-[#140E02] py-12 md:py-20 px-4 md:px-10 border-t border-[#D8CDB9]/10">
       <div className="max-w-7xl mx-auto">
-        <h2 className="text-3xl md:text-5xl font-bold text-[#D8CDB9] mb-10 text-center uppercase tracking-widest">
-          University Leaderboard
-        </h2>
-
-        {/* Grid Layout: 2 cols on mobile, 3 on tablet, 4 on desktop */}
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
-          {stats.map((uni, index) => (
-            <div
-              key={uni.name}
-              className="
-                group
-                relative 
-                flex flex-col justify-between 
-                bg-[#D8CDB9]/5 
-                border border-[#D8CDB9]/10 
-                p-6 
-                hover:border-[#D8CDB9]/30 
-                transition-all duration-300
-              "
-            >
-              {/* Rank Number (Top Left) */}
-              <div className="absolute top-4 left-4 text-[#D8CDB9]/20 text-xs font-mono">
-                #{String(index + 1).padStart(2, "0")}
-              </div>
-
-              {/* Count (Big Number) */}
-              <div className="flex justify-center items-center py-4">
-                <span className="text-5xl md:text-6xl font-bold text-[#D8CDB9]">
-                  {uni.count}
-                </span>
-              </div>
-
-              {/* University Name (Bottom) */}
-              <div className="text-center border-t border-[#D8CDB9]/10 pt-4 mt-2">
-                <h3 className="text-[#D8CDB9] text-xs md:text-sm font-medium uppercase tracking-wider leading-relaxed">
-                  {uni.name}
-                </h3>
-              </div>
-            </div>
-          ))}
+        <div className="text-center mb-10 md:mb-12">
+          <h2 className="text-[#D8CDB9]/90 uppercase tracking-[0.35em] text-xl md:text-2xl font-semibold">
+             Registered Participants Across Universities
+          </h2>
+          <span className="text-[#D8CDB9]/90 uppercase tracking-[0.35em] text-[0.7rem] md:text-[1rem] font-semibold">
+            Where Are Our Coders From?
+          </span>
         </div>
 
-        <div className="text-center mt-12">
-          <p className="text-[#D8CDB9]/40 text-xs uppercase tracking-widest">
-            Live Registration Updates
+        {/* MOBILE (matches stacked horizontal cards + list card vibe) */}
+        <div className="md:hidden space-y-4">
+          {top3.map((uni) => (
+            <MobileHorizontalCard key={uni.name} uni={uni} />
+          ))}
+
+          {rest.length > 0 && (
+            <CardShell className="rounded-xl">
+              <div className="px-4 py-3">
+                <div className="max-h-[260px] overflow-y-auto">
+                  {rest.map((uni, idx) => (
+                    <div key={uni.name} className="flex items-center">
+                      <div className="w-16 text-[#D8CDB9] text-lg font-semibold py-3">
+                        {uni.count}
+                      </div>
+                      <div className="flex-1 py-3 border-b border-[#D8CDB9]/10">
+                        <div className="text-[#D8CDB9]/85 uppercase tracking-[0.22em] text-[11px] leading-relaxed">
+                          {uni.name}
+                        </div>
+                      </div>
+                      {idx === rest.length - 1 ? null : (
+                        <div className="absolute left-0 right-0" />
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </CardShell>
+          )}
+        </div>
+
+        {/* DESKTOP/TABLET (matches 3 big cards + smaller grid) */}
+        <div className="hidden md:block">
+          <div className="grid grid-cols-3 gap-6">
+            {top3.map((uni) => (
+              <FeaturedCard key={uni.name} uni={uni} />
+            ))}
+          </div>
+
+          {rest.length > 0 && (
+            <div className="mt-6">
+              <div className="grid grid-cols-4 lg:grid-cols-6 gap-4">
+                {rest.map((uni) => (
+                  <SmallCard key={uni.name} uni={uni} />
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+
+        <div className="text-center mt-10 md:mt-12">
+          <p className="text-[#D8CDB9]/90 text-xs md:text-[1rem] uppercase tracking-widest">
+            Still haven’t registered ? Register now and carry your university’s name forward
           </p>
         </div>
       </div>
