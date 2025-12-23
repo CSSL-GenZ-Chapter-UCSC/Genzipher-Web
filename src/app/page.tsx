@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useRef, useCallback } from "react";
+import { useEffect, useState, useRef, useCallback, useLayoutEffect } from "react";
 import PartnerWithUs from "@/components/partnerWithUs";
 import Awards from "@/components/awards";
 import Footer from "@/components/footer";
@@ -9,33 +9,57 @@ import SplashScreen from "@/components/splashScreen";
 import Image from "next/image";
 import MobileSplash from "@/components/mobileSplash";
 import About from "@/components/about";
-import AboutMobile from "@/components/about.mobile"; 
+import AboutMobile from "@/components/about.mobile";
 import RoundsSection
     from "@/components/roundsSection";
 import UniversityStats from "@/components/universityStats";
 export default function Home() {
     // Ref for the scroll container (main)
-    const mainRef = useRef < HTMLElement > (null);
-    const [, setRefState] = useState({}); // Force re-render when ref is set
+    const mainRef = useRef<HTMLElement>(null);
 
     const setRef = useCallback((node: HTMLElement | null) => {
-        mainRef.current = node;
-        if (node) setRefState({});
+        if (node) mainRef.current = node;
     }, []);
 
     const [isMobile, setIsMobile] = useState(false);
 
-  useEffect(() => {
-    const update = () => setIsMobile(window.innerWidth < 768);
-    update(); // run once at load
-    window.addEventListener("resize", update);
-    return () => window.removeEventListener("resize", update);
-  }, []);
+    useEffect(() => {
+        const update = () => setIsMobile(window.innerWidth < 768);
+        update(); // run once at load
+        window.addEventListener("resize", update);
+        return () => window.removeEventListener("resize", update);
+    }, []);
 
-  return (
-    <main
-      ref={setRef}
-      className="
+    useEffect(() => {
+        // Tell the browser to stop trying to restore scroll position
+        if ('scrollRestoration' in history) {
+            history.scrollRestoration = 'manual';
+        }
+
+        // Force scroll to top on a fresh reload
+        if (mainRef.current) {
+            mainRef.current.scrollTo(0, 0);
+        }
+    }, []);
+
+
+    useLayoutEffect(() => {
+        // disable browser scroll restore
+        if ("scrollRestoration" in history) {
+            history.scrollRestoration = "manual";
+        }
+
+        // wait until layout + async content settles
+        setTimeout(() => {
+            mainRef.current?.scrollTo({ top: 0, behavior: "auto" });
+        }, 50);
+    }, []);
+
+
+    return (
+        <main
+            ref={setRef}
+            className="
         relative
         w-screen h-screen
         overflow-y-auto overflow-x-hidden 

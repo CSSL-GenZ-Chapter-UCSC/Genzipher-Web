@@ -120,14 +120,16 @@ export default function UniversityStats() {
     fetchStats();
   }, []);
 
+
+
   const top3 = useMemo(() => stats.slice(0, 3), [stats]);
   const rest = useMemo(() => stats.slice(3), [stats]);
 
   if (loading) {
     return (
-      <div className="w-full bg-[#140E02] py-10 flex justify-center items-center text-[#D8CDB9] border-t border-[#D8CDB9]/10">
-        <p className="animate-pulse">Loading Statistics...</p>
-      </div>
+    <div className="w-full bg-[#140E02] min-h-[600px] py-10 flex justify-center items-center text-[#D8CDB9]">
+      <p className="animate-pulse">Loading Statistics...</p>
+    </div>
     );
   }
 
@@ -141,8 +143,11 @@ export default function UniversityStats() {
     );
   }
 
+
+
+
   return (
-    <div className="w-full bg-[#140E02] py-12 md:py-20 px-4 md:px-10 border-t border-[#D8CDB9]/10">
+    <div className="w-full bg-[#140E02] min-h-[600px] py-12 md:py-20 px-4 md:px-10 border-t border-[#D8CDB9]/10" style={{ overflowAnchor: 'none' }}>
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-10 md:mb-12">
           <h2 className="text-[#D8CDB9]/90 uppercase tracking-[0.35em] text-xl md:text-2xl font-semibold">
