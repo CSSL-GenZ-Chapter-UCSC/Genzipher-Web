@@ -92,7 +92,7 @@ export default function Home() {
             </section>
 
             {/* AWARDS SECTION */}
-            <section className="w-full h-full">
+            <section className="w-full h-max">
                 <Awards />
             </section>
 
