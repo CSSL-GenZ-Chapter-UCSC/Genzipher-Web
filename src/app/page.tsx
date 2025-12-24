@@ -13,6 +13,14 @@ import AboutMobile from "@/components/about.mobile";
 import RoundsSection
     from "@/components/roundsSection";
 import UniversityStats from "@/components/universityStats";
+
+
+if (typeof window !== 'undefined') {
+  if ('scrollRestoration' in window.history) {
+    window.history.scrollRestoration = 'manual';
+  }
+}
+
 export default function Home() {
     // Ref for the scroll container (main)
     const mainRef = useRef<HTMLElement>(null);
@@ -65,6 +73,7 @@ export default function Home() {
         overflow-y-auto overflow-x-hidden 
        
         bg-[#0f0d08] box-border
+        [overflow-anchor:none]
       "
         >
             {/* DESKTOP SPLASH SCREEN */}
