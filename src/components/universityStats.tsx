@@ -2,7 +2,7 @@
 
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState,useRef } from "react";
 
 type StatItem = {
   name: string;
@@ -95,47 +95,114 @@ function MobileHorizontalCard({ uni }: { uni: StatItem }) {
 }
 
 export default function UniversityStats() {
-  const [stats, setStats] = useState<StatItem[]>([]);
-  const [loading, setLoading] = useState(true);
+   const [stats, setStats] = useState<StatItem[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [shouldFetch, setShouldFetch] = useState(false);
+  const fetchedRef = useRef(false);
 
+  const containerRef = useRef<HTMLDivElement | null>(null);
+
+  // 1) Observe when this section is near view
   useEffect(() => {
-    const fetchStats = async () => {
+    const el = containerRef.current;
+    if (!el) return;
+
+    // Find the scrollable main container (your <main> has overflow-y-auto)
+    const scrollRoot = el.closest("main"); // works because UniversityStats is inside <main>
+
+    // If for some reason we can’t find it, fallback to viewport
+    const rootEl = scrollRoot instanceof HTMLElement ? scrollRoot : null;
+
+    const obs = new IntersectionObserver(
+      (entries) => {
+        const e = entries[0];
+        if (e.isIntersecting) {
+          setShouldFetch(true);
+          obs.disconnect();
+        }
+      },
+      {
+        root: rootEl,
+        rootMargin: "700px 0px", // start fetching before user reaches it
+        threshold: 0.01,
+      }
+    );
+
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
+
+  // 2) Fetch only once, only when near
+  useEffect(() => {
+    if (!shouldFetch) return;
+    if (fetchedRef.current) return;
+
+    fetchedRef.current = true;
+    setLoading(true);
+
+    (async () => {
       try {
-        const res = await fetch("/api/stats");
+        const res = await fetch("/api/stats", { cache: "no-store" });
         if (!res.ok) throw new Error("Failed to fetch");
         const data = await res.json();
 
-        const formattedStats: StatItem[] = Object.entries(data)
+        const formatted: StatItem[] = Object.entries(data)
           .map(([name, count]) => ({ name, count: Number(count) }))
           .sort((a, b) => b.count - a.count);
 
-        setStats(formattedStats);
-      } catch (error) {
-        console.error("Error loading stats:", error);
+        setStats(formatted);
+      } catch (err) {
+        console.error("Error loading stats:", err);
       } finally {
         setLoading(false);
       }
-    };
-
-    fetchStats();
-  }, []);
-
-
+    })();
+  }, [shouldFetch]);
 
   const top3 = useMemo(() => stats.slice(0, 3), [stats]);
   const rest = useMemo(() => stats.slice(3), [stats]);
 
-  if (loading) {
-    return (
-    <div className="w-full bg-[#140E02] min-h-[600px] py-10 flex justify-center items-center text-[#D8CDB9]">
-      <p className="animate-pulse">Loading Statistics...</p>
+  // IMPORTANT: keep a stable placeholder height BEFORE fetch
+  // so page height doesn't drastically change on reload.
+  const placeholder = (
+    <div className="w-full bg-[#140E02] py-12 md:py-20 px-4 md:px-10 border-t border-[#D8CDB9]/10">
+      <div className="max-w-7xl mx-auto">
+        <div className="text-center mb-10 md:mb-12">
+          <h2 className="text-[#D8CDB9]/90 uppercase tracking-[0.35em] text-xl md:text-2xl font-semibold">
+            Registered Participants Across Universities
+          </h2>
+          <span className="text-[#D8CDB9]/90 uppercase tracking-[0.35em] text-[0.7rem] md:text-[1rem] font-semibold">
+            Where Are Our Coders From?
+          </span>
+        </div>
+
+        <div className="text-center text-[#D8CDB9]/60">
+          {loading ? (
+            <p className="animate-pulse">Loading Statistics...</p>
+          ) : (
+            <p>…</p>
+          )}
+        </div>
+
+        {/* reserve space to avoid layout jump */}
+        <div className="h-[420px] md:h-[340px]" />
+      </div>
     </div>
-    );
+  );
+
+  // Before we even decide to fetch, render placeholder + attach ref
+  if (!shouldFetch) {
+    return <div ref={containerRef}>{placeholder}</div>;
+  }
+
+  // While fetching, keep placeholder (so same height)
+  if (loading && !stats.length) {
+    return <div ref={containerRef}>{placeholder}</div>;
   }
 
   if (!stats.length) {
     return (
-      <div className="w-full bg-[#140E02] py-12 md:py-20 px-4 md:px-10 border-t border-[#D8CDB9]/10">
+      <div ref={containerRef} className="w-full bg-[#140E02] py-12 md:py-20 px-4 md:px-10 border-t border-[#D8CDB9]/10">
         <div className="max-w-7xl mx-auto text-center text-[#D8CDB9]/60">
           No university stats yet.
         </div>
@@ -144,10 +211,8 @@ export default function UniversityStats() {
   }
 
 
-
-
   return (
-    <div className="w-full bg-[#140E02] min-h-[600px] py-12 md:py-20 px-4 md:px-10 border-t border-[#D8CDB9]/10" style={{ overflowAnchor: 'none' }}>
+    <div ref={containerRef} className="w-full bg-[#140E02] py-12 md:py-20 px-4 md:px-10 border-t border-[#D8CDB9]/10">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-10 md:mb-12">
           <h2 className="text-[#D8CDB9]/90 uppercase tracking-[0.35em] text-xl md:text-2xl font-semibold">
