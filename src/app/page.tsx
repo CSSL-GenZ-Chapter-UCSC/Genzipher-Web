@@ -1,80 +1,77 @@
 "use client";
 
 import { useEffect, useState, useRef, useCallback, useLayoutEffect } from "react";
-import PartnerWithUs from "@/components/partnerWithUs";
 import Awards from "@/components/awards";
 import Footer from "@/components/footer";
 import ContactUs from "@/components/contactUs";
 import SplashScreen from "@/components/splashScreen";
-import Image from "next/image";
 import MobileSplash from "@/components/mobileSplash";
 import About from "@/components/about";
 import AboutMobile from "@/components/about.mobile";
-import RoundsSection
-    from "@/components/roundsSection";
+import RoundsSection from "@/components/roundsSection";
 import UniversityStats from "@/components/universityStats";
 
-
-if (typeof window !== 'undefined') {
-  if ('scrollRestoration' in window.history) {
-    window.history.scrollRestoration = 'manual';
-  }
-}
-
 export default function Home() {
-    // Ref for the scroll container (main)
     const mainRef = useRef<HTMLElement>(null);
+    const [isMobile, setIsMobile] = useState(false);
+    const [isInitialized, setIsInitialized] = useState(false);
 
     const setRef = useCallback((node: HTMLElement | null) => {
         if (node) mainRef.current = node;
     }, []);
 
-    const [isMobile, setIsMobile] = useState(false);
-
     useEffect(() => {
         const update = () => setIsMobile(window.innerWidth < 768);
-        update(); // run once at load
+        update();
         window.addEventListener("resize", update);
         return () => window.removeEventListener("resize", update);
     }, []);
 
-    useEffect(() => {
-        // Tell the browser to stop trying to restore scroll position
+    // Single effect to handle scroll restoration
+    useLayoutEffect(() => {
+        // Disable browser scroll restore
         if ('scrollRestoration' in history) {
             history.scrollRestoration = 'manual';
         }
 
-        // Force scroll to top on a fresh reload
-        if (mainRef.current) {
-            mainRef.current.scrollTo(0, 0);
+        // Force scroll to top immediately
+        if (mainRef.current && !isInitialized) {
+            mainRef.current.scrollTop = 0;
+            // Use requestAnimationFrame to ensure it happens after layout
+            requestAnimationFrame(() => {
+                if (mainRef.current) {
+                    mainRef.current.scrollTop = 0;
+                }
+            });
+            setIsInitialized(true);
         }
-    }, []);
+    }, [isInitialized]);
 
-
-    useLayoutEffect(() => {
-        // disable browser scroll restore
-        if ("scrollRestoration" in history) {
-            history.scrollRestoration = "manual";
-        }
-
-        // wait until layout + async content settles
-        setTimeout(() => {
-            mainRef.current?.scrollTo({ top: 0, behavior: "auto" });
-        }, 50);
-    }, []);
-
+    // Optional: Debug logging to track scroll behavior
+    useEffect(() => {
+        const handleScroll = () => {
+            if (mainRef.current?.scrollTop! > 0 && !isInitialized) {
+                //@ts-ignore
+                console.log("Unwanted scroll detected:", mainRef.current.scrollTop);
+                console.log("Active element:", document.activeElement);
+            }
+        };
+        
+        const ref = mainRef.current;
+        ref?.addEventListener('scroll', handleScroll);
+        return () => ref?.removeEventListener('scroll', handleScroll);
+    }, [isInitialized]);
 
     return (
         <main
             ref={setRef}
             className="
-        relative
-        w-screen h-screen
-        overflow-y-auto overflow-x-hidden 
-       
-        bg-[#0f0d08] box-border
-        [overflow-anchor:none]
-      "
+                relative
+                w-screen h-screen
+                overflow-y-auto overflow-x-hidden 
+                bg-[#0f0d08] box-border
+                [overflow-anchor:none]
+            "
         >
             {/* DESKTOP SPLASH SCREEN */}
             <section
@@ -84,19 +81,21 @@ export default function Home() {
                 <SplashScreen />
             </section>
 
-            {/* MOBILE SPLASH SCREEN (first-load animated) */}
+            {/* MOBILE SPLASH SCREEN */}
             <MobileSplash />
 
-            {/* ABOUT SECTION (DESKTOP | MOBILE) */}
-            <section className="relative w-screen  bg-[#D8CDB9]" id="about">
+            {/* ABOUT SECTION */}
+            <section className="relative w-screen bg-[#D8CDB9]" id="about">
                 {isMobile ? <AboutMobile /> : <About scrollContainer={mainRef} />}
             </section>
 
-            <section className="w-full h-max  bg-[#140E02]">
+            {/* ROUNDS SECTION */}
+            <section className="w-full h-max bg-[#140E02]">
                 <RoundsSection />
             </section>
+
             {/* UNIVERSITY STATS SECTION */}
-            <section className="w-full h-max  bg-[#140E02]"  id="university-stats">
+            <section className="w-full h-max bg-[#140E02]" id="university-stats">
                 <UniversityStats />
             </section>
 
@@ -106,7 +105,7 @@ export default function Home() {
             </section>
 
             {/* DESKTOP CONTACT + FOOTER */}
-            <section className="md:block hidden w-full" is="contact">
+            <section className="md:block hidden w-full" id="contact">
                 <div className="flex flex-col justify-between bg-[#D8CDB9]">
                     <ContactUs />
                     <Footer />

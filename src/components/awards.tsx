@@ -46,6 +46,7 @@ export default function Awards() {
   );
 
   const [order, setOrder] = useState<string[]>(items.map((i) => i.key));
+  const hasScrolledToCenter = useRef(false);
 
   function onClickItem(originalIndex: number) {
     const current = [...order];
@@ -66,25 +67,37 @@ export default function Awards() {
   });
 
   useEffect(() => {
-  // Only on mobile
-  if (typeof window === "undefined") return;
-  const isMobile = window.matchMedia("(max-width: 767px)").matches;
-  if (!isMobile) return;
+    // CRITICAL FIX: Only scroll once when component becomes visible
+    if (!isInView || hasScrolledToCenter.current) return;
+    
+    // Only on mobile
+    if (typeof window === "undefined") return;
+    const isMobile = window.matchMedia("(max-width: 767px)").matches;
+    if (!isMobile) return;
 
-  // Default focus = middle card (your Rs. 50,000 one)
-  const defaultKey = items[1].key; // "honor" in your current items order
+    // Default focus = middle card (your Rs. 50,000 one)
+    const defaultKey = items[1].key; // "honor" in your current items order
 
-  const el = containerRef.current?.querySelector(
-    `[data-award-key="${defaultKey}"]`
-  ) as HTMLElement | null;
+    const el = containerRef.current?.querySelector(
+      `[data-award-key="${defaultKey}"]`
+    ) as HTMLElement | null;
 
-  // Wait a tick so layout/snap widths are ready
-  requestAnimationFrame(() => {
+    if (!el) return;
+
+    // Mark as scrolled BEFORE scrolling to prevent race conditions
+    hasScrolledToCenter.current = true;
+
+    // Wait a tick so layout/snap widths are ready
     requestAnimationFrame(() => {
-      el?.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
+      requestAnimationFrame(() => {
+        el.scrollIntoView({ 
+          behavior: "instant", // Changed from "smooth" to "instant" to prevent scroll interference
+          inline: "center", 
+          block: "nearest" 
+        });
+      });
     });
-  });
-}, [items]);
+  }, [isInView, items]); // Only depend on isInView and items
 
   return (
     <section className="relative min-h-screen w-full overflow-hidden bg-[#0F0D08]">
@@ -95,14 +108,13 @@ export default function Awards() {
         {/* Header */}
         <header className="w-full pt-14 md:pt-20 pb-8 md:pb-12 text-center">
           <div>
-              <h2 className="text-[2rem] md:text-[3.25rem] leading-tight text-[#E6D9B6]">
-            Prize pool
-          </h2>
-       <div className="mt-4 text-[#E6D9B6]/80 text-sm md:text-lg uppercase tracking-widest px-[10%] text-center block">
-  Step into the battle and claim what’s yours.
-</div>
+            <h2 className="text-[2rem] md:text-[3.25rem] leading-tight text-[#E6D9B6]">
+              Prize pool
+            </h2>
+            <div className="mt-4 text-[#E6D9B6]/80 text-sm md:text-lg uppercase tracking-widest px-[10%] text-center block">
+              Step into the battle and claim what's yours.
+            </div>
           </div>
-        
 
           {/* Mobile UX hint */}
           <p className="mt-3 text-sm text-[#E6D9B6]/60 md:hidden">
@@ -147,10 +159,9 @@ export default function Awards() {
                   "md:hover:scale-[1.03] md:hover:-translate-y-1",
                   !isCenter ? "md:translate-y-5" : "",
                 ].join(" ")}
-                // style={{ background: it.borderGradient }}
               >
                 {/* Inner card */}
-                <div className="rounded-[42px]  overflow-hidden w-full h-full">
+                <div className="rounded-[42px] overflow-hidden w-full h-full">
                   {/* Card layout matching original: image + bottom pill */}
                   <div
                     className={[
@@ -173,8 +184,7 @@ export default function Awards() {
                         opacity: isCenter ? 1 : 0.9,
                       }}
                       transition={{ duration: 0.45, ease: [0.2, 0.9, 0.2, 1] }}
-          //@ts-ignore
-
+                      //@ts-ignore
                       className="relative flex-1 w-full"
                     >
                       <Image
@@ -187,7 +197,7 @@ export default function Awards() {
                       />
                     </motion.div>
 
-                    {/* Prize pill (consistent sizing, no “50,000 looks smaller”) */}
+                    {/* Prize pill (consistent sizing, no "50,000 looks smaller") */}
                     <div className="mt-4 flex justify-center">
                       <div
                         className={[
@@ -221,12 +231,13 @@ export default function Awards() {
         </motion.div>
 
         {/* CTA */}
-        <footer className="w-full flex  flex-col  items-center justify-center pt-10 md:pt-14 pb-12 md:pb-16">
+        <footer className="w-full flex flex-col items-center justify-center pt-10 md:pt-14 pb-12 md:pb-16">
           <Link href="/register" className="inline-block group">
             <Button text="REGISTER" disabled={false} />
           </Link>
-          <span className="text-[#E6D9B6]/70 md:text-[#E6D9B6]/50 text-[0.7rem] md:text-lg uppercase tracking-widest mt-5">Register today. The rewards are waiting</span>
-
+          <span className="text-[#E6D9B6]/70 md:text-[#E6D9B6]/50 text-[0.7rem] md:text-lg uppercase tracking-widest mt-5">
+            Register today. The rewards are waiting
+          </span>
         </footer>
       </div>
     </section>
