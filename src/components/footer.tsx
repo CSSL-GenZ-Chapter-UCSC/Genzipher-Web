@@ -48,7 +48,7 @@ export default function Footer() {
             <MdLocationOn className="text-xl mt-1 flex-shrink-0" />
             <span className="text-start">UCSC Building Complex, 35 Reid Ave, Colombo 00700</span>
           </a>
-               <a className="flex items-center gap-3" href="https://www.linkedin.com/company/cssl-genz-chapter-of-ucsc/posts/?feedView=all" target="_blank">
+               <a className="flex items-center gap-3" href="https://www.linkedin.com/company/cssl-genz-chapter-of-ucsc" target="_blank">
             <FaLinkedin className="text-xl" />
             <span>@cssl-genz-chapter-of-ucsc</span>
           </a>
