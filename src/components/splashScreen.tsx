@@ -41,7 +41,7 @@ export default function SplashScreen() {
                 maskImage: "linear-gradient(to bottom, rgba(0,0,0,1) 65%, rgba(0,0,0,0) 100%)",
               }}
             >
-              Registrations closing in:
+              First round starts in:
             </motion.p>
 
             {/* Countdown placed in-flow below the text */}
@@ -50,7 +50,7 @@ export default function SplashScreen() {
             </div>
 
                         {/* Register Button */}
-                    <motion.div 
+                    {/* <motion.div 
                         initial={{ opacity: 0, scale: 0.9 }}
                         whileInView={{ opacity: 1, scale: 1 }}
                         viewport={{ once: false }}
@@ -61,7 +61,7 @@ export default function SplashScreen() {
                         <Link href="/register">
                             <Button text="REGISTER" disabled={false}/>
                         </Link>
-                    </motion.div>
+                    </motion.div> */}
           </div>
         </div>
 

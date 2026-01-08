@@ -82,16 +82,16 @@ export async function POST(req: Request) {
       );
     }
 
-    await sheets.spreadsheets.values.append({
-      spreadsheetId,
-      range,
-      valueInputOption: "USER_ENTERED",
-      requestBody: { values: [rowData] },
-    });
+    // await sheets.spreadsheets.values.append({
+    //   spreadsheetId,
+    //   range,
+    //   valueInputOption: "USER_ENTERED",
+    //   requestBody: { values: [rowData] },
+    // });
 
     return Response.json({
       success: true,
-      message: "Team registration submitted successfully!",
+      message: "Team registration is closed!",
     });
   } catch (err: any) {
     console.error("Google Sheets Error:", err);

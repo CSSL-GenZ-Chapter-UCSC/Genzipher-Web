@@ -181,11 +181,11 @@ export default function About({ scrollContainer }: { scrollContainer?: React.Ref
                 >
                     {/* Paragraph */}
                     <p className="text-[#383838] text-lg md:text-xl lg:text-[30px] leading-relaxed text-left wrap-break-word">
-                        Don't miss your chance to become a digital hero! Step into the epic world of GenZipher! Register now to join the signature hackathon adventure of the CSSL GenZ Chapter of UCSC. Assemble your team, decode mythic clues, and create solutions that could leave a lasting impact. Claim your place in this legendary quest today! Register now!
+                        Don't miss your chance to become a digital hero! Step into the epic world of GenZipher! The signature hackathon adventure of the CSSL GenZ Chapter of UCSC. Assemble your team, decode mythic clues, and create solutions that could leave a lasting impact. Claim your place in this legendary quest today! 
                     </p>
 
                     {/* Register Button */}
-                    <motion.div 
+                    {/* <motion.div 
                         initial={{ opacity: 0, scale: 0.9 }}
                         whileInView={{ opacity: 1, scale: 1 }}
                         viewport={{ once: false }}
@@ -196,7 +196,7 @@ export default function About({ scrollContainer }: { scrollContainer?: React.Ref
                         <Link href="/register">
                             <Button text="REGISTER" disabled={false}/>
                         </Link>
-                    </motion.div>
+                    </motion.div> */}
                 </motion.div>
             </section>
         </div>

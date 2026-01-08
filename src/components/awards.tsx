@@ -231,14 +231,14 @@ export default function Awards() {
         </motion.div>
 
         {/* CTA */}
-        <footer className="w-full flex flex-col items-center justify-center pt-10 md:pt-14 pb-12 md:pb-16">
+        {/* <footer className="w-full flex flex-col items-center justify-center pt-10 md:pt-14 pb-12 md:pb-16">
           <Link href="/register" className="inline-block group">
             <Button text="REGISTER" disabled={false} />
           </Link>
           <span className="text-[#E6D9B6]/70 md:text-[#E6D9B6]/50 text-[0.7rem] md:text-lg uppercase tracking-widest mt-5">
             Register today. The rewards are waiting
           </span>
-        </footer>
+        </footer> */}
       </div>
     </section>
   );

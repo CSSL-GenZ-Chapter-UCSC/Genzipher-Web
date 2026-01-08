@@ -149,7 +149,7 @@ export default function AboutMobile() {
                                 hackathon adventure of the CSSL GenZ Chapter of UCSC. Assemble
                                 your team, decode mythic clues, and create solutions that could
                                 leave a lasting impact. Claim your place in this legendary quest
-                                today! Register now!
+                                today! 
                             </p>
                         </div>
 
@@ -167,7 +167,7 @@ export default function AboutMobile() {
                     </div>
 
                     {/* Register button - centered and close to content */}
-                    <div className="flex justify-center pb-10">
+                    {/* <div className="flex justify-center pb-10">
                         <Link href="/register">
                             <motion.div
                                 whileHover={{ scale: 1.05 }}
@@ -181,7 +181,7 @@ export default function AboutMobile() {
                                 REGISTER
                             </motion.div>
                         </Link>
-                    </div>
+                    </div> */}
                 </motion.div>
             </section>
         </div>
