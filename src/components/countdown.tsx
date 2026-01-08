@@ -5,7 +5,7 @@ import TimerCard from "@/components/timerCard";
 import { formatTime } from "@/utils/utils";
 
 export default function CountDown() {
-  const eventTimestamp = new Date("2026-01-11T08:00:00+05:30").getTime();
+  const eventTimestamp = new Date("2026-01-11T09:00:00+05:30").getTime();
 
   const [serverOffset, setServerOffset] = useState(0);
   const [timeRemaining, setTimeRemaining] = useState(0);
