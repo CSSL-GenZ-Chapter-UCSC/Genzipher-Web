@@ -273,11 +273,11 @@ export default function UniversityStats() {
           )}
         </div>
 
-        <div className="text-center mt-10 md:mt-12">
+        {/* <div className="text-center mt-10 md:mt-12">
           <p className="text-[#D8CDB9]/90 text-xs md:text-[1rem] uppercase tracking-widest">
             Still haven’t registered ? Register now and carry your university’s name forward
           </p>
-        </div>
+        </div> */}
       </div>
     </div>
   );

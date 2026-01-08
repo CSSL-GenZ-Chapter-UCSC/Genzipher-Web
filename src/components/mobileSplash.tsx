@@ -159,20 +159,20 @@ export default function MobileSplash() {
               "linear-gradient(to bottom, rgba(0,0,0,1) 65%, rgba(0,0,0,0) 100%)",
           }}
         >
-          Registrations closing in:
+          First round starts in:
         </motion.h2>
 
         <div className="w-full flex justify-center px-6">
           <CountDown />
         </div>
 
-        <Link href="/register">
+        {/* <Link href="/register">
           <div
             className={`bg-gradient-to-r from-[#4C2901] via-[#C3840F] to-[#C3840F] text-[#D8CDB9] w-max rounded-md text-[1em] py-2 px-4 cursor-pointer `}
           >
             Register
           </div>
-        </Link>
+        </Link> */}
       </div>
 
       {/* Bottom fade edge for smooth transition */}

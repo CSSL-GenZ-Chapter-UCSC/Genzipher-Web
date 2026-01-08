@@ -23,11 +23,11 @@ export default function Hero() {
           <CountDown />
         </div>
       </div>
-      <div className="">
+      {/* <div className="">
         <Link href="/register">
           <Button text="REGISTER" disabled={false}/>
         </Link>
-      </div>
+      </div> */}
     </div>
   );
 }
