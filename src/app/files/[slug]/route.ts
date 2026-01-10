@@ -1,11 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
-import pool from '@/lib/db'; 
+import pool from '@/lib/db';
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { slug: string } }
+  { params }: { params: Promise<{ slug: string }> }
 ) {
-  const slug = params.slug;
+  const { slug } = await params;
 
   try {
     const result = await pool.query(
@@ -18,10 +18,8 @@ export async function GET(
     }
 
     const driveFileId = result.rows[0].drive_file_id;
-
     const downloadUrl = `https://drive.google.com/uc?export=download&id=${driveFileId}`;
 
-    // 4. Redirect the user
     return NextResponse.redirect(downloadUrl);
 
   } catch (error) {
