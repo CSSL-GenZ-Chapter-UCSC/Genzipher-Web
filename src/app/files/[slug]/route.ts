@@ -18,7 +18,7 @@ export async function GET(
     }
 
     const driveFileId = result.rows[0].drive_file_id;
-    const downloadUrl = `https://drive.google.com/uc?export=download&id=${driveFileId}`;
+    const downloadUrl = `https://drive.google.com/file/d/${driveFileId}`;
 
     return NextResponse.redirect(downloadUrl);
 
