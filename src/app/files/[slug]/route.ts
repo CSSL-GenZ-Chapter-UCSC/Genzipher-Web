@@ -18,8 +18,19 @@ export async function GET(
     }
 
     const driveFileId = result.rows[0].drive_file_id;
-    const downloadUrl = `https://drive.google.com/file/d/${driveFileId}`;
 
+
+    let downloadUrl;
+    if(slug == "parthenon-623991"){
+
+        downloadUrl = `https://drive.usercontent.google.com/download?id=${driveFileId}&export=download&authuser=0`;
+
+
+    }else{
+        downloadUrl = `https://drive.google.com/file/d/${driveFileId}`;
+
+    }
+    
     return NextResponse.redirect(downloadUrl);
 
   } catch (error) {
