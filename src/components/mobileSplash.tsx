@@ -159,7 +159,7 @@ export default function MobileSplash() {
               "linear-gradient(to bottom, rgba(0,0,0,1) 65%, rgba(0,0,0,0) 100%)",
           }}
         >
-          First round starts in:
+          Final round starts in:
         </motion.h2>
 
         <div className="w-full flex justify-center px-6">

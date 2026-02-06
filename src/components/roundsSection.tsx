@@ -58,7 +58,7 @@ const slides = [
       img: "/assets/guy3.webp",
       text: "Final Round & Awarding ceremony",
       subtext: "24 hours",
-      date: "Jan 24 & 25",
+      date: "Feb 07 & 08",
       venue: "OREL IT",
       footer:
         "The top 10 teams from Round 1 step into the ultimate challenge. In this grand finale, teams tackle a real world problem by completing the full product development cycle. The journey begins with a “pawning phase,” where teams decipher clues to uncover the development theme, setting the stage for innovative. Participants are free to use any tech stack, including AI-powered tools, to bring their ideas to life.",
