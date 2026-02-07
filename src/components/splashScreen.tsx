@@ -41,7 +41,7 @@ export default function SplashScreen() {
                 maskImage: "linear-gradient(to bottom, rgba(0,0,0,1) 65%, rgba(0,0,0,0) 100%)",
               }}
             >
-              Final round starts in:
+              Final round ends in:
             </motion.p>
 
             {/* Countdown placed in-flow below the text */}
